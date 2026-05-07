@@ -1,0 +1,59 @@
+{
+    "name": "jksantos/jetax",
+    "description": "Design system TALL Stack para Laravel — componentes Livewire, Alpine.js e Tailwind CSS.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "livewire",
+        "tailwindcss",
+        "design-system",
+        "components"
+    ],
+    "authors": [
+        {
+            "name": "Jackson dos Santos",
+            "email": "jackson@jksantos.dev"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "laravel/framework": ">=12.0",
+        "livewire/livewire": "^4.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "orchestra/testbench": "^10.0",
+        "laravel/pint": "^1.0"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Jetax\\DesignSystem\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jetax\\DesignSystem\\JetaxServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

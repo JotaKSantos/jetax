@@ -1,0 +1,14 @@
+/vendor/
+/node_modules/
+/.phpunit.cache/
+/.pest/
+/coverage/
+/coverage-html/
+coverage.xml
+/.env
+composer.lock
+package-lock.json
+docker-compose.yml
+Dockerfile
+/.phases/
+/docs/

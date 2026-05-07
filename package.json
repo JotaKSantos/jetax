@@ -1,0 +1,16 @@
+{
+    "name": "jksantos-jetax",
+    "private": true,
+    "version": "0.0.0",
+    "description": "Jetax Design System — build tools",
+    "scripts": {
+        "build": "postcss resources/css/jetax.css -o resources/dist/jetax.css",
+        "dev": "postcss resources/css/jetax.css -o resources/dist/jetax.css --watch"
+    },
+    "devDependencies": {
+        "postcss": "^8.4.0",
+        "postcss-cli": "^11.0.0",
+        "postcss-import": "^16.0.0",
+        "autoprefixer": "^10.4.0"
+    }
+}
