@@ -32,7 +32,7 @@
                     {{-- Fullscreen --}}
                     <button
                         type="button"
-                        class="p-2 text-on-surface/60 hover:text-primary hover:bg-surface-container-low rounded-lg transition-all"
+                        class="p-2 text-on-surface/60 hover:text-primary hover:bg-surface-container-high rounded-lg transition-all"
                         aria-label="Tela cheia"
                     >
                         <span class="material-symbols-outlined">fullscreen</span>
@@ -41,11 +41,11 @@
                     {{-- Notifications --}}
                     <button
                         type="button"
-                        class="p-2 text-on-surface/60 hover:text-primary hover:bg-surface-container-low rounded-lg transition-all relative"
+                        class="p-2 text-on-surface/60 hover:text-primary hover:bg-surface-container-high rounded-lg transition-all relative"
                         aria-label="Notificações"
                     >
                         <span class="material-symbols-outlined">notifications</span>
-                        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest"></span>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest dark:ring-sidebar"></span>
                     </button>
 
                     {{-- Dark mode toggle --}}
@@ -53,7 +53,7 @@
                         type="button"
                         x-data="{ dark: document.documentElement.classList.contains('dark') }"
                         x-on:click="dark = !dark; document.documentElement.classList.toggle('dark'); localStorage.setItem('jetax-theme', dark ? 'dark' : 'light')"
-                        class="p-2 rounded-lg transition-all text-on-surface/60 hover:text-primary hover:bg-surface-container-low"
+                        class="p-2 rounded-lg transition-all text-on-surface/60 hover:text-primary hover:bg-surface-container-high"
                         aria-label="Alternar modo escuro"
                     >
                         <span class="material-symbols-outlined" x-show="!dark">dark_mode</span>
@@ -64,7 +64,7 @@
                     <div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
 
                     {{-- User profile --}}
-                    <div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-low p-1.5 rounded-xl transition-all">
+                    <div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-high p-1.5 rounded-xl transition-all">
                         <div class="text-right hidden sm:block">
                             <p class="text-xs font-bold leading-tight text-on-surface">Admin User</p>
                             <p class="text-[10px] text-on-surface/60">Administrator</p>
