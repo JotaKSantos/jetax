@@ -73,35 +73,35 @@
    Classes Tailwind (bg-primary, text-on-surface, etc.) respondem automaticamente.
    ========================================================================== */
 :root.dark {
-    --color-primary: #00497e;
-    --color-primary-container: #00497e;
+    --color-primary: #0D99FF;
+    --color-primary-container: #0D99FF;
     --color-primary-fixed: #d2e4ff;
     --color-primary-fixed-dim: #9fcaff;
-    --color-secondary: #0061a5;
-    --color-secondary-container: #004a78;
+    --color-secondary: #0D99FF;
+    --color-secondary-container: #0D99FF;
     --color-secondary-fixed-dim: #9fcaff;
     --color-tertiary: #bfc5e0;
-    --color-error: #ffb4ab;
-    --color-error-container: #93000a;
-    --color-surface: #111a37;
-    --color-surface-dim: #111a37;
-    --color-surface-container-lowest: #0b1229;
-    --color-surface-container-low: #161f3b;
-    --color-surface-container: #1a2440;
-    --color-surface-container-high: #1e2845;
-    --color-surface-container-highest: #232d4a;
-    --color-surface-input: #1e2845;
-    --color-on-surface: #dce1ff;
-    --color-on-surface-variant: #c1c7d2;
-    --color-on-primary: #00345a;
+    --color-error: #f87171;
+    --color-error-container: #450a0a;
+    --color-surface: #0F121B;
+    --color-surface-dim: #141A30;
+    --color-surface-container-lowest: #0F121B;
+    --color-surface-container-low: #161B2A;
+    --color-surface-container: #161B2A;
+    --color-surface-container-high: #1E2337;
+    --color-surface-container-highest: #232845;
+    --color-surface-input: #1E2337;
+    --color-on-surface: #e2e8f0;
+    --color-on-surface-variant: rgba(255, 255, 255, 0.45);
+    --color-on-primary: #ffffff;
     --color-on-primary-fixed: #001d36;
-    --color-outline: #8b9199;
-    --color-outline-variant: #414750;
-    --color-inverse-surface: #dce1ff;
-    --color-success: #15803d;
-    --color-warning: #ca8a04;
-    --color-info: #0ea5e9;
-    --color-danger: #dc2626;
+    --color-outline: rgba(255, 255, 255, 0.07);
+    --color-outline-variant: rgba(255, 255, 255, 0.08);
+    --color-inverse-surface: #eff0ff;
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-info: #60c5ff;
+    --color-danger: #f87171;
     /* --color-sidebar fica fixo (#141A30) — sidebar não inverte no dark */
 }
 

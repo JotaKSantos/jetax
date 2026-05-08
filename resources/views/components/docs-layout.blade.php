@@ -23,7 +23,7 @@
         code { font-family: 'Courier New', monospace; font-size: 0.875rem; }
     </style>
 </head>
-<body class="h-full bg-surface" x-data>
+<body class="h-full bg-surface text-on-surface font-body antialiased" x-data>
 
     @php
         $navGroups = \Jetax\DesignSystem\Docs\ComponentRegistry::all();
