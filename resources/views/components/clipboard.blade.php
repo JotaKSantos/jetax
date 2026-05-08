@@ -6,7 +6,7 @@
         <button
             type="button"
             @click="navigator.clipboard.writeText(text); copied = true; setTimeout(() => copied = false, 2000)"
-            class="inline-flex items-center justify-center rounded p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+            class="inline-flex items-center justify-center rounded p-1 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors"
             title="{{ $successMessage ?: 'Copiar' }}"
         >
             <x-jetax-icon name="content_copy" x-show="!copied" />

@@ -22,7 +22,7 @@
                 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold shrink-0
                 @if($isCompleted) bg-primary text-white
                 @elseif($isActive) bg-primary text-white ring-2 ring-primary ring-offset-2
-                @else text-gray-400 border-2 border-gray-300
+                @else text-on-surface-variant border-2 border-outline-variant
                 @endif
             ">
                 @if($isCompleted)
@@ -35,7 +35,7 @@
             {{-- Linha conectora vertical (oculta no último item via CSS do container) --}}
             <div class="step-line w-px flex-1 my-1
                 @if($isCompleted) bg-primary
-                @else bg-gray-200
+                @else bg-outline-variant
                 @endif
             "></div>
         </div>
@@ -45,13 +45,13 @@
             <span class="
                 text-sm font-medium
                 @if($isActive) text-primary
-                @elseif($isPending) text-gray-400
-                @else text-gray-600
+                @elseif($isPending) text-on-surface-variant
+                @else text-on-surface
                 @endif
             ">{{ $label }}</span>
 
             @if($description)
-                <p class="text-xs text-gray-400 mt-0.5">{{ $description }}</p>
+                <p class="text-xs text-on-surface-variant mt-0.5">{{ $description }}</p>
             @endif
         </div>
     </div>
@@ -68,7 +68,7 @@
         @if($step > 1)
             <div class="h-px
                 @if($isCompleted || $isActive) bg-primary
-                @else bg-gray-200
+                @else bg-outline-variant
                 @endif
             " style="position: absolute; top: 15px; left: 0; width: calc(50% - 16px);"></div>
         @endif
@@ -78,7 +78,7 @@
             w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold
             @if($isCompleted) bg-primary text-white
             @elseif($isActive) bg-primary text-white ring-2 ring-primary ring-offset-2
-            @else text-gray-400 border-2 border-gray-300
+            @else text-on-surface-variant border-2 border-outline-variant
             @endif
         " style="position: relative; z-index: 1;">
             @if($isCompleted)
@@ -91,7 +91,7 @@
         {{-- Meia-linha direita (oculta no último step via CSS) --}}
         <div class="step-line h-px
             @if($isCompleted) bg-primary
-            @else bg-gray-200
+            @else bg-outline-variant
             @endif
         " style="position: absolute; top: 15px; right: 0; width: calc(50% - 16px);"></div>
 
@@ -100,13 +100,13 @@
             <span class="
                 text-xs font-medium
                 @if($isActive) text-primary
-                @elseif($isPending) text-gray-400
-                @else text-gray-600
+                @elseif($isPending) text-on-surface-variant
+                @else text-on-surface
                 @endif
             ">{{ $label }}</span>
 
             @if($description)
-                <p class="text-xs text-gray-400 mt-0.5">{{ $description }}</p>
+                <p class="text-xs text-on-surface-variant mt-0.5">{{ $description }}</p>
             @endif
         </div>
     </div>

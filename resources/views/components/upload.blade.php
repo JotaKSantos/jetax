@@ -78,14 +78,14 @@
     <div
         x-on:click="openFilePicker()"
         :class="isDragging
-            ? 'border-primary bg-blue-50'
-            : 'border-slate-300 bg-[#f3f3ff] hover:border-primary hover:bg-blue-50'"
+            ? 'border-primary bg-primary/5'
+            : 'border-outline-variant bg-surface-input hover:border-primary hover:bg-primary/5'"
         class="relative flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 transition-all duration-200"
     >
         {{-- Overlay de arraste --}}
         <div
             x-show="isDragging"
-            class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-blue-100/60"
+            class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-primary/10"
         >
             <span class="text-sm font-semibold text-primary">Solte os arquivos aqui</span>
         </div>
@@ -134,7 +134,7 @@
     <template x-if="files.length > 0">
         <div class="mt-3 space-y-2">
             <template x-for="(file, index) in files" :key="index">
-                <div class="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2">
+                <div class="flex items-center gap-3 rounded-lg border border-outline-variant bg-surface-container-low px-3 py-2">
                     {{-- Thumbnail de imagem --}}
                     <template x-if="file.preview">
                         <img
@@ -157,7 +157,7 @@
                         {{-- Barra de progresso --}}
                         <div
                             x-show="file.progress > 0 && file.progress < 100"
-                            class="mt-1 h-1 w-full overflow-hidden rounded-full bg-slate-200"
+                            class="mt-1 h-1 w-full overflow-hidden rounded-full bg-surface-container-high"
                         >
                             <div
                                 class="h-full bg-primary transition-all duration-300"

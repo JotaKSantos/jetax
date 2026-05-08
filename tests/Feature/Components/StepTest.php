@@ -37,7 +37,7 @@ it('pending steps have muted class', function () {
             <x-jetax-step-item :step="3" label="Futuro" />
         </x-jetax-step>
     ');
-    $view->assertSee('text-gray-400', false);
+    $view->assertSee('text-on-surface-variant', false);
 });
 
 it('passes through wire:model', function () {

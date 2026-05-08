@@ -41,7 +41,7 @@
             $hasHeaderContent = isset($header) && (is_object($header) ? $header->isNotEmpty() : (trim((string) $header) !== ''));
         @endphp
 
-        <div class="p-4 border-b border-slate-100 flex items-center justify-between shrink-0">
+        <div class="p-4 border-b border-outline-variant flex items-center justify-between shrink-0">
             <div class="flex-1 font-bold text-sm uppercase tracking-wider text-on-surface">
                 @if($hasHeaderContent)
                     {{ $header }}

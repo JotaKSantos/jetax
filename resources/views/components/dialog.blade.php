@@ -46,7 +46,7 @@
             @if($title)
                 <h2
                     id="{{ $id }}-title"
-                    class="text-lg font-semibold text-slate-800"
+                    class="text-lg font-semibold text-on-surface"
                 >
                     {{ $title }}
                 </h2>
@@ -56,7 +56,7 @@
             @if($message)
                 <p
                     id="{{ $id }}-message"
-                    class="text-sm text-slate-500 leading-relaxed"
+                    class="text-sm text-on-surface-variant leading-relaxed"
                 >
                     {{ $message }}
                 </p>
@@ -68,7 +68,7 @@
                 <button
                     type="button"
                     x-on:click="open = false; $dispatch('dialog-cancelled', { id: '{{ $id }}' })"
-                    class="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all duration-150 hover:scale-[1.02] active:scale-95"
+                    class="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium text-on-surface-variant border border-outline-variant hover:bg-surface-container-low transition-all duration-150 hover:scale-[1.02] active:scale-95"
                 >
                     {{ $cancelLabel }}
                 </button>
