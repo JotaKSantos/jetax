@@ -34,7 +34,7 @@
     {{-- Seta anterior --}}
     <button
         type="button"
-        class="absolute left-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-white/80 dark:bg-surface-container/80 shadow hover:bg-white dark:hover:bg-surface-container focus:outline-none"
+        class="absolute left-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-lowest/80 shadow hover:bg-surface-container-lowest focus:outline-none"
         @click="prev()"
         aria-label="Slide anterior"
     >
@@ -44,7 +44,7 @@
     {{-- Seta próxima --}}
     <button
         type="button"
-        class="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-white/80 dark:bg-surface-container/80 shadow hover:bg-white dark:hover:bg-surface-container focus:outline-none"
+        class="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-lowest/80 shadow hover:bg-surface-container-lowest focus:outline-none"
         @click="next()"
         aria-label="Próximo slide"
     >

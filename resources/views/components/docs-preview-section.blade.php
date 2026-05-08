@@ -1,5 +1,5 @@
-<div class="rounded-xl border border-slate-200 dark:border-white/10" x-data="{ showCode: false }">
-    <div class="px-6 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between bg-slate-50 dark:bg-white/[0.03] rounded-t-xl">
+<div class="rounded-xl border border-outline-variant" x-data="{ showCode: false }">
+    <div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between bg-surface-container-low rounded-t-xl">
         <span class="font-headline font-bold text-primary text-sm">{{ $title }}</span>
         <div class="flex items-center gap-2">
             <button
@@ -35,6 +35,6 @@
     </div>
 
     <div x-show="showCode" x-cloak x-transition.opacity>
-        <pre class="bg-gray-950 text-gray-100 px-6 py-4 text-sm overflow-x-auto border-t border-slate-200 dark:border-white/10 rounded-b-xl"><code x-ref="code">{{ $code }}</code></pre>
+        <pre class="bg-gray-950 text-gray-100 px-6 py-4 text-sm overflow-x-auto border-t border-outline-variant rounded-b-xl"><code x-ref="code">{{ $code }}</code></pre>
     </div>
 </div>
