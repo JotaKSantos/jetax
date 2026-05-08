@@ -1,4 +1,4 @@
-@props(['padding' => '1.5rem', 'featured' => false])
+@props(['padding' => '1.5rem', 'featured' => false, 'headerClass' => '', 'footerClass' => ''])
 
 <div
     {{ $attributes->merge(['class' => $containerClasses()]) }}
@@ -19,7 +19,7 @@
     @isset($footer)
         @php $hasFooter = is_object($footer) ? $footer->isNotEmpty() : (trim((string) $footer) !== ''); @endphp
         @if($hasFooter)
-            <div class="bg-surface-container-low px-6 py-4">
+            <div class="{{ $footerClasses() }}">
                 {{ $footer }}
             </div>
         @endif

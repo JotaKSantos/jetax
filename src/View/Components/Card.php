@@ -14,36 +14,48 @@ class Card extends Component
         public string $padding = '1.5rem',
         public bool $featured = false,
         public bool $bordered = false,
+        public string $headerClass = '',
+        public string $footerClass = '',
     ) {}
 
     /**
-     * Retorna as classes CSS da borda superior para variante featured.
+     * Retorna as classes CSS do container baseadas na variante.
      */
     public function containerClasses(): string
     {
-        $base = 'rounded-xl overflow-hidden bg-white dark:bg-[rgb(22,27,42)]';
+        $base = 'rounded-xl overflow-hidden bg-white dark:bg-[#161B2A]';
 
         if ($this->featured) {
-            return $base.' shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_-2px_rgba(0,0,0,0.3)] border-t-4 border-error';
+            return $base.' shadow-sm shadow-[#111A37]/5 dark:shadow-lg dark:shadow-black/20 dark:border dark:border-white/[0.05] border-t-4 border-error';
         }
 
         if ($this->bordered) {
-            return $base.' shadow-sm border border-[rgb(193_199_210_/_0.1)] dark:border-white/5';
+            return $base.' shadow-sm border border-outline-variant dark:border-white/[0.05]';
         }
 
-        return $base.' shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_-2px_rgba(0,0,0,0.3)]';
+        return $base.' shadow-sm shadow-[#111A37]/5 dark:shadow-lg dark:shadow-black/20 dark:border dark:border-white/[0.05]';
     }
 
     /**
-     * Retorna as classes CSS do header baseado na variante.
+     * Retorna as classes CSS do header baseado na variante, mescladas com o
+     * override do consumidor via prop headerClass.
      */
     public function headerClasses(): string
     {
-        if ($this->featured) {
-            return 'px-6 py-4 bg-error/5 dark:bg-error/10';
-        }
+        $base = $this->featured
+            ? 'px-6 py-4 bg-error/5 dark:bg-error/10'
+            : 'px-6 py-4 bg-secondary/5 dark:bg-primary/5';
 
-        return 'px-6 py-4 bg-[#00497e]/[0.05] dark:bg-white/[0.03]';
+        return trim($base.' '.$this->headerClass);
+    }
+
+    /**
+     * Retorna as classes CSS do footer mescladas com o override do consumidor
+     * via prop footerClass.
+     */
+    public function footerClasses(): string
+    {
+        return trim('bg-surface-container-low px-6 py-4 '.$this->footerClass);
     }
 
     /**
