@@ -12,7 +12,7 @@ it('has glassmorphism classes', function () {
     $view = $this->blade('<x-jetax::topbar title="Test" />');
 
     $view->assertSee('backdrop-blur-xl', false);
-    $view->assertSee('bg-white/80', false);
+    $view->assertSee('bg-surface-container-lowest/80', false);
 });
 
 it('renders actions slot', function () {

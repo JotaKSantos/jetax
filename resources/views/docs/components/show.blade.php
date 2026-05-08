@@ -42,7 +42,7 @@
                             @foreach($componentData['props'] as $prop)
                                 <tr class="hover:bg-slate-50/80 dark:hover:bg-white/[0.02] transition-colors">
                                     <td class="px-6 py-4">
-                                        <code class="text-sm font-mono text-[#0061a5] dark:text-[#60b4ff] bg-blue-50 dark:bg-blue-900/20 px-1.5 py-0.5 rounded">
+                                        <code class="text-sm font-mono text-primary bg-blue-50 dark:bg-blue-900/20 px-1.5 py-0.5 rounded">
                                             {{ $prop['name'] }}
                                         </code>
                                     </td>
@@ -109,11 +109,11 @@
     <div class="mt-10 flex justify-between">
         @if($prevComponent)
             <a href="/docs/components/{{ $prevComponent['slug'] }}"
-               class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-[#0061a5] dark:hover:text-[#60b4ff] group transition-colors">
+               class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-primary group transition-colors">
                 <span class="material-symbols-outlined text-lg">chevron_left</span>
                 <div>
                     <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest font-label">Anterior</div>
-                    <div class="font-medium font-headline group-hover:text-[#0061a5] dark:group-hover:text-[#60b4ff]">{{ $prevComponent['name'] }}</div>
+                    <div class="font-medium font-headline group-hover:text-primary">{{ $prevComponent['name'] }}</div>
                 </div>
             </a>
         @else
@@ -122,10 +122,10 @@
 
         @if($nextComponent)
             <a href="/docs/components/{{ $nextComponent['slug'] }}"
-               class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-[#0061a5] dark:hover:text-[#60b4ff] group text-right transition-colors">
+               class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-primary group text-right transition-colors">
                 <div>
                     <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest font-label">Próximo</div>
-                    <div class="font-medium font-headline group-hover:text-[#0061a5] dark:group-hover:text-[#60b4ff]">{{ $nextComponent['name'] }}</div>
+                    <div class="font-medium font-headline group-hover:text-primary">{{ $nextComponent['name'] }}</div>
                 </div>
                 <span class="material-symbols-outlined text-lg">chevron_right</span>
             </a>
