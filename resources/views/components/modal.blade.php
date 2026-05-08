@@ -70,7 +70,7 @@
         @isset($footer)
             @php $hasFooter = is_object($footer) ? $footer->isNotEmpty() : (trim((string) $footer) !== ''); @endphp
             @if($hasFooter)
-                <div class="px-6 py-4 bg-slate-50/50 flex justify-end gap-3">
+                <div class="px-6 py-4 bg-surface-container-low/50 flex justify-end gap-3">
                     {{ $footer }}
                 </div>
             @endif

@@ -18,7 +18,7 @@
         x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="transform opacity-100 scale-100"
         x-transition:leave-end="transform opacity-0 scale-95"
-        class="absolute z-50 mt-2 w-56 bg-white rounded-xl architect-shadow ring-1 ring-black/5 overflow-hidden {{ $menuPositionClasses() }}"
+        class="absolute z-50 mt-2 w-56 bg-surface-container-high rounded-xl architect-shadow ring-1 ring-outline-variant overflow-hidden {{ $menuPositionClasses() }}"
         style="display: none;"
     >
         <div class="py-2">

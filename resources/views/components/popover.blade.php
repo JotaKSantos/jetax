@@ -21,7 +21,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
         @click.outside="open = false"
-        class="absolute z-50 bg-white rounded-xl shadow-2xl border border-slate-100 p-4 min-w-max {{ $popoverPositionClasses() }}"
+        class="absolute z-50 bg-surface-container-high rounded-xl shadow-2xl border border-outline-variant p-4 min-w-max {{ $popoverPositionClasses() }}"
         role="dialog"
         aria-modal="true"
         style="display: none;"

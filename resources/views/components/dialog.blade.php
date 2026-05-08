@@ -36,7 +36,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        class="bg-white rounded-xl shadow-2xl relative w-full max-w-sm"
+        class="bg-surface-container-high rounded-xl shadow-2xl relative w-full max-w-sm"
     >
         <div class="p-6 flex flex-col items-center text-center gap-4">
             {{-- Ícone --}}

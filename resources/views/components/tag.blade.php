@@ -88,7 +88,7 @@
         x-cloak
         class="relative"
     >
-        <ul class="absolute z-50 mt-1 w-full rounded-lg border border-[#e2e6f1] bg-white shadow-lg py-1 max-h-48 overflow-y-auto">
+        <ul class="absolute z-50 mt-1 w-full rounded-lg border border-outline-variant bg-surface-container-high shadow-lg py-1 max-h-48 overflow-y-auto">
             <template x-for="suggestion in filteredSuggestions" :key="suggestion">
                 <li>
                     <button
