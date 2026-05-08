@@ -73,11 +73,11 @@
    Classes Tailwind (bg-primary, text-on-surface, etc.) respondem automaticamente.
    ========================================================================== */
 :root.dark {
-    --color-primary: #9fcaff;
+    --color-primary: #00497e;
     --color-primary-container: #00497e;
     --color-primary-fixed: #d2e4ff;
     --color-primary-fixed-dim: #9fcaff;
-    --color-secondary: #9fcaff;
+    --color-secondary: #0061a5;
     --color-secondary-container: #004a78;
     --color-secondary-fixed-dim: #9fcaff;
     --color-tertiary: #bfc5e0;
@@ -98,10 +98,10 @@
     --color-outline: #8b9199;
     --color-outline-variant: #414750;
     --color-inverse-surface: #dce1ff;
-    --color-success: #4ade80;
-    --color-warning: #fbbf24;
-    --color-info: #60c5ff;
-    --color-danger: #ffb4ab;
+    --color-success: #15803d;
+    --color-warning: #ca8a04;
+    --color-info: #0ea5e9;
+    --color-danger: #dc2626;
     /* --color-sidebar fica fixo (#141A30) — sidebar não inverte no dark */
 }
 
