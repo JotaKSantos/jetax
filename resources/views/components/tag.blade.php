@@ -48,8 +48,8 @@
 
     {{-- Container de tags e campo de digitação --}}
     <div
-        class="flex flex-wrap items-center gap-1.5 min-h-[42px] w-full rounded-lg px-3 py-2 bg-[#f3f3ff] border border-[#e2e6f1] transition-all focus-within:bg-white focus-within:border-[#0061a5] focus-within:shadow-[0_0_0_2px_rgba(0,97,165,0.1)]"
-        :class="disabled ? 'opacity-60 cursor-not-allowed bg-slate-100 border-slate-200' : ''"
+        class="flex flex-wrap items-center gap-1.5 min-h-[42px] w-full rounded-lg px-3 py-2 bg-surface-input border border-outline-variant transition-all focus-within:bg-surface-container-lowest focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20"
+        :class="disabled ? 'opacity-60 cursor-not-allowed bg-surface-container-low border-outline-variant' : ''"
     >
         {{-- Tags adicionadas --}}
         <template x-for="(tag, index) in tags" :key="index">

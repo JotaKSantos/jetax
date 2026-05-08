@@ -2,6 +2,7 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Textarea extends Component
@@ -27,7 +28,7 @@ class Textarea extends Component
         $base = 'w-full rounded-lg px-4 py-3 text-sm transition-all outline-none resize-none';
 
         if ($this->attributes->get('disabled') !== null || $this->attributes->has('disabled')) {
-            return $base.' bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed opacity-50';
+            return $base.' bg-surface-container-low border border-outline-variant text-on-surface/40 cursor-not-allowed opacity-50';
         }
 
         if ($hasError || $this->state === 'error') {
@@ -37,7 +38,7 @@ class Textarea extends Component
         return match ($this->state) {
             'warning' => $base.' bg-amber-50 border border-amber-500 focus:border-amber-500 focus:shadow-[0_0_0_2px_rgba(245,158,11,0.1)]',
             'success' => $base.' bg-green-50 border border-green-500 focus:border-green-500 focus:shadow-[0_0_0_2px_rgba(34,197,94,0.1)]',
-            default => $base.' bg-[#f3f3ff] border border-[#e2e6f1] focus:bg-white focus:border-[#0061a5] focus:shadow-[0_0_0_2px_rgba(0,97,165,0.1)]',
+            default => $base.' bg-surface-input border border-outline-variant text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-2 focus:ring-primary/20',
         };
     }
 
@@ -61,7 +62,7 @@ class Textarea extends Component
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.textarea');
     }

@@ -30,7 +30,7 @@
             <span class="text-sm text-outline hidden md:inline">Linhas por página:</span>
             <select
                 name="per_page"
-                class="bg-white border border-outline-variant rounded-lg text-xs font-semibold focus:ring-primary focus:border-primary py-1.5 pl-3 pr-8 transition-colors"
+                class="bg-surface-container-lowest border border-outline-variant rounded-lg text-xs font-semibold focus:ring-primary focus:border-primary py-1.5 pl-3 pr-8 transition-colors"
                 onchange="window.location.href = '{{ $paginator->url(1) }}'.replace(/([?&]per_page=)[^&]*/, '$1' + this.value).replace(/([?&]page=)[^&]*/, '$1' + '1') || window.location.pathname + '?per_page=' + this.value"
             >
                 @foreach(\Jetax\DesignSystem\View\Components\Pagination::PER_PAGE_OPTIONS as $option)
@@ -61,7 +61,7 @@
                     href="{{ $previousPageUrl() }}"
                     wire:navigate
                     aria-label="Página anterior"
-                    class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-white transition-all"
+                    class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-container transition-all"
                 >
                     <span class="material-symbols-outlined text-lg">chevron_left</span>
                 </a>
@@ -83,7 +83,7 @@
                             href="{{ $pageUrl($element) }}"
                             wire:navigate
                             aria-label="Ir para a página {{ $element }}"
-                            class="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-white text-xs font-medium transition-all"
+                            class="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container text-xs font-medium transition-all"
                         >{{ $element }}</a>
                     @endif
                 @endforeach
@@ -110,7 +110,7 @@
                     href="{{ $nextPageUrl() }}"
                     wire:navigate
                     aria-label="Próxima página"
-                    class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-white transition-all"
+                    class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-container transition-all"
                 >
                     <span class="material-symbols-outlined text-lg">chevron_right</span>
                 </a>

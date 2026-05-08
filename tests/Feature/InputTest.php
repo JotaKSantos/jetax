@@ -9,13 +9,13 @@ it('test_renders_input_element', function () {
 it('test_default_background_class', function () {
     $view = $this->blade('<x-jetax-input name="campo" />');
 
-    $view->assertSee('f3f3ff', false);
+    $view->assertSee('bg-surface-input', false);
 });
 
 it('test_default_border_class', function () {
     $view = $this->blade('<x-jetax-input name="campo" />');
 
-    $view->assertSee('e2e6f1', false);
+    $view->assertSee('border-outline-variant', false);
 });
 
 it('test_error_state_applied', function () {
@@ -43,8 +43,8 @@ it('test_success_state_applied', function () {
 it('test_readonly_state_applied', function () {
     $view = $this->blade('<x-jetax-input name="campo" :readonly="true" />');
 
-    $view->assertSee('bg-slate-100', false);
-    $view->assertSee('text-slate-400', false);
+    $view->assertSee('bg-surface-container-low', false);
+    $view->assertSee('text-on-surface/40', false);
 });
 
 it('test_label_rendered_with_correct_styles', function () {

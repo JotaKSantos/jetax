@@ -78,7 +78,7 @@
             inputmode="{{ $inputMode() }}"
             pattern="{{ $pattern() }}"
             autocomplete="one-time-code"
-            class="w-10 h-12 text-center text-lg font-semibold rounded-lg border border-[#e2e6f1] bg-[#f3f3ff] text-[#3d3d4e] focus:outline-none focus:border-[#0061a5] focus:bg-white focus:shadow-[0_0_0_2px_rgba(0,97,165,0.1)] transition-all"
+            class="w-10 h-12 text-center text-lg font-semibold rounded-lg border border-outline-variant bg-surface-input text-on-surface focus:outline-none focus:border-primary focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all"
         />
     @endfor
 

@@ -27,13 +27,13 @@ it('test_default_rows_attribute', function () {
 it('test_default_background_class', function () {
     $view = $this->blade('<x-jetax-textarea name="descricao" />');
 
-    $view->assertSee('f3f3ff', false);
+    $view->assertSee('bg-surface-input', false);
 });
 
 it('test_default_border_class', function () {
     $view = $this->blade('<x-jetax-textarea name="descricao" />');
 
-    $view->assertSee('e2e6f1', false);
+    $view->assertSee('border-outline-variant', false);
 });
 
 it('test_error_state_applied', function () {
@@ -47,7 +47,7 @@ it('test_disabled_state_applied', function () {
     $view = $this->blade('<x-jetax-textarea name="descricao" disabled />');
 
     $view->assertSee('disabled', false);
-    $view->assertSee('bg-slate-100', false);
+    $view->assertSee('bg-surface-container-low', false);
 });
 
 it('test_label_rendered_with_correct_styles', function () {
