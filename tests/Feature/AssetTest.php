@@ -13,10 +13,10 @@ it('CSS source exists in resources/css', function () use ($cssSourcePath) {
     assertFileExists($cssSourcePath);
 });
 
-it('compiled CSS contains --jetax-primary variable', function () use ($distPath) {
+it('compiled CSS contains --color-primary token', function () use ($distPath) {
     $content = file_get_contents($distPath);
 
-    expect($content)->toContain('--jetax-primary');
+    expect($content)->toContain('--color-primary');
 });
 
 it('CSS source contains @theme block with Tailwind v4 tokens', function () use ($cssSourcePath) {
@@ -27,6 +27,12 @@ it('CSS source contains @theme block with Tailwind v4 tokens', function () use (
         ->toContain('--color-primary')
         ->toContain('--font-headline')
         ->toContain('--shadow-ambient');
+});
+
+it('CSS source declares @custom-variant dark for class-based dark mode', function () use ($cssSourcePath) {
+    $content = file_get_contents($cssSourcePath);
+
+    expect($content)->toContain('@custom-variant dark');
 });
 
 it('compiled CSS contains dark mode overrides', function () use ($distPath) {

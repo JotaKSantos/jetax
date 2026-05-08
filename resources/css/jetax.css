@@ -7,6 +7,14 @@
  */
 
 /* ==========================================================================
+   Dark Mode Variant
+   Habilita o variant `dark:` baseado em classe (.dark no <html>) para que
+   o toggle JS do pacote funcione. Sem isto, `dark:*` segue apenas a media
+   query prefers-color-scheme do SO.
+   ========================================================================== */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
    Tailwind v4 Theme Tokens
    ========================================================================== */
 @theme {
@@ -60,93 +68,41 @@
 }
 
 /* ==========================================================================
-   CSS Custom Properties (--jetax-*)
-   Variáveis acessíveis via var(--jetax-primary) etc.
-   ========================================================================== */
-:root {
-    /* Cores */
-    --jetax-primary: #00497e;
-    --jetax-primary-container: #0061a5;
-    --jetax-primary-fixed: #d2e4ff;
-    --jetax-primary-fixed-dim: #9fcaff;
-    --jetax-primary-gradient: linear-gradient(135deg, #0061a5 0%, #0D99FF 100%);
-    --jetax-secondary: #0061a5;
-    --jetax-secondary-container: #0397fd;
-    --jetax-secondary-fixed-dim: #9fcaff;
-    --jetax-tertiary: #40465e;
-    --jetax-error: #ba1a1a;
-    --jetax-error-container: #ffdad6;
-    --jetax-surface: #faf8ff;
-    --jetax-surface-dim: #d0d8ff;
-    --jetax-surface-container-lowest: #ffffff;
-    --jetax-surface-container-low: #f3f2ff;
-    --jetax-surface-container: #ebedff;
-    --jetax-surface-container-high: #e3e7ff;
-    --jetax-surface-container-highest: #dce1ff;
-    --jetax-surface-input: #f3f3ff;
-    --jetax-on-surface: #111a37;
-    --jetax-on-surface-variant: #414750;
-    --jetax-on-primary: #ffffff;
-    --jetax-on-primary-fixed: #001d36;
-    --jetax-outline: #717782;
-    --jetax-outline-variant: #c1c7d2;
-    --jetax-inverse-surface: #262f4d;
-    --jetax-success: #16a34a;
-    --jetax-warning: #f59e0b;
-    --jetax-info: #0d99ff;
-    --jetax-sidebar: #141A30;
-
-    /* Tipografia */
-    --jetax-font-headline: 'Manrope', system-ui, sans-serif;
-    --jetax-font-body: 'Inter', system-ui, sans-serif;
-    --jetax-font-label: 'Inter', system-ui, sans-serif;
-
-    /* Border Radius */
-    --jetax-radius-default: 0.125rem;
-    --jetax-radius-lg: 0.25rem;
-    --jetax-radius-xl: 0.5rem;
-    --jetax-radius-full: 0.75rem;
-
-    /* Sombras */
-    --jetax-shadow-ambient: 0 4px 24px rgba(17, 26, 55, 0.04);
-    --jetax-shadow-ambient-lg: 0 8px 32px rgba(17, 26, 55, 0.04);
-    --jetax-shadow-sidebar: 16px 0 32px rgba(17, 26, 55, 0.04);
-}
-
-/* ==========================================================================
    Dark Mode Overrides
+   Sobrescreve os tokens de @theme quando .dark é aplicado em :root.
+   Classes Tailwind (bg-primary, text-on-surface, etc.) respondem automaticamente.
    ========================================================================== */
 :root.dark {
-    --jetax-primary: #9fcaff;
-    --jetax-primary-container: #00497e;
-    --jetax-primary-fixed: #d2e4ff;
-    --jetax-primary-fixed-dim: #9fcaff;
-    --jetax-primary-gradient: linear-gradient(135deg, #0061a5 0%, #0D99FF 100%);
-    --jetax-secondary: #9fcaff;
-    --jetax-secondary-container: #004a78;
-    --jetax-secondary-fixed-dim: #9fcaff;
-    --jetax-tertiary: #bfc5e0;
-    --jetax-error: #ffb4ab;
-    --jetax-error-container: #93000a;
-    --jetax-surface: #111a37;
-    --jetax-surface-dim: #111a37;
-    --jetax-surface-container-lowest: #0b1229;
-    --jetax-surface-container-low: #161f3b;
-    --jetax-surface-container: #1a2440;
-    --jetax-surface-container-high: #1e2845;
-    --jetax-surface-container-highest: #232d4a;
-    --jetax-surface-input: #1e2845;
-    --jetax-on-surface: #dce1ff;
-    --jetax-on-surface-variant: #c1c7d2;
-    --jetax-on-primary: #00345a;
-    --jetax-on-primary-fixed: #001d36;
-    --jetax-outline: #8b9199;
-    --jetax-outline-variant: #414750;
-    --jetax-inverse-surface: #dce1ff;
-    --jetax-success: #4ade80;
-    --jetax-warning: #fbbf24;
-    --jetax-info: #60c5ff;
-    --jetax-sidebar: #141A30;
+    --color-primary: #9fcaff;
+    --color-primary-container: #00497e;
+    --color-primary-fixed: #d2e4ff;
+    --color-primary-fixed-dim: #9fcaff;
+    --color-secondary: #9fcaff;
+    --color-secondary-container: #004a78;
+    --color-secondary-fixed-dim: #9fcaff;
+    --color-tertiary: #bfc5e0;
+    --color-error: #ffb4ab;
+    --color-error-container: #93000a;
+    --color-surface: #111a37;
+    --color-surface-dim: #111a37;
+    --color-surface-container-lowest: #0b1229;
+    --color-surface-container-low: #161f3b;
+    --color-surface-container: #1a2440;
+    --color-surface-container-high: #1e2845;
+    --color-surface-container-highest: #232d4a;
+    --color-surface-input: #1e2845;
+    --color-on-surface: #dce1ff;
+    --color-on-surface-variant: #c1c7d2;
+    --color-on-primary: #00345a;
+    --color-on-primary-fixed: #001d36;
+    --color-outline: #8b9199;
+    --color-outline-variant: #414750;
+    --color-inverse-surface: #dce1ff;
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-info: #60c5ff;
+    --color-danger: #ffb4ab;
+    /* --color-sidebar fica fixo (#141A30) — sidebar não inverte no dark */
 }
 
 /* ==========================================================================
