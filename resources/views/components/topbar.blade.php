@@ -9,7 +9,7 @@
         {{-- Hamburger button --}}
         <button
             type="button"
-            class="flex items-center justify-center w-10 h-10 rounded-lg text-on-surface/60 hover:bg-surface-container-high transition-colors"
+            class="flex items-center justify-center w-10 h-10 rounded-lg text-on-surface/60 dark:text-slate-400 hover:bg-surface-container-high transition-colors"
             @click="
                 if (window.innerWidth >= 768) {
                     $store.sidebar.toggle();
@@ -24,11 +24,11 @@
 
         {{-- Search bar --}}
         <div class="relative hidden sm:block">
-            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40">search</span>
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 dark:text-slate-400">search</span>
             <input
                 type="text"
                 placeholder="Pesquisar..."
-                class="bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-2 text-sm w-64 transition-all text-on-surface placeholder:text-on-surface/40 focus:ring-2 focus:ring-primary/20"
+                class="bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-2 text-sm w-64 transition-all text-on-surface dark:text-slate-200 placeholder:text-on-surface/40 dark:placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20"
             >
         </div>
     </div>

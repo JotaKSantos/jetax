@@ -164,7 +164,7 @@
             {{-- Fullscreen --}}
             <button
                 type="button"
-                class="p-2 text-on-surface/60 hover:text-primary hover:bg-surface-container-high rounded-lg transition-all"
+                class="p-2 text-on-surface/60 dark:text-slate-400 hover:text-primary hover:bg-surface-container-high rounded-lg transition-all"
                 aria-label="Tela cheia"
             >
                 <span class="material-symbols-outlined">fullscreen</span>
@@ -173,7 +173,7 @@
             {{-- Notifications --}}
             <button
                 type="button"
-                class="p-2 text-on-surface/60 hover:text-primary hover:bg-surface-container-high rounded-lg transition-all relative"
+                class="p-2 text-on-surface/60 dark:text-slate-400 hover:text-primary hover:bg-surface-container-high rounded-lg transition-all relative"
                 aria-label="Notificações"
             >
                 <span class="material-symbols-outlined">notifications</span>
@@ -185,7 +185,7 @@
                 type="button"
                 x-data="{ dark: document.documentElement.classList.contains('dark') }"
                 x-on:click="dark = !dark; document.documentElement.classList.toggle('dark'); localStorage.setItem('jetax-theme', dark ? 'dark' : 'light')"
-                class="p-2 rounded-lg transition-all text-on-surface/60 hover:text-primary hover:bg-surface-container-high"
+                class="p-2 rounded-lg transition-all text-on-surface/60 dark:text-slate-400 hover:text-primary hover:bg-surface-container-high"
                 aria-label="Alternar modo escuro"
             >
                 <span class="material-symbols-outlined" x-show="!dark">dark_mode</span>
@@ -199,7 +199,7 @@
             <div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-high p-1.5 rounded-xl transition-all">
                 <div class="text-right hidden sm:block">
                     <p class="text-xs font-bold leading-tight text-on-surface">Admin User</p>
-                    <p class="text-[10px] text-on-surface/60">Administrator</p>
+                    <p class="text-[10px] text-on-surface/60 dark:text-slate-400">Administrator</p>
                 </div>
                 <div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
                     <span class="material-symbols-outlined text-white text-lg">person</span>
