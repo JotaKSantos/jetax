@@ -7,7 +7,7 @@
         @php $hasHeader = is_object($header) ? $header->isNotEmpty() : (trim((string) $header) !== ''); @endphp
         @if($hasHeader)
             <div class="{{ $headerClasses() }}">
-                <span class="font-headline font-bold text-primary text-sm">{{ $header }}</span>
+                {{ $header }}
             </div>
         @endif
     @endisset

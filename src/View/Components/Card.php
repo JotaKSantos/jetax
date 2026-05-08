@@ -42,9 +42,11 @@ class Card extends Component
      */
     public function headerClasses(): string
     {
+        $typography = 'font-headline font-bold text-sm uppercase tracking-wide flex items-center gap-2';
+
         $base = $this->featured
-            ? 'px-6 py-4 bg-error/5 dark:bg-error/10'
-            : 'px-6 py-4 bg-secondary/5 dark:bg-primary/5';
+            ? 'px-6 py-4 bg-error/5 dark:bg-error/10 border-b border-error/20 text-error '.$typography
+            : 'px-6 py-4 bg-secondary/5 dark:bg-primary/5 border-b border-outline-variant/30 dark:border-white/[0.05] text-secondary dark:text-primary '.$typography;
 
         return trim($base.' '.$this->headerClass);
     }
