@@ -19,7 +19,7 @@
     @isset($footer)
         @php $hasFooter = is_object($footer) ? $footer->isNotEmpty() : (trim((string) $footer) !== ''); @endphp
         @if($hasFooter)
-            <div class="bg-slate-50 dark:bg-white/[0.03] px-6 py-4">
+            <div class="bg-surface-container-low px-6 py-4">
                 {{ $footer }}
             </div>
         @endif

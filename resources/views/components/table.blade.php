@@ -10,7 +10,7 @@
     $hasSortable = collect($columns)->contains(fn ($col) => !empty($col['sortable']));
 @endphp
 
-<div {{ $attributes->merge(['class' => 'rounded-2xl overflow-hidden bg-white']) }}
+<div {{ $attributes->merge(['class' => 'rounded-2xl overflow-hidden bg-surface-container-lowest']) }}
     style="box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);"
     @if(!$hasBody && $hasSortable)
         x-data="{
@@ -102,7 +102,7 @@
                     @elseif($hasSortable)
                         {{-- Modo automatico com ordenacao Alpine --}}
                         <template x-for="(row, index) in rows" :key="index">
-                            <tr class="group h-11 even:bg-slate-50 hover:bg-surface-container-low transition-colors">
+                            <tr class="group h-11 even:bg-surface-container-low hover:bg-surface-container transition-colors">
                                 @if($selectable)
                                     <td class="px-6 py-2.5">
                                         <input
@@ -131,7 +131,7 @@
                     @else
                         {{-- Modo automatico simples (sem ordenacao) --}}
                         @foreach($rows as $row)
-                            <tr class="group h-11 even:bg-slate-50 hover:bg-surface-container-low transition-colors">
+                            <tr class="group h-11 even:bg-surface-container-low hover:bg-surface-container transition-colors">
                                 @if($selectable)
                                     <td class="px-6 py-2.5">
                                         <input

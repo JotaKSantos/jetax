@@ -25,7 +25,7 @@
 >
     <button
         type="button"
-        class="accordion-header w-full px-6 py-4 flex items-center justify-between text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
+        class="accordion-header w-full px-6 py-4 flex items-center justify-between text-left hover:bg-surface-container-low transition-colors"
         x-on:click="handleToggle()"
         :aria-expanded="isOpen"
     >

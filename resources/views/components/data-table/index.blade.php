@@ -11,7 +11,7 @@
     $columnSpan = count($columns) + ($hasBulkActions ? 1 : 0);
 @endphp
 
-<div {{ $attributes->merge(['class' => 'rounded-2xl overflow-hidden bg-white']) }}
+<div {{ $attributes->merge(['class' => 'rounded-2xl overflow-hidden bg-surface-container-lowest']) }}
     style="box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);"
 >
     @include('jetax::components.data-table.toolbar')
@@ -72,7 +72,7 @@
                 </thead>
                 <tbody>
                     @foreach($rows as $row)
-                        <tr class="group h-11 even:bg-slate-50 hover:bg-surface-container-low transition-colors">
+                        <tr class="group h-11 even:bg-surface-container-low hover:bg-surface-container transition-colors">
                             @if($hasBulkActions)
                                 <td class="w-10 px-6 py-2.5">
                                     <x-jetax-checkbox

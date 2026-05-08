@@ -22,12 +22,12 @@ it('test_header_has_primary_tint', function () {
     $view->assertSee('bg-[#00497e]/[0.05]', false);
 });
 
-it('test_footer_has_slate_bg', function () {
+it('test_footer_uses_surface_container_low', function () {
     $view = $this->blade(
         '<x-jetax-card>Conteúdo<x-slot:footer>Rodapé</x-slot:footer></x-jetax-card>'
     );
 
-    $view->assertSee('bg-slate-50', false);
+    $view->assertSee('bg-surface-container-low', false);
 });
 
 it('test_featured_variant', function () {

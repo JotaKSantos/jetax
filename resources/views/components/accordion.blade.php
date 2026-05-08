@@ -1,5 +1,5 @@
 <div
-    {{ $attributes->merge(['class' => 'w-full divide-y divide-slate-100 rounded-xl bg-white dark:bg-surface-container-low dark:divide-white/10']) }}
+    {{ $attributes->merge(['class' => 'w-full divide-y divide-outline-variant rounded-xl bg-surface-container-lowest']) }}
     x-data="{
         active: null,
         mode: '{{ $mode }}',
