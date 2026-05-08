@@ -18,7 +18,7 @@ BLADE;
     {{-- Basico --}}
     <x-jetax-docs-preview-section title="Basico" :code="$codeBasico">
         <div class="rounded-xl overflow-hidden border border-outline-variant/20 dark:border-white/10">
-            <div class="relative h-16 flex items-center justify-between px-4 md:px-6 bg-surface-container-lowest/80 backdrop-blur-xl shadow-ambient">
+            <div class="relative h-16 flex items-center justify-between px-4 md:px-6 bg-surface-container-lowest/80 dark:bg-sidebar/80 backdrop-blur-xl shadow-ambient">
                 {{-- Left side --}}
                 <div class="flex items-center gap-4">
                     <button type="button" class="flex items-center justify-center w-10 h-10 rounded-lg text-on-surface-variant dark:text-white/60 hover:bg-surface-container-low dark:hover:bg-white/5 transition-colors">
@@ -45,7 +45,7 @@ BLADE;
     {{-- Com Actions --}}
     <x-jetax-docs-preview-section title="Com Actions" :code="$codeActions">
         <div class="rounded-xl overflow-hidden border border-outline-variant/20 dark:border-white/10">
-            <div class="relative h-16 flex items-center justify-between px-4 md:px-6 bg-surface-container-lowest/80 backdrop-blur-xl shadow-ambient">
+            <div class="relative h-16 flex items-center justify-between px-4 md:px-6 bg-surface-container-lowest/80 dark:bg-sidebar/80 backdrop-blur-xl shadow-ambient">
                 {{-- Left side --}}
                 <div class="flex items-center gap-4">
                     <button type="button" class="flex items-center justify-center w-10 h-10 rounded-lg text-on-surface-variant dark:text-white/60 hover:bg-surface-container-low dark:hover:bg-white/5 transition-colors">

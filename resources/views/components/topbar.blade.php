@@ -1,7 +1,7 @@
 @props(['title' => ''])
 
 <header
-    {{ $attributes->merge(['class' => 'jetax-topbar fixed top-0 left-0 right-0 h-16 z-40 flex items-center justify-between px-4 md:px-6 bg-surface-container-lowest/80 backdrop-blur-xl shadow-ambient dark:border-b dark:border-outline-variant/30 transition-all duration-300']) }}
+    {{ $attributes->merge(['class' => 'jetax-topbar fixed top-0 left-0 right-0 h-16 z-40 flex items-center justify-between px-4 md:px-6 bg-surface-container-lowest/80 dark:bg-sidebar/80 backdrop-blur-xl shadow-ambient dark:border-b dark:border-outline-variant/30 transition-all duration-300']) }}
     :class="$store.sidebar.collapsed ? 'md:left-[70px]' : 'md:left-64'"
 >
     {{-- Left side: hamburger + search --}}
