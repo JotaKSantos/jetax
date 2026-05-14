@@ -19,6 +19,11 @@ trait HasPagination
 
     protected function applyPagination(Builder $builder): LengthAwarePaginator
     {
-        return $builder->paginate($this->resolvePerPage());
+        $perPage = $this->resolvePerPage();
+
+        return $builder
+            ->paginate($perPage)
+            ->withPath(url()->current())
+            ->appends(['per_page' => $perPage]);
     }
 }
