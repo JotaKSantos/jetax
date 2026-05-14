@@ -5,6 +5,12 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [Unreleased]
+
+### Fixed
+- **DataTable:** parâmetro de URL do seletor "Linhas por página" corrigido de `perPage` para `per_page` — o regex do JS em `pagination.blade.php` procurava `per_page=`, então o replace nunca encontrava o parâmetro e a mudança de itens por página não tinha efeito
+- **DataTable:** default `per_page` no config alterado de `15` para `10` — 15 não está entre as opções do seletor (`[10, 25, 50, 100]`), fazendo com que nenhuma opção ficasse visualmente selecionada na carga inicial
+
 ## [1.1.0] - 2026-05-08
 
 ### Added
