@@ -5,6 +5,12 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.1.2] - 2026-05-14
+
+### Fixed
+- **DataTable:** `applyPagination()` agora chama `->withPath(url()->current())` — sem isso, `$paginator->url(1)` retornava um caminho relativo (ex: `admin/tenants?page=1`) e o `window.location.href` resolvia relativo ao diretório atual, causando path duplicado (`/admin/admin/tenants` → 404)
+- **DataTable:** `applyPagination()` agora chama `->appends(['per_page' => $perPage])` — sem isso, `per_page=` não estava na URL inicial e o regex do `onchange` (que procura `per_page=X` para substituir) nunca encontrava o parâmetro, fazendo a primeira troca de "Linhas por página" não ter efeito
+
 ## [1.1.1] - 2026-05-14
 
 ### Fixed
