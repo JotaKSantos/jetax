@@ -8,7 +8,7 @@ use Livewire\Attributes\Url;
 
 trait HasPagination
 {
-    #[Url(as: 'perPage')]
+    #[Url(as: 'per_page')]
     public ?int $perPage = null;
 
     public function resolvePerPage(): int
