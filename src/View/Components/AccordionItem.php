@@ -2,6 +2,7 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class AccordionItem extends Component
@@ -20,7 +21,7 @@ class AccordionItem extends Component
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.accordion-item');
     }

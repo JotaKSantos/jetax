@@ -2,6 +2,7 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class ToastContainer extends Component
@@ -25,16 +26,16 @@ class ToastContainer extends Component
     {
         return match ($this->position) {
             'bottom-left' => 'bottom-6 left-6',
-            'top-right'   => 'top-6 right-6',
-            'top-left'    => 'top-6 left-6',
-            default       => 'bottom-6 right-6',
+            'top-right' => 'top-6 right-6',
+            'top-left' => 'top-6 left-6',
+            default => 'bottom-6 right-6',
         };
     }
 
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.toast-container');
     }

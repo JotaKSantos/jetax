@@ -2,10 +2,19 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Currency extends Component
 {
+    /**
+     * Identificador do campo visível, usado para associar o rótulo.
+     *
+     * Derivado do `name` quando existe: um `id` que muda a cada render faz o
+     * morph do Livewire trocar o elemento no DOM e o cursor sair do campo.
+     */
+    public string $inputId;
+
     /**
      * Cria uma nova instância do componente de entrada de moeda.
      */
@@ -15,7 +24,12 @@ class Currency extends Component
         public int $precision = 2,
         public string $name = '',
         public bool $disabled = false,
-    ) {}
+        public string $label = '',
+    ) {
+        $this->inputId = $name !== ''
+            ? 'currency_'.$name
+            : 'currency_'.substr(md5($label.$currency), 0, 8);
+    }
 
     /**
      * Retorna as classes CSS do wrapper baseadas no estado atual.
@@ -25,10 +39,10 @@ class Currency extends Component
         $base = 'flex items-center w-full rounded-lg border transition-all outline-none overflow-hidden';
 
         if ($this->disabled) {
-            return $base.' bg-slate-100 border-slate-200 opacity-50 cursor-not-allowed';
+            return $base.' bg-surface-container-high border-outline-variant opacity-50 cursor-not-allowed';
         }
 
-        return $base.' bg-[#f3f3ff] border-[#e2e6f1] focus-within:bg-white focus-within:border-[#0061a5] focus-within:shadow-[0_0_0_2px_rgba(0,97,165,0.1)]';
+        return $base.' bg-surface-input border-outline-variant focus-within:bg-surface-container-lowest focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10';
     }
 
     /**
@@ -36,13 +50,13 @@ class Currency extends Component
      */
     public function errorWrapperClasses(): string
     {
-        return 'flex items-center w-full rounded-lg border transition-all outline-none overflow-hidden bg-red-50 border-red-500 focus-within:border-red-500 focus-within:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]';
+        return 'flex items-center w-full rounded-lg border transition-all outline-none overflow-hidden bg-error-container/40 border-error focus-within:border-error focus-within:ring-2 focus-within:ring-error/10';
     }
 
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.currency');
     }

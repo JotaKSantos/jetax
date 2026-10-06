@@ -32,17 +32,17 @@ class ClientesTable extends DataTableComponent
             BadgeColumn::make('status', 'Status')
                 ->sortable()
                 ->colors([
-                    'ativo'     => 'success',
-                    'inativo'   => 'neutral',
-                    'pendente'  => 'warning',
+                    'ativo' => 'success',
+                    'inativo' => 'neutral',
+                    'pendente' => 'warning',
                     'bloqueado' => 'danger',
                 ])
                 ->formatUsing(fn ($value) => ucfirst((string) $value)),
             BadgeColumn::make('categoria', 'Categoria')
                 ->colors([
-                    'bronze'   => 'neutral',
-                    'prata'    => 'info',
-                    'ouro'     => 'warning',
+                    'bronze' => 'neutral',
+                    'prata' => 'info',
+                    'ouro' => 'warning',
                     'diamante' => 'success',
                 ])
                 ->formatUsing(fn ($value) => ucfirst((string) $value)),
@@ -60,15 +60,15 @@ class ClientesTable extends DataTableComponent
     {
         return [
             SelectFilter::make('status', 'Status')->options([
-                'ativo'     => 'Ativo',
-                'inativo'   => 'Inativo',
-                'pendente'  => 'Pendente',
+                'ativo' => 'Ativo',
+                'inativo' => 'Inativo',
+                'pendente' => 'Pendente',
                 'bloqueado' => 'Bloqueado',
             ]),
             MultiSelectFilter::make('categoria', 'Categoria')->options([
-                'bronze'   => 'Bronze',
-                'prata'    => 'Prata',
-                'ouro'     => 'Ouro',
+                'bronze' => 'Bronze',
+                'prata' => 'Prata',
+                'ouro' => 'Ouro',
                 'diamante' => 'Diamante',
             ]),
             DateFilter::make('created_at', 'Criação'),

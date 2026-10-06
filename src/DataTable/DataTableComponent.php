@@ -3,12 +3,16 @@
 namespace Jetax\DesignSystem\DataTable;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
+use Jetax\DesignSystem\DataTable\BulkActions\BulkAction;
+use Jetax\DesignSystem\DataTable\Columns\Column;
 use Jetax\DesignSystem\DataTable\Concerns\HasBulkActions;
 use Jetax\DesignSystem\DataTable\Concerns\HasFilters;
 use Jetax\DesignSystem\DataTable\Concerns\HasPagination;
 use Jetax\DesignSystem\DataTable\Concerns\HasSearching;
 use Jetax\DesignSystem\DataTable\Concerns\HasSorting;
+use Jetax\DesignSystem\DataTable\Filters\Filter;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -30,7 +34,7 @@ abstract class DataTableComponent extends Component
     /**
      * Colunas exibidas pela datatable.
      *
-     * @return array<int, \Jetax\DesignSystem\DataTable\Columns\Column>
+     * @return array<int, Column>
      */
     public function columns(): array
     {
@@ -40,7 +44,7 @@ abstract class DataTableComponent extends Component
     /**
      * Filtros disponíveis na toolbar.
      *
-     * @return array<int, \Jetax\DesignSystem\DataTable\Filters\Filter>
+     * @return array<int, Filter>
      */
     public function filters(): array
     {
@@ -50,7 +54,7 @@ abstract class DataTableComponent extends Component
     /**
      * Ações em lote disponíveis quando há seleção.
      *
-     * @return array<int, \Jetax\DesignSystem\DataTable\BulkActions\BulkAction>
+     * @return array<int, BulkAction>
      */
     public function bulkActions(): array
     {
@@ -99,7 +103,7 @@ abstract class DataTableComponent extends Component
      * Constrói a query final aplicando pipeline (sort, paginate).
      */
     #[Computed]
-    public function rows(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function rows(): LengthAwarePaginator
     {
         $builder = $this->builder();
         $builder = $this->applySearching($builder);

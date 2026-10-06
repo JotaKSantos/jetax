@@ -5,6 +5,67 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [2.0.0] - 2026-10-06
+
+Versão major: alinha o pacote à paleta e aos mockups do VetSoft e absorve a API que as
+aplicações só tinham em views publicadas. Os itens marcados com **[BREAKING]** quebram a API
+da 1.x; o passo a passo de cada um está no guia de migração [`UPGRADE.md`](UPGRADE.md).
+
+### Added
+- **Chip (JETAX-021):** novo `<x-jetax-chip>` de exibição, sem estado próprio. Rótulo por prop `label` ou slot; `removable` renderiza o `×` num `<button>` que recebe os atributos de remoção do consumidor (ex.: `wire:click`)
+- **Tag input (JETAX-021):** novo `<x-jetax-tag-input>`, com o comportamento e a API do antigo `x-jetax-tag` (`suggestions`, `max`, `disabled`)
+- **Button group (JETAX-022):** novo `<x-jetax-button-group split>`, que agrupa ação principal e gatilho de dropdown numa moldura só (raios internos zerados, divisória entre segmentos, altura propagada ao gatilho)
+- **Page header (JETAX-005, JETAX-013):** slot `titleAfter` colado à direita do título; prop `icon` com o quadrado de 44px em gradiente `primary-container` e título 26px/700; `heading="h1"` (padrão `h2`); `subtitle-beside-icon`
+- **Button (JETAX-014 a, b):** prop `icon-only` (quadrado sm 32px, md 44px, lg 48px, exige `aria-label` ou `title` quando o slot está vazio) e `color="custom"` com `color-token="<token>"`, que pinta o fundo com `var(--color-<token>)`
+- **Pagination (JETAX-015):** prop `livewire`, que troca cada `href` de página por `<button type="button" wire:click="gotoPage(N, '<pageName>')">` com as mesmas classes
+- **Table (JETAX-023):** colunas aceitam `align`, `width`, `class`, `thClass` e `attributes` (inclusive `data-*`); slot `cell-<key>` para conteúdo rico; com `paginator`, a ordenação só emite o evento `sort` (`{key, direction}`)
+- **Popover (JETAX-024):** prop `:open` controlada pelo servidor e evento `close` no clique fora ou Esc
+- **Stats card (JETAX-019, JETAX-025):** prop `tone` (`neutral`, `success`, `danger`, `warning`, `info`), `layout="figure"` (fundo sólido do tom, ícone translúcido à esquerda, valor acima do rótulo) e `hint`
+- **Modal (JETAX-026):** prop `level` (inteiro ≥ 1) que empilha modais aumentando o z-index; attribute bag e `class` chegam ao painel
+- **Editor (JETAX-027):** `readonly` sem esmaecer, `without-link`, `data-editor-key` e evento de janela `editor-insert` com `{editor, text}`, que insere o texto na seleção salva
+- **Timeline item (JETAX-028):** slot `marker-overlay`, renderizado em `<span data-jetax-timeline-marker-overlay>` no canto do medalhão, nos ramos vertical e horizontal
+- **Topbar (JETAX-012):** slot `leftActions` e props `sidebar-width`/`collapsed-width` para a largura da sidebar expandida e recolhida
+- **Dialog:** corpo livre por slot, slot `footer`, `confirm-disabled`, `panel-width="narrow"` e âncoras `data-dialog-cancel`/`data-dialog-confirm`
+- **Dropdown (JETAX-004):** posições `top-start` e `top-end`, além de `bottom-start` e `bottom-end`
+- **Config:** chave `jetax.animations` (padrão `true`). Com `false`, `dialog`, `modal`, `dropdown` e `popover` não emitem `x-transition`, e as classes `jetax-animate-fade-*`/`jetax-animate-slide-*` deixam de animar (`shimmer` e `spin` continuam)
+- **Tokens:** `--color-success-text`, `--color-primary-deep` e os tons sólidos `--color-danger-solid`, `--color-success-solid`, `--color-neutral-solid` e `--color-warning-solid`, declarados nos dois temas
+- **Validação:** trait `Concerns\ValidatesVariant`, usada por `Badge`, `Alert`, `Button`, `Dropdown` e `StatsCard`
+
+### Changed
+- **[BREAKING] Topbar sem busca (JETAX-012):** o campo "Pesquisar..." embutido saiu; a barra usa `bg-sidebar` nos dois temas, com borda inferior sempre presente. Ver [UPGRADE.md](UPGRADE.md#quebra-topbar-sem-busca)
+- **[BREAKING] Validação de variante, cor e posição (JETAX-010):** valores fora de `Badge::VARIANTS`, `Alert::VARIANTS`, `Button::COLORS` e `Dropdown::POSITIONS` lançam `InvalidArgumentException` em `local`/`testing` e caem no valor padrão com `Log::warning` nos demais ambientes. No `badge`, `color` vira alias de `variant` e não vaza mais como atributo HTML. Ver [UPGRADE.md](UPGRADE.md#quebra-validacao-de-variante)
+- **[BREAKING] Altura dos campos 44px → 40px (JETAX-018):** `input` e `select` medem 40px pela classe `h-10`, sem `style="height:"` inline. Ver [UPGRADE.md](UPGRADE.md#quebra-altura-dos-campos)
+- **[BREAKING] Tokens trocados (JETAX-006, JETAX-008):** os valores de `--color-*` nos dois temas seguem a paleta VetSoft (tabela T-1). Ver [UPGRADE.md](UPGRADE.md#quebra-tokens)
+- **[BREAKING] Animações (RF-38):** as transições de `dialog`, `modal`, `dropdown` e `popover` passam a depender de `jetax.animations`, e os layouts do pacote marcam o `<html>` com `data-jetax-animations="off"` quando ela está desligada. Ver [UPGRADE.md](UPGRADE.md#quebra-animacoes)
+- **Dropdown (JETAX-004):** o menu passa a ser `fixed`, posicionado pelo retângulo do gatilho, sem teleporte; troca de lado quando não cabe e reposiciona em scroll/resize. O wrapper do gatilho tem `h-full`
+- **Rótulos (JETAX-007, JETAX-018):** rótulos de `input`, `select`, `textarea`, `time`, `form-group` e `currency` e a barra do `editor` usam `text-on-surface-variant`; o rótulo dos campos mede 11px, peso 700 e espaçamento `.06em`
+- **Stats card, modal, card e checkbox:** superfícies, rótulos e estados por token, sem `bg-white`, `slate-*` nem hex literal
+
+### Fixed
+- **Alert (JETAX-001):** `class` do consumidor gerava dois atributos `class` na raiz; agora sai um só, mesclado, nos estilos `soft`, `solid` e `rich`
+- **Toggle (JETAX-002):** `wire:model` (e `wire:model.*`) não gravava a propriedade; agora lê por `$wire.get()`, grava por `$wire.$set()` respeitando `.live` e reflete mudança vinda do servidor sem `wire:key`
+- **Currency (JETAX-003):** `wire:model` não gravava o valor bruto nem esvaziava quando o servidor mudava a propriedade; agora grava por `$wire.$set()` e reidrata por `x-effect`
+- **Dropdown (JETAX-004):** menu recortado dentro de ancestral com `overflow-hidden`/`overflow-x-auto`
+- **Dark mode (JETAX-006, JETAX-008):** `on-surface`, `success` e `danger` do tema escuro com contraste abaixo de 4,5:1
+- **Rótulos (JETAX-007):** cor fixa `text-[#…]` nos rótulos dos campos, ilegível no tema escuro
+- **Autofill (JETAX-009):** `:-webkit-autofill` pintava o campo de amarelo/claro e o `<option>` do `<select>` vinha claro no tema escuro; o `jetax.css` agora pinta os dois com os tokens do tema
+- **Badge (JETAX-010):** `color="danger"` era ignorado e vazava como atributo HTML
+- **Card (JETAX-016):** classes de padding (`p-*`, `px-*`, `py-*`, com prefixo responsivo) eram anuladas por `style="padding:"`; agora valem no wrapper do conteúdo
+- **Campos (JETAX-018):** `class` passada a `input`, `select` e `textarea` não chegava ao campo; o erro usava `bg-red-50` literal
+- **Checkbox (JETAX-020):** `class` não chegava ao `<input>`; estado marcado com hex literal
+- **Stats card (JETAX-019):** superfície, rótulo e tendência com paleta nomeada (`bg-white`, `text-slate-*`, `bg-green-50`)
+- **Popover (JETAX-024):** painel recortado por ancestral com `overflow` e sem controle de abertura pelo servidor
+- **Editor (JETAX-027):** abria vazio com valor vindo de `wire:model` ou `value` e não reidratava; o botão de link usava `prompt()`
+
+### Removed
+- **[BREAKING] `x-jetax-tag` (JETAX-021):** o componente e a classe `Tag` saíram; use `<x-jetax-tag-input>`, com a mesma API. Ver [UPGRADE.md](UPGRADE.md#quebra-tag-input)
+- **[BREAKING] `Dropdown::menuPositionClasses()` (JETAX-004):** substituído por `vertical()` e `horizontal()`, que o menu `fixed` usa para se posicionar. Ver [UPGRADE.md](UPGRADE.md#quebra-dropdown-menu-position-classes)
+- **[BREAKING] `jetax.colors` e `jetax.primary_color` (JETAX-011):** as chaves eram publicadas mas nenhum componente as lia; a paleta se troca por CSS. Ver [UPGRADE.md](UPGRADE.md#quebra-jetax-colors)
+
+### Adiadas (v3.0)
+- **JETAX-017** (inteira): a folha do Material Symbols entra sem cascade layer. A troca do sistema de ícones substitui essa folha, então o conserto fica para a fatia de ícones
+- **JETAX-014(c)**: tamanho do glifo acompanhando o `size` do botão. Depende da métrica do glifo e será calibrado junto com a troca do sistema de ícones
+
 ## [1.1.2] - 2026-05-14
 
 ### Fixed

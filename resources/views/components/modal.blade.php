@@ -1,3 +1,7 @@
+{{-- O z-index da raiz vem de `level` (nível 1 = 50, +10 por nível) por `style`, porque uma
+     classe montada em PHP não seria gerada pelo Tailwind. O attribute bag e o `class` do
+     consumidor vão para o painel (o elemento com `x-trap.noscroll`): é ele que tem a largura
+     (`!max-w-2xl`) e é por ele que as telas localizam o modal (`data-*`). --}}
 <div
     x-data="{ open: false }"
     x-on:modal-open.window="if ($event.detail === '{{ $id }}' || ($event.detail && $event.detail.id === '{{ $id }}')) open = true"
@@ -7,18 +11,20 @@
     id="{{ $id }}"
     role="dialog"
     aria-modal="true"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4"
-    style="display: none;"
+    class="fixed inset-0 flex items-center justify-center p-4"
+    style="display: none; z-index: {{ $zIndex() }};"
 >
     {{-- Backdrop --}}
     <div
         x-show="open"
+        @if (config('jetax.animations', true))
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
+        @endif
         x-on:click="open = false"
         class="modal-overlay absolute inset-0"
         style="background-color: rgba(20, 26, 48, 0.4); backdrop-filter: blur(4px);"
@@ -29,13 +35,15 @@
     <div
         x-show="open"
         x-trap.noscroll="open"
+        @if (config('jetax.animations', true))
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 scale-95"
         x-transition:enter-end="opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        class="{{ $containerClasses() }} {{ $sizeClasses() }} relative w-full"
+        @endif
+        {{ $attributes->merge(['class' => $containerClasses().' '.$sizeClasses().' relative w-full']) }}
     >
         {{-- Header: renderizado sempre que há conteúdo de header OU quando é high-risk --}}
         @php
@@ -62,7 +70,7 @@
         @endif
 
         {{-- Corpo --}}
-        <div class="p-6 text-sm text-slate-600 leading-relaxed">
+        <div class="p-6 text-sm text-on-surface-variant leading-relaxed">
             {{ $slot }}
         </div>
 

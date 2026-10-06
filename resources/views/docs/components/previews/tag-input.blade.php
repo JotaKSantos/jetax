@@ -1,14 +1,14 @@
 @php
 $codeBasic = <<<'BLADE'
-<x-jetax-tag />
+<x-jetax-tag-input />
 BLADE;
 
 $codeSuggestions = <<<'BLADE'
-<x-jetax-tag :suggestions="['PHP', 'Laravel', 'Vue.js', 'React', 'Tailwind CSS', 'Alpine.js']" />
+<x-jetax-tag-input :suggestions="['PHP', 'Laravel', 'Vue.js', 'React', 'Tailwind CSS', 'Alpine.js']" />
 BLADE;
 
 $codeMax = <<<'BLADE'
-<x-jetax-tag :max="3" :suggestions="['Design', 'Frontend', 'Backend', 'DevOps']" />
+<x-jetax-tag-input :max="3" :suggestions="['Design', 'Frontend', 'Backend', 'DevOps']" />
 BLADE;
 @endphp
 
@@ -17,21 +17,21 @@ BLADE;
     {{-- Basico --}}
     <x-jetax-docs-preview-section title="Basico" :code="$codeBasic">
         <div class="w-full max-w-sm">
-            <x-jetax-tag />
+            <x-jetax-tag-input />
         </div>
     </x-jetax-docs-preview-section>
 
     {{-- Com Sugestoes --}}
     <x-jetax-docs-preview-section title="Com Sugestoes" :code="$codeSuggestions">
         <div class="w-full max-w-sm">
-            <x-jetax-tag :suggestions="['PHP', 'Laravel', 'Vue.js', 'React', 'Tailwind CSS', 'Alpine.js']" />
+            <x-jetax-tag-input :suggestions="['PHP', 'Laravel', 'Vue.js', 'React', 'Tailwind CSS', 'Alpine.js']" />
         </div>
     </x-jetax-docs-preview-section>
 
     {{-- Com Limite --}}
     <x-jetax-docs-preview-section title="Com Limite Maximo" :code="$codeMax">
         <div class="w-full max-w-sm">
-            <x-jetax-tag :max="3" :suggestions="['Design', 'Frontend', 'Backend', 'DevOps']" />
+            <x-jetax-tag-input :max="3" :suggestions="['Design', 'Frontend', 'Backend', 'DevOps']" />
         </div>
     </x-jetax-docs-preview-section>
 

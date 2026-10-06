@@ -2,10 +2,14 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Jetax\DesignSystem\View\Components\Concerns\ValidatesVariant;
 
 class Alert extends Component
 {
+    use ValidatesVariant;
+
     /**
      * Estilos disponíveis para o alerta.
      */
@@ -26,7 +30,9 @@ class Alert extends Component
         public bool $dismissible = false,
         public ?string $title = null,
         public string $icon = '',
-    ) {}
+    ) {
+        $this->variant = $this->validateVariant($variant, self::VARIANTS, 'primary');
+    }
 
     /**
      * Retorna as classes CSS do container para o estilo solid.
@@ -34,11 +40,11 @@ class Alert extends Component
     public function solidClasses(): string
     {
         return match ($this->variant) {
-            'info'    => 'bg-[#0397FD] text-white shadow-md',
-            'success' => 'bg-[#2E7D32] text-white shadow-md',
-            'warning' => 'bg-[#EF6C00] text-white shadow-md',
-            'danger'  => 'bg-error text-white shadow-md',
-            default   => 'bg-primary text-white shadow-md',
+            'info' => 'bg-secondary-container text-white shadow-md',
+            'success' => 'bg-success-solid text-white shadow-md',
+            'warning' => 'bg-warning-solid text-white shadow-md',
+            'danger' => 'bg-danger-solid text-white shadow-md',
+            default => 'bg-primary text-white shadow-md',
         };
     }
 
@@ -48,11 +54,11 @@ class Alert extends Component
     public function softClasses(): string
     {
         return match ($this->variant) {
-            'info'    => 'bg-[#0397FD]/10 text-[#0397FD] border border-[#0397FD]/20',
-            'success' => 'bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20',
-            'warning' => 'bg-[#EF6C00]/10 text-[#EF6C00] border border-[#EF6C00]/20',
-            'danger'  => 'bg-error/10 text-error border border-error/20',
-            default   => 'bg-primary/10 text-primary border border-primary/20',
+            'info' => 'bg-info/10 text-info border border-info/20',
+            'success' => 'bg-success/10 text-success-text border border-success/20',
+            'warning' => 'bg-warning/10 text-warning border border-warning/20',
+            'danger' => 'bg-error/10 text-error border border-error/20',
+            default => 'bg-primary/10 text-primary border border-primary/20',
         };
     }
 
@@ -62,11 +68,11 @@ class Alert extends Component
     public function richBorderClass(): string
     {
         return match ($this->variant) {
-            'info'    => 'border-[#0397FD]',
-            'success' => 'border-[#2E7D32]',
-            'warning' => 'border-[#EF6C00]',
-            'danger'  => 'border-error',
-            default   => 'border-primary',
+            'info' => 'border-info',
+            'success' => 'border-success',
+            'warning' => 'border-warning',
+            'danger' => 'border-error',
+            default => 'border-primary',
         };
     }
 
@@ -76,11 +82,11 @@ class Alert extends Component
     public function richTextClass(): string
     {
         return match ($this->variant) {
-            'info'    => 'text-[#0397FD]',
-            'success' => 'text-[#2E7D32]',
-            'warning' => 'text-[#EF6C00]',
-            'danger'  => 'text-error',
-            default   => 'text-primary',
+            'info' => 'text-info',
+            'success' => 'text-success-text',
+            'warning' => 'text-warning',
+            'danger' => 'text-error',
+            default => 'text-primary',
         };
     }
 
@@ -90,18 +96,18 @@ class Alert extends Component
     public function richContainerClass(): string
     {
         return match ($this->variant) {
-            'info'    => 'bg-[#0397FD]/5',
-            'success' => 'bg-[#2E7D32]/5',
-            'warning' => 'bg-[#EF6C00]/5',
-            'danger'  => 'bg-error-container/20',
-            default   => 'bg-primary/5',
+            'info' => 'bg-info/5',
+            'success' => 'bg-success/5',
+            'warning' => 'bg-warning/5',
+            'danger' => 'bg-error-container/20',
+            default => 'bg-primary/5',
         };
     }
 
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.alert');
     }

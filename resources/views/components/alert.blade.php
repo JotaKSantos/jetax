@@ -1,10 +1,11 @@
 @if($message !== null || $slot->isNotEmpty())
     @if($style === 'solid')
         <div
-            {{ $attributes->except(['message', 'variant', 'style', 'dismissible', 'title', 'icon']) }}
+            {{ $attributes
+                ->except(['message', 'variant', 'style', 'dismissible', 'title', 'icon'])
+                ->merge(['class' => $solidClasses().' px-5 py-3.5 rounded-lg flex items-center gap-3']) }}
             x-data="{ show: true }"
             x-show="show"
-            class="{{ $solidClasses() }} px-5 py-3.5 rounded-lg flex items-center gap-3"
             role="alert"
         >
             @if($icon)
@@ -23,7 +24,7 @@
                 <button
                     type="button"
                     x-on:click="show = false"
-                    class="p-1 hover:bg-white/20 rounded transition-colors"
+                    class="p-1 hover:bg-current/15 rounded transition-colors"
                     aria-label="Fechar"
                 >
                     <span class="material-symbols-outlined text-sm">close</span>
@@ -33,10 +34,11 @@
 
     @elseif($style === 'rich')
         <div
-            {{ $attributes->except(['message', 'variant', 'style', 'dismissible', 'title', 'icon']) }}
+            {{ $attributes
+                ->except(['message', 'variant', 'style', 'dismissible', 'title', 'icon'])
+                ->merge(['class' => $richContainerClass().' border-l-4 '.$richBorderClass().' p-5 rounded-r-lg']) }}
             x-data="{ show: true }"
             x-show="show"
-            class="{{ $richContainerClass() }} border-l-4 {{ $richBorderClass() }} p-5 rounded-r-lg"
             role="alert"
         >
             <div class="flex gap-4">
@@ -49,7 +51,7 @@
                         <h4 class="text-sm font-bold {{ $richTextClass() }} mb-1">{{ $title }}</h4>
                     @endif
 
-                    <div class="text-sm text-slate-600 leading-relaxed">
+                    <div class="text-sm text-on-surface-variant leading-relaxed">
                         @if($message)
                             {{ $message }}
                         @else
@@ -74,10 +76,11 @@
     @else
         {{-- soft (padrão) --}}
         <div
-            {{ $attributes->except(['message', 'variant', 'style', 'dismissible', 'title', 'icon']) }}
+            {{ $attributes
+                ->except(['message', 'variant', 'style', 'dismissible', 'title', 'icon'])
+                ->merge(['class' => $softClasses().' px-5 py-3.5 rounded-lg flex items-center gap-3']) }}
             x-data="{ show: true }"
             x-show="show"
-            class="{{ $softClasses() }} px-5 py-3.5 rounded-lg flex items-center gap-3"
             role="alert"
         >
             @if($icon)
@@ -96,7 +99,7 @@
                 <button
                     type="button"
                     x-on:click="show = false"
-                    class="p-1 hover:bg-white/20 rounded transition-colors"
+                    class="p-1 hover:bg-current/15 rounded transition-colors"
                     aria-label="Fechar"
                 >
                     <span class="material-symbols-outlined text-sm">close</span>

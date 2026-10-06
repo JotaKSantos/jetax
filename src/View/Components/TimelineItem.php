@@ -11,12 +11,12 @@ class TimelineItem extends Component
      * Mapeamento de cores para classes Tailwind do marcador.
      */
     protected const COLOR_MAP = [
-        'primary'   => ['bg' => 'bg-blue-100', 'dot' => 'bg-blue-600', 'text' => 'text-blue-600'],
-        'success'   => ['bg' => 'bg-emerald-100', 'dot' => 'bg-emerald-600', 'text' => 'text-emerald-600'],
-        'warning'   => ['bg' => 'bg-amber-100', 'dot' => 'bg-amber-600', 'text' => 'text-amber-600'],
-        'danger'    => ['bg' => 'bg-red-100', 'dot' => 'bg-red-600', 'text' => 'text-red-600'],
-        'info'      => ['bg' => 'bg-sky-100', 'dot' => 'bg-sky-600', 'text' => 'text-sky-600'],
-        'secondary' => ['bg' => 'bg-slate-100', 'dot' => 'bg-slate-500', 'text' => 'text-slate-500'],
+        'primary' => ['bg' => 'bg-primary/12', 'dot' => 'bg-primary', 'text' => 'text-primary'],
+        'success' => ['bg' => 'bg-success/12', 'dot' => 'bg-success', 'text' => 'text-success-text'],
+        'warning' => ['bg' => 'bg-warning/12', 'dot' => 'bg-warning', 'text' => 'text-warning'],
+        'danger' => ['bg' => 'bg-error/12', 'dot' => 'bg-error', 'text' => 'text-error'],
+        'info' => ['bg' => 'bg-info/12', 'dot' => 'bg-info', 'text' => 'text-info'],
+        'secondary' => ['bg' => 'bg-surface-container-high', 'dot' => 'bg-neutral-solid', 'text' => 'text-on-surface-variant'],
     ];
 
     /**

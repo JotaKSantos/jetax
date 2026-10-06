@@ -2,10 +2,14 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Jetax\DesignSystem\View\Components\Concerns\FieldStyles;
 
 class FormGroup extends Component
 {
+    use FieldStyles;
+
     /**
      * Cria uma nova instância do componente de agrupamento de formulário.
      */
@@ -19,7 +23,7 @@ class FormGroup extends Component
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.form-group');
     }

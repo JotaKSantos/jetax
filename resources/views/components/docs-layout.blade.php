@@ -1,6 +1,6 @@
 @props(['title' => 'Jetax — Design System'])
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full">
+<html lang="pt-BR" class="h-full" @unless (config('jetax.animations', true)) data-jetax-animations="off" @endunless>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +55,7 @@
                         @click="$store.sidebar.open = false"
                         class="flex items-center py-3 transition-colors duration-200
                             {{ $isActive
-                                ? 'text-white font-semibold relative before:content-[\'\'] before:absolute before:left-0 before:w-1 before:h-6 before:bg-[#0D99FF] before:rounded-r-full bg-white/5'
+                                ? 'text-white font-semibold relative before:content-[\'\'] before:absolute before:left-0 before:w-1 before:h-6 before:bg-primary before:rounded-r-full bg-white/5'
                                 : 'text-slate-400 hover:text-white hover:bg-white/5'
                             }}"
                         :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-6'"
@@ -68,7 +68,7 @@
                         x-show="$store.sidebar.collapsed && flyout"
                         x-transition.opacity.duration.150ms
                         x-cloak
-                        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-[#1e2438] text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap z-[60] shadow-lg pointer-events-none"
+                        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-primary-deep text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap z-[60] shadow-lg pointer-events-none"
                     >
                         {{ $link['label'] }}
                     </div>
@@ -90,7 +90,7 @@
                             @click="$store.sidebar.open = false"
                             class="flex items-center px-6 py-3 transition-colors duration-200
                                 {{ $isActive
-                                    ? 'text-white font-semibold relative before:content-[\'\'] before:absolute before:left-0 before:w-1 before:h-6 before:bg-[#0D99FF] before:rounded-r-full bg-white/5'
+                                    ? 'text-white font-semibold relative before:content-[\'\'] before:absolute before:left-0 before:w-1 before:h-6 before:bg-primary before:rounded-r-full bg-white/5'
                                     : 'text-slate-400 hover:text-white hover:bg-white/5'
                                 }}"
                             @if($isActive) aria-current="page" data-sidebar-active @endif
@@ -137,7 +137,7 @@
                             }
                         }) }"
                         x-transition.opacity.duration.150ms
-                        class="absolute left-full top-0 ml-2 bg-[#1e2438] rounded-lg py-2 z-[60] shadow-lg min-w-[180px] overflow-y-auto sidebar-scroll"
+                        class="absolute left-full top-0 ml-2 bg-primary-deep rounded-lg py-2 z-[60] shadow-lg min-w-[180px] overflow-y-auto sidebar-scroll"
                     >
                         <p class="px-3 py-1.5 text-[10px] font-bold tracking-widest text-slate-500 uppercase">{{ $category }}</p>
                         @foreach($items as $item)

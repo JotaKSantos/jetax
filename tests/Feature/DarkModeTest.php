@@ -1,7 +1,7 @@
 <?php
 
 it('has dark class strategy configured in preset', function () {
-    $presetPath = realpath(__DIR__ . '/../../resources/js/jetax-preset.js');
+    $presetPath = realpath(__DIR__.'/../../resources/js/jetax-preset.js');
     $content = file_get_contents($presetPath);
 
     expect($content)->toContain("darkMode: 'class'");

@@ -1,7 +1,9 @@
-@props(['padding' => '1.5rem', 'featured' => false, 'headerClass' => '', 'footerClass' => ''])
+@php
+    $consumerClasses = $splitConsumerClasses((string) $attributes->get('class', ''));
+@endphp
 
 <div
-    {{ $attributes->merge(['class' => $containerClasses()]) }}
+    {{ $attributes->except('class')->merge(['class' => trim($containerClasses().' '.$consumerClasses['container'])]) }}
 >
     @isset($header)
         @php $hasHeader = is_object($header) ? $header->isNotEmpty() : (trim((string) $header) !== ''); @endphp
@@ -12,7 +14,7 @@
         @endif
     @endisset
 
-    <div style="padding: {{ $padding }};">
+    <div class="{{ $bodyClasses($consumerClasses['padding']) }}">
         {{ $slot }}
     </div>
 

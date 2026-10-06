@@ -37,7 +37,7 @@
             }
         }
     }"
-    class="w-full"
+    {{ $attributes->whereDoesntStartWith('wire:model')->merge(['class' => 'w-full']) }}
 >
     {{-- Campo oculto sincronizado com wire:model --}}
     <input
@@ -77,7 +77,7 @@
             @input="inputValue = $event.target.value"
             :disabled="disabled"
             placeholder="{{ $disabled ? '' : 'Adicionar tag...' }}"
-            class="flex-1 min-w-[120px] bg-transparent text-sm text-[#3d3d4e] outline-none placeholder:text-slate-400 disabled:cursor-not-allowed"
+            class="flex-1 min-w-[120px] bg-transparent text-sm text-on-surface outline-none placeholder:text-on-surface-variant disabled:cursor-not-allowed"
             autocomplete="off"
         />
     </div>
@@ -94,7 +94,7 @@
                     <button
                         type="button"
                         @click="addTag(suggestion)"
-                        class="w-full text-left px-3 py-1.5 text-sm text-[#3d3d4e] hover:bg-[#f3f3ff] transition-colors"
+                        class="w-full text-left px-3 py-1.5 text-sm text-on-surface hover:bg-surface-container-low transition-colors"
                         x-text="suggestion"
                     ></button>
                 </li>

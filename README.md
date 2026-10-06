@@ -33,6 +33,12 @@
 
 ---
 
+## Atualizando da 1.x
+
+A 2.0.0 tem quebras de API (topbar sem busca, `tag` → `tag-input`, validacao de variante/cor/posicao, campos de 40px, tokens, `Dropdown::menuPositionClasses()`, animacoes e `jetax.colors`). O passo a passo esta no [guia de migracao 1.x → 2.0](UPGRADE.md), e a lista completa de mudancas no [CHANGELOG](CHANGELOG.md).
+
+---
+
 ## Requisitos
 
 | Dependencia | Versao |
@@ -196,17 +202,48 @@ php artisan vendor:publish --provider="Jetax\DesignSystem\JetaxServiceProvider"
 
 ### Formularios
 
-`checkbox` `radio` `color` `currency` `date` `input` `input-group` `input-select` `input-masks` `number` `password` `pin` `range` `tag` `time` `textarea` `toggle` `select` `upload` `validation` `editor`
+`checkbox` `radio` `color` `currency` `date` `input` `input-group` `input-select` `input-masks` `number` `password` `pin` `range` `tag-input` `time` `textarea` `toggle` `select` `upload` `validation` `editor`
 
 ### Interface (UI)
 
-`accordion` `alert` `avatar` `back-to-top` `badge` `breadcrumb` `button` `card` `carousel` `collapse` `clipboard` `dismissible` `dropdown` `icon` `modal` `list-group` `loading` `popover` `progress` `pagination` `rating` `skeleton` `slide` `step` `tab` `table` `tooltip`
+`accordion` `alert` `avatar` `back-to-top` `badge` `breadcrumb` `button` `button-group` `card` `chip` `carousel` `collapse` `clipboard` `dismissible` `dropdown` `icon` `modal` `list-group` `loading` `popover` `progress` `pagination` `rating` `skeleton` `slide` `step` `tab` `table` `tooltip`
 
 ### Interacoes
 
 `dialog` `toast`
 
+### Componentes novos na 2.0
+
+| Componente | Descricao |
+|------------|-----------|
+| `<x-jetax-chip label removable>` | Selo de exibicao sem estado. Rotulo por prop ou slot; `removable` mostra o `×` num `<button>` que recebe os atributos de remocao (ex.: `wire:click`) |
+| `<x-jetax-tag-input>` | Campo de entrada de tags (antigo `x-jetax-tag`), com `suggestions`, `max` e `disabled` |
+| `<x-jetax-button-group split>` | Agrupa um `x-jetax-button` e um `x-jetax-dropdown` numa moldura so, com divisoria e raios internos zerados |
+
+```blade
+<x-jetax-button-group split>
+    <x-jetax-button>Salvar</x-jetax-button>
+    <x-jetax-dropdown position="bottom-end">
+        <x-slot:trigger><x-jetax-button icon-only aria-label="Mais opcoes">…</x-jetax-button></x-slot:trigger>
+        <x-jetax-dropdown-item>Salvar e novo</x-jetax-dropdown-item>
+    </x-jetax-dropdown>
+</x-jetax-button-group>
+
+<x-jetax-chip label="Situacao: Quitado" removable wire:click="limparFiltro('situacao')" />
+```
+
 > Todos os componentes usam o prefixo `<x-jetax-*>`. Exemplo: `<x-jetax-button>`, `<x-jetax-alert>`.
+
+---
+
+## Animacoes
+
+A chave `jetax.animations` (padrao `true`) liga as transicoes de `dialog`, `modal`, `dropdown` e `popover`. Com `false`, eles abrem e fecham sem `x-transition`, os layouts do pacote marcam o `<html>` com `data-jetax-animations="off"` e as classes `jetax-animate-fade-*`/`jetax-animate-slide-*` param. `shimmer` e `spin` continuam animando.
+
+```php
+// config/jetax.php
+'animations' => false,
+```
 
 ---
 
@@ -218,18 +255,38 @@ O Jetax suporta dark mode nativo via estrategia `class` do Tailwind v4. A altern
 
 ## Design Tokens
 
-Os tokens visuais sao definidos como CSS custom properties via Tailwind v4 `@theme {}`:
+Os tokens de cor sao CSS custom properties `--color-*`, declarados via Tailwind v4 `@theme {}` (tema claro) e sobrescritos em `:root.dark {}` (tema escuro), com os mesmos nomes nos dois temas. Os valores seguem a paleta VetSoft:
 
-```
-primary:          #00497e
-secondary:        #0061a5
-surface:          #FAF8FF
-surface-card:     #FFFFFF
-on-surface:       #111A37
-sidebar:          #141A30
+| Token | Claro | Escuro |
+|---|---|---|
+| `primary` | `#00548d` | `#4aa8e8` |
+| `success` | `#00a05e` | `#00a05e` |
+| `surface` | `#eef3f7` | `#061726` |
+| `surface-container-lowest` | `#ffffff` | `#0b2334` |
+| `on-surface` | `#0e2c42` | `#eef4f9` |
+| `danger-solid` | `#c0392b` | `#96331f` |
+
+A lista completa esta em `resources/css/jetax.css`. Os tons `*-solid` (`danger-solid`, `success-solid`, `neutral-solid`, `warning-solid`) sao fundos para texto branco, com contraste WCAG >= 4,5:1.
+
+### Trocar a paleta por CSS
+
+A paleta **nao** e configurada em `config/jetax.php`: a chave `colors` foi removida na v2.0.0, porque nenhum componente a lia. Para trocar uma cor, sobrescreva a variavel `--color-*` no CSS da aplicacao, **depois** do `@import` do `jetax.css`, nos dois temas:
+
+```css
+@import "../../vendor/jksantos/jetax/resources/css/jetax.css";
+
+:root {
+    --color-primary: #7c3aed;
+    --color-primary-container: #6d28d9;
+}
+
+:root.dark {
+    --color-primary: #a78bfa;
+    --color-primary-container: #5b21b6;
+}
 ```
 
-Dark mode aplica overrides em `:root.dark {}`. Customize via `config/jetax.php` apos publicacao.
+Todas as classes que consomem o token (`bg-primary`, `text-primary`, `border-primary`, `from-primary-container` etc.) passam a usar o novo valor, sem republicar views. Para manter o contraste, troque cada token junto com o seu par (`on-surface` com `surface`, texto branco com os tons `*-solid`).
 
 ---
 

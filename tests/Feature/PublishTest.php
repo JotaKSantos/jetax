@@ -2,6 +2,15 @@
 
 use Illuminate\Support\Facades\File;
 
+/*
+ * As views publicadas ficam no esqueleto do testbench, que sobrevive entre execuções. Como o
+ * pacote registra `resources/views/vendor/jetax` como override, uma cópia esquecida ali
+ * sombreia os templates do pacote em todos os testes da execução seguinte.
+ */
+afterEach(function () {
+    File::deleteDirectory(resource_path('views/vendor/jetax'));
+});
+
 test('test_views_published_to_correct_path', function () {
     $publishPath = resource_path('views/vendor/jetax');
 
@@ -31,7 +40,7 @@ test('test_published_view_overrides_package_view', function () {
     expect(File::exists($publishedBadge))->toBeTrue();
 
     $originalContent = File::get($publishedBadge);
-    File::put($publishedBadge, "CUSTOM_OVERRIDE_MARKER");
+    File::put($publishedBadge, 'CUSTOM_OVERRIDE_MARKER');
 
     try {
         view()->prependNamespace('jetax', $publishPath);

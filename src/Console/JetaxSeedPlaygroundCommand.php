@@ -63,15 +63,15 @@ class JetaxSeedPlaygroundCommand extends Command
             $createdAt = $now->copy()->subDays(random_int(0, 365))->subMinutes(random_int(0, 1440));
 
             $batch[] = [
-                'nome'         => self::NOMES[array_rand(self::NOMES)].' '.($i),
+                'nome' => self::NOMES[array_rand(self::NOMES)].' '.($i),
                 'razao_social' => self::RAZOES[array_rand(self::RAZOES)],
-                'documento'    => $this->fakeDocumento(),
-                'cidade'       => $cidadeUf[0],
-                'estado'       => $cidadeUf[1],
-                'status'       => self::STATUS[array_rand(self::STATUS)],
-                'categoria'    => self::CATEGORIAS[array_rand(self::CATEGORIAS)],
-                'created_at'   => $createdAt,
-                'updated_at'   => $createdAt,
+                'documento' => $this->fakeDocumento(),
+                'cidade' => $cidadeUf[0],
+                'estado' => $cidadeUf[1],
+                'status' => self::STATUS[array_rand(self::STATUS)],
+                'categoria' => self::CATEGORIAS[array_rand(self::CATEGORIAS)],
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
             ];
 
             if (count($batch) >= 200) {

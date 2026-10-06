@@ -1,7 +1,5 @@
 <?php
 
-use Jetax\DesignSystem\View\Components\AuthLayout;
-
 it('renders without sidebar and topbar', function () {
     $view = $this->blade('<x-jetax-auth-layout title="Login">Form</x-jetax-auth-layout>');
 
@@ -36,6 +34,6 @@ it('has two panel layout structure', function () {
     $view = $this->blade('<x-jetax-auth-layout title="Login">Form</x-jetax-auth-layout>');
 
     $view->assertSee('lg:w-[58%]', false); // left panel
-    $view->assertSee('bg-[#202947]', false); // branding bg
+    $view->assertSee('bg-primary-deep', false); // branding bg
     $view->assertSee('max-w-[440px]', false); // form container
 });

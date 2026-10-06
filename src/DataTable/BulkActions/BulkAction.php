@@ -31,8 +31,7 @@ class BulkAction
     final public function __construct(
         protected string $key,
         protected string $label,
-    ) {
-    }
+    ) {}
 
     public static function make(string $key, string $label): static
     {

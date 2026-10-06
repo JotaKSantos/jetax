@@ -20,7 +20,7 @@
             outline: none;
             cursor: pointer;
         "
-        class="accent-[#0061a5] disabled:opacity-50 disabled:cursor-not-allowed"
+        class="accent-primary disabled:opacity-50 disabled:cursor-not-allowed"
         :style="`
             -webkit-appearance: none;
             appearance: none;
@@ -34,6 +34,6 @@
     />
 
     @if($showValue)
-        <span data-range-value x-text="rangeValue" class="block text-sm text-[#3d3d4e] mt-1 font-medium"></span>
+        <span data-range-value x-text="rangeValue" class="block text-sm text-on-surface-variant mt-1 font-medium"></span>
     @endif
 </div>
