@@ -1,22 +1,26 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
+use Jetax\DesignSystem\View\Components\Card;
+
 it('test_has_shadow_class', function () {
     $view = $this->blade('<x-jetax-card>Conteúdo</x-jetax-card>');
 
-    $view->assertSee('shadow-[#111A37]/5', false);
+    $view->assertSee('shadow-on-surface/5', false);
 });
 
-it('test_default_uses_white_in_light_dark_in_dark', function () {
+it('test_default_background_uses_surface_token', function () {
     $view = $this->blade('<x-jetax-card>Conteúdo</x-jetax-card>');
 
-    $view->assertSee('bg-white', false);
-    $view->assertSee('dark:bg-[#161B2A]', false);
+    $view->assertSee('bg-surface-container-lowest', false);
+    $view->assertDontSee('bg-white', false);
+    $view->assertDontSee('#161B2A', false);
 });
 
 it('test_dark_mode_has_subtle_border', function () {
     $view = $this->blade('<x-jetax-card>Conteúdo</x-jetax-card>');
 
-    $view->assertSee('dark:border-white/[0.05]', false);
+    $view->assertSee('dark:border-outline-variant', false);
 });
 
 it('test_bordered_variant', function () {
@@ -83,4 +87,62 @@ it('test_footer_class_prop_appended', function () {
 
     $view->assertSee('custom-footer-y', false);
     $view->assertSee('bg-surface-container-low', false);
+});
+
+it('test_consumer_padding_classes_reach_body_wrapper', function () {
+    $html = Blade::render('<x-jetax-card class="p-0 md:p-6 mb-4">Corpo</x-jetax-card>');
+
+    preg_match_all('/<div\b[^>]*>/', $html, $divs);
+    [$container, $body] = [tagClass($divs[0][0]), tagClass($divs[0][1])];
+
+    expect($body)->toContain('p-0 md:p-6')->not->toContain('p-6 p-0');
+    expect($container)->toContain('mb-4')->not->toContain('p-0')->not->toContain('md:p-6');
+    expect($html)->not->toContain('style="padding:');
+});
+
+it('test_axis_padding_classes_keep_default_padding', function () {
+    $html = Blade::render('<x-jetax-card class="px-0 sm:py-2">Corpo</x-jetax-card>');
+
+    preg_match_all('/<div\b[^>]*>/', $html, $divs);
+
+    expect(tagClass($divs[0][1]))->toBe('p-6 px-0 sm:py-2');
+});
+
+it('test_padding_prop_zero_still_works', function () {
+    $html = Blade::render('<x-jetax-card padding="0">Corpo</x-jetax-card>');
+
+    preg_match_all('/<div\b[^>]*>/', $html, $divs);
+
+    expect(tagClass($divs[0][1]))->toBe('p-0');
+    expect($html)->not->toContain('style="padding:');
+});
+
+it('test_default_padding_is_p6_by_class', function () {
+    $html = Blade::render('<x-jetax-card>Corpo</x-jetax-card>');
+
+    preg_match_all('/<div\b[^>]*>/', $html, $divs);
+
+    expect(tagClass($divs[0][1]))->toBe('p-6');
+});
+
+it('test_container_classes_have_no_literal_colors', function () {
+    foreach ([[], ['featured' => true], ['bordered' => true]] as $props) {
+        $classes = (new Card(...$props))->containerClasses();
+
+        expect($classes)
+            ->toContain('bg-surface-container-lowest')
+            ->not->toContain('bg-white')
+            ->not->toContain('#161B2A')
+            ->not->toContain('#');
+    }
+});
+
+it('test_detects_padding_classes', function () {
+    foreach (['p-0', 'px-4', 'py-2', 'pt-1', 'md:p-6', 'lg:px-8', '!p-0', 'p-[18px]'] as $class) {
+        expect(Card::isPaddingClass($class))->toBeTrue();
+    }
+
+    foreach (['mb-4', 'pointer-events-none', 'place-items-center', 'shadow-none', 'md:mb-2'] as $class) {
+        expect(Card::isPaddingClass($class))->toBeFalse();
+    }
 });

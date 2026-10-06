@@ -39,13 +39,13 @@ class Spinner extends Component
     public function borderClasses(): string
     {
         return match ($this->color) {
-            'primary'   => 'border-primary/20 border-t-primary',
+            'primary' => 'border-primary/20 border-t-primary',
             'secondary' => 'border-secondary/20 border-t-secondary',
-            'success'   => 'border-success/20 border-t-success',
-            'info'      => 'border-info/20 border-t-info',
-            'warning'   => 'border-warning/20 border-t-warning',
-            'danger'    => 'border-danger/20 border-t-danger',
-            default     => 'border-current/20 border-t-current',
+            'success' => 'border-success/20 border-t-success',
+            'info' => 'border-info/20 border-t-info',
+            'warning' => 'border-warning/20 border-t-warning',
+            'danger' => 'border-danger/20 border-t-danger',
+            default => 'border-current/20 border-t-current',
         };
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 it('renders nav items from config', function () {
     config()->set('jetax.navigation.main', [
         ['label' => 'Dashboard', 'icon' => 'dashboard', 'route' => 'dashboard'],
@@ -33,7 +35,7 @@ it('renders nav items from slot overriding config', function () {
 
 it('marks active item with pill indicator', function () {
     // Registra uma rota nomeada para testar routeIs()
-    \Illuminate\Support\Facades\Route::get('/test-active', function () {
+    Route::get('/test-active', function () {
         return '';
     })->name('test.active');
 
@@ -48,7 +50,7 @@ it('marks active item with pill indicator', function () {
 
     $view->assertSee('aria-current="page"', false);
     $view->assertSee('bg-white/5', false);
-    $view->assertSee('bg-[#0D99FF]', false);
+    $view->assertSee('before:bg-primary', false);
 });
 
 it('inactive items have no pill', function () {

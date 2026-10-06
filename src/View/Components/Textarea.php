@@ -4,9 +4,12 @@ namespace Jetax\DesignSystem\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Jetax\DesignSystem\View\Components\Concerns\FieldStyles;
 
 class Textarea extends Component
 {
+    use FieldStyles;
+
     /**
      * Cria uma nova instância do componente de textarea.
      */
@@ -32,12 +35,12 @@ class Textarea extends Component
         }
 
         if ($hasError || $this->state === 'error') {
-            return $base.' bg-red-50 border border-red-500 focus:border-red-500 focus:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]';
+            return $base.' bg-error-container/30 border border-error text-on-surface focus:border-error focus:ring-2 focus:ring-error/20';
         }
 
         return match ($this->state) {
-            'warning' => $base.' bg-amber-50 border border-amber-500 focus:border-amber-500 focus:shadow-[0_0_0_2px_rgba(245,158,11,0.1)]',
-            'success' => $base.' bg-green-50 border border-green-500 focus:border-green-500 focus:shadow-[0_0_0_2px_rgba(34,197,94,0.1)]',
+            'warning' => $base.' bg-surface-input border border-warning text-on-surface focus:border-warning focus:ring-2 focus:ring-warning/20',
+            'success' => $base.' bg-surface-input border border-success text-on-surface focus:border-success focus:ring-2 focus:ring-success/20',
             default => $base.' bg-surface-input border border-outline-variant text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-2 focus:ring-primary/20',
         };
     }
@@ -48,15 +51,7 @@ class Textarea extends Component
      */
     public function messageClasses(bool $hasError = false): string
     {
-        if ($hasError || $this->state === 'error') {
-            return 'text-red-600 text-[10px] font-medium mt-1';
-        }
-
-        return match ($this->state) {
-            'warning' => 'text-amber-600 text-[10px] font-medium mt-1',
-            'success' => 'text-green-600 text-[10px] font-medium mt-1',
-            default => 'text-slate-500 text-[10px] font-medium mt-1',
-        };
+        return $this->fieldMessageClasses($hasError ? 'error' : $this->state);
     }
 
     /**

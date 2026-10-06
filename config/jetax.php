@@ -14,55 +14,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Cor Primária (legado)
-    |--------------------------------------------------------------------------
-    |
-    | Mantida para compatibilidade com versões anteriores.
-    | Utilize a chave 'colors.primary' para novas implementações.
-    |
-    */
-    'primary_color' => '#00497e',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Paleta de Cores
-    |--------------------------------------------------------------------------
-    |
-    | Tokens semânticos de cor do design system Jetax.
-    | Baseados na especificação Material You adaptada para o Jetax.
-    |
-    */
-    'colors' => [
-        'primary'                    => '#00497e',
-        'primary-container'          => '#0061a5',
-        'primary-fixed'              => '#d2e4ff',
-        'primary-fixed-dim'          => '#9fcaff',
-        'primary-gradient'           => 'linear-gradient(135deg, #0061a5 0%, #0D99FF 100%)',
-        'secondary'                  => '#0061a5',
-        'secondary-container'        => '#0397fd',
-        'secondary-fixed-dim'        => '#9fcaff',
-        'tertiary'                   => '#40465e',
-        'error'                      => '#ba1a1a',
-        'error-container'            => '#ffdad6',
-        'surface'                    => '#faf8ff',
-        'surface-dim'                => '#d0d8ff',
-        'surface-container-lowest'   => '#ffffff',
-        'surface-container-low'      => '#f3f2ff',
-        'surface-container'          => '#ebedff',
-        'surface-container-high'     => '#e3e7ff',
-        'surface-container-highest'  => '#dce1ff',
-        'surface-input'              => '#f3f3ff',
-        'on-surface'                 => '#111a37',
-        'on-surface-variant'         => '#414750',
-        'on-primary'                 => '#ffffff',
-        'on-primary-fixed'           => '#001d36',
-        'outline'                    => '#717782',
-        'outline-variant'            => '#c1c7d2',
-        'inverse-surface'            => '#262f4d',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Fontes
     |--------------------------------------------------------------------------
     |
@@ -71,7 +22,7 @@ return [
     */
     'fonts' => [
         'headline' => 'Manrope',
-        'body'     => 'Inter',
+        'body' => 'Inter',
     ],
 
     /*
@@ -97,9 +48,9 @@ return [
     */
     'border_radius' => [
         'DEFAULT' => '0.125rem',
-        'lg'      => '0.25rem',
-        'xl'      => '0.5rem',
-        'full'    => '0.75rem',
+        'lg' => '0.25rem',
+        'xl' => '0.5rem',
+        'full' => '0.75rem',
     ],
 
     /*
@@ -146,6 +97,20 @@ return [
     |
     */
     'dark_mode' => 'class',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Animações
+    |--------------------------------------------------------------------------
+    |
+    | Liga ou desliga as transições de abertura e fechamento de dialog, modal,
+    | dropdown e popover. Com false, esses componentes não emitem x-transition,
+    | os layouts do pacote marcam o <html> com data-jetax-animations="off" e as
+    | classes jetax-animate-fade-* e jetax-animate-slide-* deixam de animar.
+    | shimmer e spin continuam animando (são indicadores de carregamento).
+    |
+    */
+    'animations' => true,
 
     /*
     |--------------------------------------------------------------------------

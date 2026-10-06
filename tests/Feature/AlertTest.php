@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
+
 it('test_all_variants_render', function () {
     $variants = ['primary', 'info', 'success', 'warning', 'danger'];
 
@@ -40,4 +42,57 @@ it('test_hidden_when_no_message', function () {
     $view = $this->blade('<x-jetax-alert :message="null" />');
 
     $view->assertDontSee('role="alert"', false);
+});
+
+it('test_soft_alert_merges_consumer_class_in_single_class_attribute', function () {
+    $html = Blade::render('<x-jetax-alert variant="success" class="mb-4" message="ok" />');
+
+    preg_match('/<div\s[^>]*role="alert"[^>]*>/s', $html, $root);
+
+    expect(substr_count($root[0], 'class='))->toBe(1);
+    expect($root[0])->toContain('mb-4')->toContain('bg-success/10');
+});
+
+it('test_solid_alert_merges_consumer_class_in_single_class_attribute', function () {
+    $html = Blade::render('<x-jetax-alert variant="success" style="solid" class="mb-4" message="ok" />');
+
+    preg_match('/<div\s[^>]*role="alert"[^>]*>/s', $html, $root);
+
+    expect(substr_count($root[0], 'class='))->toBe(1);
+    expect($root[0])->toContain('mb-4')->toContain('px-5 py-3.5 rounded-lg')->toContain('bg-success-solid');
+});
+
+it('test_rich_alert_merges_consumer_class_in_single_class_attribute', function () {
+    $html = Blade::render('<x-jetax-alert variant="success" style="rich" class="mb-4" message="ok" />');
+
+    preg_match('/<div\s[^>]*role="alert"[^>]*>/s', $html, $root);
+
+    expect(substr_count($root[0], 'class='))->toBe(1);
+    expect($root[0])->toContain('mb-4')->toContain('border-l-4')->toContain('border-success');
+});
+
+it('test_consumer_attributes_reach_root_without_leaking_props', function () {
+    $html = Blade::render('<x-jetax-alert variant="info" data-x="1" wire:key="aviso" message="ok" :dismissible="true" />');
+
+    preg_match('/<div\s[^>]*role="alert"[^>]*>/s', $html, $root);
+
+    expect($root[0])
+        ->toContain('data-x="1"')
+        ->toContain('wire:key="aviso"')
+        ->not->toContain('message=')
+        ->not->toContain('variant=')
+        ->not->toContain('dismissible=');
+});
+
+it('test_invalid_variant_throws_in_testing', function () {
+    expect(bladeRenderFailure('<x-jetax-alert variant="error" message="ok" />'))->toBeInstanceOf(InvalidArgumentException::class);
+});
+
+it('test_alert_uses_tokens_without_hex_or_named_palette', function () {
+    $root = __DIR__.'/../..';
+    $sources = file_get_contents($root.'/src/View/Components/Alert.php')
+        .file_get_contents($root.'/resources/views/components/alert.blade.php');
+
+    expect($sources)->not->toMatch('/\[#[0-9a-fA-F]{3,8}\]/');
+    expect($sources)->not->toMatch('/(?:bg|text|border)-(?:slate|gray|green|amber|cyan|blue|red)-\d/');
 });

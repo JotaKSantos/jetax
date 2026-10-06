@@ -18,37 +18,45 @@
    Tailwind v4 Theme Tokens
    ========================================================================== */
 @theme {
-    /* Cores */
-    --color-primary: #00497e;
-    --color-primary-container: #0061a5;
-    --color-primary-fixed: #d2e4ff;
-    --color-primary-fixed-dim: #9fcaff;
-    --color-secondary: #0061a5;
-    --color-secondary-container: #0397fd;
+    /* Cores — paleta VetSoft (tabela T-1). Os mesmos nomes existem em :root.dark. */
+    --color-primary: #00548d;
+    --color-primary-container: #00548d;
+    --color-primary-deep: #003d69;
+    --color-primary-fixed: #d7e8f5;
+    --color-primary-fixed-dim: #a8cfe9;
+    --color-secondary: #00548d;
+    --color-secondary-container: #0a6fb0;
     --color-secondary-fixed-dim: #9fcaff;
     --color-tertiary: #40465e;
-    --color-error: #ba1a1a;
-    --color-error-container: #ffdad6;
-    --color-surface: #faf8ff;
-    --color-surface-dim: #d0d8ff;
+    --color-error: #b3261e;
+    --color-error-container: #f9dedb;
+    --color-surface: #eef3f7;
+    --color-surface-dim: #e3edf4;
     --color-surface-container-lowest: #ffffff;
-    --color-surface-container-low: #f3f2ff;
-    --color-surface-container: #ebedff;
-    --color-surface-container-high: #e3e7ff;
-    --color-surface-container-highest: #dce1ff;
-    --color-surface-input: #f3f3ff;
-    --color-on-surface: #111a37;
-    --color-on-surface-variant: #414750;
+    --color-surface-container-low: #f3f7fa;
+    --color-surface-container: #f3f7fa;
+    --color-surface-container-high: #f0f5f9;
+    --color-surface-container-highest: #e3edf4;
+    --color-surface-input: #f3f7fa;
+    --color-on-surface: #0e2c42;
+    --color-on-surface-variant: #3d5b71;
     --color-on-primary: #ffffff;
-    --color-on-primary-fixed: #001d36;
-    --color-outline: #717782;
-    --color-outline-variant: #c1c7d2;
-    --color-inverse-surface: #262f4d;
-    --color-success: #16a34a;
-    --color-warning: #f59e0b;
-    --color-info: #0d99ff;
-    --color-danger: #ba1a1a;
-    --color-sidebar: #141A30;
+    --color-on-primary-fixed: #00253f;
+    --color-outline: rgba(0, 84, 141, 0.24);
+    --color-outline-variant: rgba(0, 84, 141, 0.15);
+    --color-inverse-surface: #0e2c42;
+    --color-success: #00a05e;
+    --color-success-text: #007145;
+    --color-warning: #96570a;
+    --color-info: #0f6f96;
+    --color-danger: #b3261e;
+    --color-sidebar: #f3f7fa;
+
+    /* Tons sólidos: fundo de botão/selo com texto branco (contraste >= 4,5:1). */
+    --color-danger-solid: #c0392b;
+    --color-success-solid: #007a48;
+    --color-neutral-solid: #5a788d;
+    --color-warning-solid: #a4600c;
 
     /* Tipografia */
     --font-headline: 'Manrope', system-ui, sans-serif;
@@ -71,38 +79,76 @@
    Dark Mode Overrides
    Sobrescreve os tokens de @theme quando .dark é aplicado em :root.
    Classes Tailwind (bg-primary, text-on-surface, etc.) respondem automaticamente.
+   Todo token de @theme tem contraparte aqui, com o mesmo nome.
    ========================================================================== */
 :root.dark {
-    --color-primary: #0D99FF;
-    --color-primary-container: #0061a5;
-    --color-primary-fixed: #d2e4ff;
-    --color-primary-fixed-dim: #9fcaff;
-    --color-secondary: #0061a5;
-    --color-secondary-container: #0D99FF;
+    --color-primary: #4aa8e8;
+    --color-primary-container: #005e9c;
+    --color-primary-deep: #003d69;
+    --color-primary-fixed: #d7e8f5;
+    --color-primary-fixed-dim: #8fc9f2;
+    --color-secondary: #4aa8e8;
+    --color-secondary-container: #005e9c;
     --color-secondary-fixed-dim: #9fcaff;
     --color-tertiary: #bfc5e0;
-    --color-error: #f87171;
-    --color-error-container: #450a0a;
-    --color-surface: #0F121B;
-    --color-surface-dim: #141A30;
-    --color-surface-container-lowest: #0F121B;
-    --color-surface-container-low: #161B2A;
-    --color-surface-container: #161B2A;
-    --color-surface-container-high: #1E2337;
-    --color-surface-container-highest: #232845;
-    --color-surface-input: #1E2337;
-    --color-on-surface: #313a46; /*#e2e8f0;*/
-    --color-on-surface-variant: rgba(255, 255, 255, 0.45);
+    --color-error: #ef7a6d;
+    --color-error-container: #96331f;
+    --color-surface: #061726;
+    --color-surface-dim: #0a2032;
+    --color-surface-container-lowest: #0b2334;
+    --color-surface-container-low: #0a2032;
+    --color-surface-container: #0e2a40;
+    --color-surface-container-high: #103049;
+    --color-surface-container-highest: #123a4f;
+    --color-surface-input: #0a2032;
+    --color-on-surface: #eef4f9;
+    --color-on-surface-variant: #93aabd;
     --color-on-primary: #ffffff;
-    --color-on-primary-fixed: #001d36;
-    --color-outline: rgba(255, 255, 255, 0.07);
-    --color-outline-variant: rgba(255, 255, 255, 0.08);
-    --color-inverse-surface: #eff0ff;
-    --color-success: #16a34a;
-    --color-warning: #f59e0b;
-    --color-info: #0d99ff;
-    --color-danger: #ba1a1a;
-    /* --color-sidebar fica fixo (#141A30) — sidebar não inverte no dark */
+    --color-on-primary-fixed: #d7e8f5;
+    --color-outline: rgba(190, 218, 236, 0.19);
+    --color-outline-variant: rgba(190, 218, 236, 0.13);
+    --color-inverse-surface: #eef4f9;
+    --color-success: #00a05e;
+    --color-success-text: #3ecb8d;
+    --color-warning: #e0a052;
+    --color-info: #5cc8e8;
+    --color-danger: #ef7a6d;
+    --color-sidebar: #0a2032;
+
+    --color-danger-solid: #96331f;
+    --color-success-solid: #007a48;
+    --color-neutral-solid: #4d6577;
+    --color-warning-solid: #9a5f16;
+}
+
+/* ==========================================================================
+   Autofill e <option>
+   O :-webkit-autofill força fundo claro e texto escuro (background-color não é
+   sobrescritível). O box-shadow inset pinta o fundo com o token do tema, o
+   -webkit-text-fill-color fixa o texto e a transition longa neutraliza o flash
+   amarelo. O <option> herda a superfície do sistema, não a do <select>: sem a
+   regra, a lista aberta no escuro vem clara.
+   ========================================================================== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface-input) inset;
+    box-shadow: 0 0 0 1000px var(--color-surface-input) inset;
+    -webkit-text-fill-color: var(--color-on-surface);
+    caret-color: var(--color-on-surface);
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface-container-lowest) inset;
+    box-shadow: 0 0 0 1000px var(--color-surface-container-lowest) inset;
+    -webkit-text-fill-color: var(--color-on-surface);
+    caret-color: var(--color-on-surface);
+}
+
+select option {
+    background-color: var(--color-surface-container-lowest);
+    color: var(--color-on-surface);
 }
 
 /* ==========================================================================
@@ -202,6 +248,17 @@
 
 .jetax-animate-slide-down {
     animation: jetax-slide-down 0.2s ease-out;
+}
+
+/* Animações desligadas (config jetax.animations = false): os layouts marcam o <html> com
+   data-jetax-animations="off". Só fade e slide param; shimmer e spin seguem animando. */
+[data-jetax-animations="off"] :is(
+    .jetax-animate-fade-in,
+    .jetax-animate-fade-out,
+    .jetax-animate-slide-up,
+    .jetax-animate-slide-down
+) {
+    animation: none;
 }
 
 @keyframes jetax-progress-striped {

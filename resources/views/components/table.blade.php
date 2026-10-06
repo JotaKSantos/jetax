@@ -8,11 +8,28 @@
 @php
     $hasBody = isset($body) && (is_object($body) ? $body->isNotEmpty() : trim((string) $body) !== '');
     $hasSortable = collect($columns)->contains(fn ($col) => !empty($col['sortable']));
+
+    // Com paginator, quem ordena é o servidor: o cabeçalho só emite `sort`.
+    $serverSort = $paginator !== null;
+    $clientSort = !$hasBody && $hasSortable && !$serverSort;
+    $sortButtons = $hasSortable && (!$hasBody || $serverSort);
+
+    // Slot `cell-<key>` por coluna; o conteúdo enxerga a linha como `row` (Alpine).
+    $slots = $__laravel_slots ?? [];
+    $cellSlots = [];
+    foreach ($columns as $column) {
+        foreach ($cellSlotNames($column) as $slotName) {
+            if (isset($slots[$slotName]) && trim((string) $slots[$slotName]) !== '') {
+                $cellSlots[$column['key']] = $slots[$slotName];
+                break;
+            }
+        }
+    }
 @endphp
 
 <div {{ $attributes->merge(['class' => 'rounded-2xl overflow-hidden bg-surface-container-lowest']) }}
     style="box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);"
-    @if(!$hasBody && $hasSortable)
+    @if($clientSort)
         x-data="{
             rows: {{ Js::from($rows) }},
             sortColumn: '',
@@ -31,7 +48,21 @@
                     if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
                     return 0;
                 });
-                $dispatch('sort', { column: column, direction: this.sortDirection });
+                $dispatch('sort', { key: column, direction: this.sortDirection });
+            }
+        }"
+    @elseif($serverSort && $hasSortable)
+        x-data="{
+            sortColumn: '',
+            sortDirection: 'asc',
+            sortBy(key) {
+                if (this.sortColumn === key) {
+                    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    this.sortColumn = key;
+                    this.sortDirection = 'asc';
+                }
+                $dispatch('sort', { key: key, direction: this.sortDirection });
             }
         }"
     @endif
@@ -56,12 +87,12 @@
                         @endif
 
                         @foreach($columns as $column)
-                            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-on-surface-variant">
-                                @if(!empty($column['sortable']) && !$hasBody)
+                            <th {{ $headerAttributes($column) }}>
+                                @if(!empty($column['sortable']) && $sortButtons)
                                     <button
                                         type="button"
-                                        class="flex items-center gap-1 hover:text-on-surface transition-colors"
-                                        @click="sort('{{ $column['key'] }}')"
+                                        class="inline-flex items-center gap-1 hover:text-on-surface transition-colors"
+                                        @click="{{ $serverSort ? 'sortBy' : 'sort' }}('{{ $column['key'] }}')"
                                         aria-label="Ordenar por {{ $column['label'] }}"
                                     >
                                         <span>{{ $column['label'] }}</span>
@@ -99,7 +130,7 @@
                     @if($hasBody)
                         {{-- Modo customizado: o usuario controla o conteudo das linhas --}}
                         {{ $body }}
-                    @elseif($hasSortable)
+                    @elseif($clientSort)
                         {{-- Modo automatico com ordenacao Alpine --}}
                         <template x-for="(row, index) in rows" :key="index">
                             <tr class="group h-11 even:bg-surface-container-low hover:bg-surface-container transition-colors">
@@ -116,7 +147,11 @@
                                 @endif
 
                                 @foreach($columns as $column)
-                                    <td class="px-6 py-2.5 text-sm text-on-surface" x-text="row['{{ $column['key'] }}'] ?? ''"></td>
+                                    @if(isset($cellSlots[$column['key']]))
+                                        <td class="{{ $cellClass($column) }}">{{ $cellSlots[$column['key']] }}</td>
+                                    @else
+                                        <td class="{{ $cellClass($column) }}" x-text="row['{{ $column['key'] }}'] ?? ''"></td>
+                                    @endif
                                 @endforeach
 
                                 @isset($actions)
@@ -129,9 +164,11 @@
                             </tr>
                         </template>
                     @else
-                        {{-- Modo automatico simples (sem ordenacao) --}}
+                        {{-- Modo automatico no servidor (sem ordenacao local) --}}
                         @foreach($rows as $row)
-                            <tr class="group h-11 even:bg-surface-container-low hover:bg-surface-container transition-colors">
+                            <tr class="group h-11 even:bg-surface-container-low hover:bg-surface-container transition-colors"
+                                @if($cellSlots !== []) x-data="{ row: {{ Js::from($row) }} }" @endif
+                            >
                                 @if($selectable)
                                     <td class="px-6 py-2.5">
                                         <input
@@ -145,8 +182,12 @@
                                 @endif
 
                                 @foreach($columns as $column)
-                                    <td class="px-6 py-2.5 text-sm text-on-surface">
-                                        {{ $row[$column['key']] ?? '' }}
+                                    <td class="{{ $cellClass($column) }}">
+                                        @if(isset($cellSlots[$column['key']]))
+                                            {{ $cellSlots[$column['key']] }}
+                                        @else
+                                            {{ $row[$column['key']] ?? '' }}
+                                        @endif
                                     </td>
                                 @endforeach
 

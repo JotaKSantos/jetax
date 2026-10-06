@@ -17,9 +17,9 @@ test('test_blade_components_are_registered', function () {
 });
 
 test('test_config_is_merged', function () {
-    expect(config('jetax.primary_color'))->toBe('#00497e');
+    expect(config('jetax.prefix'))->toBe('jetax');
 });
 
 test('test_views_are_loaded', function () {
-    expect(fn () => view('jetax::components.button'))->not->toThrow(\InvalidArgumentException::class);
+    expect(fn () => view('jetax::components.button'))->not->toThrow(InvalidArgumentException::class);
 });

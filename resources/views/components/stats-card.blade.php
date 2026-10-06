@@ -1,31 +1,70 @@
-<div {{ $attributes->merge(['class' => $cardClasses()]) }}>
-    {{-- Cabeçalho: label e ícone --}}
-    <div class="flex justify-between items-start">
-        <span class="{{ $labelClasses() }}">{{ $label }}</span>
 
+<div {{ $attributes->merge(['class' => $cardClasses()]) }}>
+    @if($isFigure())
+        {{-- Arranjo figure: ícone translúcido à esquerda, valor sobre o rótulo à direita --}}
         @if($icon)
             <div class="{{ $iconContainerClasses() }}">
                 <span class="{{ $iconClasses() }}">{{ $icon }}</span>
             </div>
         @endif
-    </div>
 
-    {{-- Valor principal --}}
-    <div class="flex items-end justify-between gap-4">
-        <p class="{{ $valueClasses() }}">{{ $value }}</p>
+        <div class="flex-1 min-w-0 flex flex-col items-end gap-1 text-right">
+            <p class="{{ $valueClasses() }}">{{ $value }}</p>
 
-        @if($trendValue)
-            <div class="{{ $trendClasses() }}">
-                <span class="material-symbols-outlined text-sm">{{ $trendIcon() }}</span>
-                {{ $trendValue }}
+            <span class="inline-flex items-center gap-1.5">
+                @if($hint !== '')
+                    <span class="{{ $hintClasses() }}" title="{{ $hint }}" aria-label="{{ $hint }}">?</span>
+                @endif
+                <span class="{{ $labelClasses() }}">{{ $label }}</span>
+            </span>
+
+            @if($trendValue)
+                <div class="{{ $trendClasses() }}">
+                    <span class="{{ $trendIconClasses() }}">{{ $trendIcon() }}</span>
+                    {{ $trendValue }}
+                </div>
+            @endif
+
+            @if($slot->isNotEmpty())
+                <div>
+                    {{ $slot }}
+                </div>
+            @endif
+        </div>
+    @else
+        {{-- Cabeçalho: label e ícone --}}
+        <div class="flex justify-between items-start">
+            <span class="inline-flex items-center gap-1.5">
+                @if($hint !== '')
+                    <span class="{{ $hintClasses() }}" title="{{ $hint }}" aria-label="{{ $hint }}">?</span>
+                @endif
+                <span class="{{ $labelClasses() }}">{{ $label }}</span>
+            </span>
+
+            @if($icon)
+                <div class="{{ $iconContainerClasses() }}">
+                    <span class="{{ $iconClasses() }}">{{ $icon }}</span>
+                </div>
+            @endif
+        </div>
+
+        {{-- Valor principal --}}
+        <div class="flex items-end justify-between gap-4">
+            <p class="{{ $valueClasses() }}">{{ $value }}</p>
+
+            @if($trendValue)
+                <div class="{{ $trendClasses() }}">
+                    <span class="{{ $trendIconClasses() }}">{{ $trendIcon() }}</span>
+                    {{ $trendValue }}
+                </div>
+            @endif
+        </div>
+
+        {{-- Slot opcional para conteúdo extra (subtítulo, progresso etc.) --}}
+        @if($slot->isNotEmpty())
+            <div>
+                {{ $slot }}
             </div>
         @endif
-    </div>
-
-    {{-- Slot opcional para conteúdo extra (subtítulo, progresso etc.) --}}
-    @if($slot->isNotEmpty())
-        <div>
-            {{ $slot }}
-        </div>
     @endif
 </div>

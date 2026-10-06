@@ -1,28 +1,91 @@
 @php
     $editorId = 'editor_'.uniqid();
     $wireModel = $attributes->whereStartsWith('wire:model')->first();
+    $initialContent = $initialContent((string) $slot);
+    $editorKey = (string) ($attributes->get('data-editor-key') ?? $editorId);
+    $locked = $isLocked();
 @endphp
 
 <div
     data-editor-container
+    data-editor-key="{{ $editorKey }}"
+    @if($readonly) data-editor-readonly aria-readonly="true" @endif
     x-data="{
-        content: '',
-        editorId: '{{ $editorId }}',
-        disabled: {{ $disabled ? 'true' : 'false' }},
-        commands: {
-            bold: false,
-            italic: false,
-            underline: false,
-            orderedList: false,
-            unorderedList: false,
-        },
+        content: {{ $wireModel ? '$wire.get('.Js::from($wireModel).') ?? ' : '' }}{{ Js::from($initialContent) }},
+        editorId: {{ Js::from($editorId) }},
+        editorKey: {{ Js::from($editorKey) }},
+        wireModel: {{ Js::from($wireModel) }},
+        disabled: {{ $locked ? 'true' : 'false' }},
+        savedRange: null,
+        linkOpen: false,
+        linkUrl: '',
 
         init() {
-            // O TipTap será inicializado aqui quando o JS for carregado no frontend.
-            // Este componente fornece a estrutura HTML/Alpine para integração futura.
-            if (typeof window.initTiptapEditor === 'function') {
-                window.initTiptapEditor(this, this.editorId);
+            // Hidratação inicial: o valor do servidor (ou de `value`) entra na área editável.
+            this.hydrate(this.content);
+
+            // Reidratação: quando `content` muda por fora da área editável, ela é reescrita.
+            this.$watch('content', (value) => {
+                if (this.$refs.content && value !== this.$refs.content.innerHTML) {
+                    this.hydrate(value);
+                }
+            });
+
+            // Com `wire:model`, a mudança da propriedade no servidor volta para `content`.
+            if (this.wireModel && typeof this.$wire !== 'undefined' && typeof this.$wire.$watch === 'function') {
+                this.$wire.$watch(this.wireModel, (value) => {
+                    if ((value ?? '') !== this.content) {
+                        this.content = value ?? '';
+                    }
+                });
             }
+        },
+
+        hydrate(value) {
+            if (! this.$refs.content) return;
+            this.$refs.content.innerHTML = value ?? '';
+        },
+
+        // A seleção é salva a cada interação: clicar fora da área editável (chip de
+        // variável, campo de link) apaga a seleção do documento.
+        saveSelection() {
+            const selection = window.getSelection();
+            if (! selection || selection.rangeCount === 0) return;
+
+            const range = selection.getRangeAt(0);
+            if (this.$refs.content && this.$refs.content.contains(range.commonAncestorContainer)) {
+                this.savedRange = range.cloneRange();
+            }
+        },
+
+        restoreSelection() {
+            if (! this.$refs.content) return;
+            this.$refs.content.focus();
+
+            const selection = window.getSelection();
+            if (! selection) return;
+
+            if (this.savedRange) {
+                selection.removeAllRanges();
+                selection.addRange(this.savedRange);
+                return;
+            }
+
+            // Sem seleção salva, o cursor vai para o fim do conteúdo.
+            const range = document.createRange();
+            range.selectNodeContents(this.$refs.content);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        },
+
+        insertAtCursor(text) {
+            if (this.disabled) return;
+
+            this.restoreSelection();
+            document.execCommand('insertText', false, text);
+            this.saveSelection();
+            this.syncContent();
         },
 
         execCommand(command) {
@@ -33,54 +96,66 @@
         },
 
         insertOrderedList() {
-            if (this.disabled) return;
-            document.execCommand('insertOrderedList', false, null);
-            this.$refs.content.focus();
-            this.syncContent();
+            this.execCommand('insertOrderedList');
         },
 
         insertUnorderedList() {
+            this.execCommand('insertUnorderedList');
+        },
+
+        // O link é pedido num campo inline do próprio editor, nunca em diálogo nativo.
+        openLink() {
             if (this.disabled) return;
-            document.execCommand('insertUnorderedList', false, null);
-            this.$refs.content.focus();
+            this.saveSelection();
+            this.linkUrl = '';
+            this.linkOpen = true;
+            this.$nextTick(() => this.$refs.linkInput && this.$refs.linkInput.focus());
+        },
+
+        applyLink() {
+            const url = this.linkUrl.trim();
+            this.linkOpen = false;
+            this.linkUrl = '';
+            if (this.disabled || url === '') return;
+
+            this.restoreSelection();
+            document.execCommand('createLink', false, url);
+            this.saveSelection();
             this.syncContent();
         },
 
-        insertLink() {
-            if (this.disabled) return;
-            const url = prompt('Informe a URL do link:');
-            if (url) {
-                document.execCommand('createLink', false, url);
-                this.$refs.content.focus();
-                this.syncContent();
-            }
+        cancelLink() {
+            this.linkOpen = false;
+            this.linkUrl = '';
+            this.restoreSelection();
         },
 
         undo() {
-            if (this.disabled) return;
-            document.execCommand('undo', false, null);
-            this.$refs.content.focus();
-            this.syncContent();
+            this.execCommand('undo');
         },
 
         redo() {
-            if (this.disabled) return;
-            document.execCommand('redo', false, null);
-            this.$refs.content.focus();
-            this.syncContent();
+            this.execCommand('redo');
         },
 
         syncContent() {
             this.content = this.$refs.content.innerHTML;
+
+            // A ordem é o contrato: o `x-model` do input oculto devolve `value` para
+            // `content` ao ouvir `input`. Escrever o `value` antes de disparar o evento
+            // torna essa devolução idempotente; ao contrário, o valor antigo sobrescreve
+            // o que acabou de ser sincronizado.
+            this.$refs.hiddenInput.value = this.content;
             this.$refs.hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
         },
     }"
-    class="rounded-lg overflow-hidden bg-[#f3f3ff] {{ $disabled ? 'opacity-50 cursor-not-allowed' : '' }}"
+    @editor-insert.window="if ($event.detail.editor === editorKey) { insertAtCursor($event.detail.text) }"
+    {{ $attributes->only('class')->merge(['class' => 'rounded-lg overflow-hidden bg-surface-container-low'.($disabled ? ' opacity-50 cursor-not-allowed' : '')]) }}
 >
     {{-- Toolbar --}}
     <div
         data-editor-toolbar
-        class="flex items-center gap-0.5 px-2 py-1.5 border-b border-[#e2e6f1] bg-[#f3f3ff]"
+        class="flex items-center gap-0.5 px-2 py-1.5 border-b border-outline-variant bg-surface-container-low"
     >
         {{-- Bold --}}
         <button
@@ -89,7 +164,7 @@
             @click="execCommand('bold')"
             :disabled="disabled"
             title="Negrito"
-            class="p-1.5 rounded text-[#71757e] hover:bg-[#e2e6f1] hover:text-[#1a1f2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            class="{{ $toolbarButtonClasses() }}"
         >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
@@ -104,7 +179,7 @@
             @click="execCommand('italic')"
             :disabled="disabled"
             title="Itálico"
-            class="p-1.5 rounded text-[#71757e] hover:bg-[#e2e6f1] hover:text-[#1a1f2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            class="{{ $toolbarButtonClasses() }}"
         >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="4" x2="10" y2="4"/>
@@ -120,7 +195,7 @@
             @click="execCommand('underline')"
             :disabled="disabled"
             title="Sublinhado"
-            class="p-1.5 rounded text-[#71757e] hover:bg-[#e2e6f1] hover:text-[#1a1f2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            class="{{ $toolbarButtonClasses() }}"
         >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/>
@@ -128,7 +203,7 @@
             </svg>
         </button>
 
-        <div class="w-px h-4 bg-[#e2e6f1] mx-1"></div>
+        <div class="w-px h-4 bg-outline-variant mx-1"></div>
 
         {{-- Lista ordenada --}}
         <button
@@ -137,7 +212,7 @@
             @click="insertOrderedList()"
             :disabled="disabled"
             title="Lista ordenada"
-            class="p-1.5 rounded text-[#71757e] hover:bg-[#e2e6f1] hover:text-[#1a1f2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            class="{{ $toolbarButtonClasses() }}"
         >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="10" y1="6" x2="21" y2="6"/>
@@ -156,7 +231,7 @@
             @click="insertUnorderedList()"
             :disabled="disabled"
             title="Lista não-ordenada"
-            class="p-1.5 rounded text-[#71757e] hover:bg-[#e2e6f1] hover:text-[#1a1f2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            class="{{ $toolbarButtonClasses() }}"
         >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="8" y1="6" x2="21" y2="6"/>
@@ -168,24 +243,26 @@
             </svg>
         </button>
 
-        <div class="w-px h-4 bg-[#e2e6f1] mx-1"></div>
+        @unless($withoutLink)
+            <div class="w-px h-4 bg-outline-variant mx-1"></div>
 
-        {{-- Link --}}
-        <button
-            type="button"
-            data-action="link"
-            @click="insertLink()"
-            :disabled="disabled"
-            title="Inserir link"
-            class="p-1.5 rounded text-[#71757e] hover:bg-[#e2e6f1] hover:text-[#1a1f2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-            </svg>
-        </button>
+            {{-- Link --}}
+            <button
+                type="button"
+                data-action="link"
+                @click="openLink()"
+                :disabled="disabled"
+                title="Inserir link"
+                class="{{ $toolbarButtonClasses() }}"
+            >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+            </button>
+        @endunless
 
-        <div class="w-px h-4 bg-[#e2e6f1] mx-1"></div>
+        <div class="w-px h-4 bg-outline-variant mx-1"></div>
 
         {{-- Desfazer --}}
         <button
@@ -194,7 +271,7 @@
             @click="undo()"
             :disabled="disabled"
             title="Desfazer"
-            class="p-1.5 rounded text-[#71757e] hover:bg-[#e2e6f1] hover:text-[#1a1f2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            class="{{ $toolbarButtonClasses() }}"
         >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 7v6h6"/>
@@ -209,7 +286,7 @@
             @click="redo()"
             :disabled="disabled"
             title="Refazer"
-            class="p-1.5 rounded text-[#71757e] hover:bg-[#e2e6f1] hover:text-[#1a1f2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            class="{{ $toolbarButtonClasses() }}"
         >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 7v6h-6"/>
@@ -218,15 +295,51 @@
         </button>
     </div>
 
+    @unless($withoutLink)
+        {{-- Campo inline do link (substitui o diálogo nativo) --}}
+        <div
+            data-editor-link-field
+            x-show="linkOpen"
+            x-cloak
+            class="flex items-center gap-2 px-2 py-1.5 border-b border-outline-variant bg-surface-container-low"
+        >
+            <span class="material-symbols-outlined text-base text-on-surface-variant">link</span>
+            <input
+                x-ref="linkInput"
+                type="url"
+                x-model="linkUrl"
+                @keydown.enter.prevent="applyLink()"
+                @keydown.escape.prevent="cancelLink()"
+                placeholder="https://"
+                aria-label="URL do link"
+                class="flex-1 min-w-0 h-8 px-2 rounded border border-outline-variant bg-surface-container-lowest text-sm text-on-surface focus:outline-none focus:border-primary"
+            />
+            <button
+                type="button"
+                data-editor-link-apply
+                @click="applyLink()"
+                class="px-2 h-8 rounded text-xs font-semibold text-primary hover:bg-surface-container-high transition-colors"
+            >Aplicar</button>
+            <button
+                type="button"
+                data-editor-link-cancel
+                @click="cancelLink()"
+                class="px-2 h-8 rounded text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high transition-colors"
+            >Cancelar</button>
+        </div>
+    @endunless
+
     {{-- Área de conteúdo editável --}}
     <div
         x-ref="content"
         data-editor-content
-        contenteditable="{{ $disabled ? 'false' : 'true' }}"
+        contenteditable="{{ $locked ? 'false' : 'true' }}"
         @input="syncContent()"
-        @keyup="syncContent()"
+        @keyup="saveSelection(); syncContent()"
+        @mouseup="saveSelection()"
+        @blur="saveSelection()"
         style="min-height: {{ $height }};"
-        class="px-4 py-3 text-sm text-[#1a1f2e] outline-none focus:outline-none bg-[#f3f3ff] {{ $disabled ? 'cursor-not-allowed' : '' }}"
+        class="px-4 py-3 text-sm text-on-surface outline-none focus:outline-none bg-surface-container-low {{ $locked ? 'cursor-not-allowed' : '' }}"
         @if($placeholder)
             data-placeholder="{{ $placeholder }}"
             x-bind:class="content === '' ? 'empty' : ''"

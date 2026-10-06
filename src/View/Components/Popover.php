@@ -2,52 +2,76 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Jetax\DesignSystem\View\Components\Concerns\ValidatesVariant;
 
 class Popover extends Component
 {
+    use ValidatesVariant;
+
     /**
-     * Posições disponíveis para o popover.
+     * Posições disponíveis para o painel em relação ao gatilho.
+     *
+     * `top` e `bottom` centralizam o painel no gatilho; os sufixos `-start` e `-end`
+     * alinham pela borda esquerda ou direita.
      */
-    public const POSITIONS = ['top', 'bottom', 'left', 'right'];
+    public const POSITIONS = ['bottom', 'bottom-start', 'bottom-end', 'top', 'top-start', 'top-end'];
 
     /**
      * Cria uma nova instância do componente de popover.
+     *
+     * Com `open` nulo o popover controla a própria visibilidade (o gatilho alterna). Com
+     * `open` booleano a visibilidade segue o servidor, e o fechamento por clique fora ou Esc
+     * emite o evento `close` para o consumidor atualizar o estado.
      */
     public function __construct(
         public string $position = 'bottom',
-    ) {}
-
-    /**
-     * Retorna as classes CSS de posicionamento do popover.
-     */
-    public function popoverPositionClasses(): string
-    {
-        return match ($this->position) {
-            'top'   => 'bottom-full left-1/2 -translate-x-1/2 mb-2',
-            'left'  => 'right-full top-1/2 -translate-y-1/2 mr-2',
-            'right' => 'left-full top-1/2 -translate-y-1/2 ml-2',
-            default => 'top-full left-1/2 -translate-x-1/2 mt-2',
-        };
+        public ?bool $open = null,
+    ) {
+        $this->position = $this->validateVariant($position, self::POSITIONS, 'bottom', 'position');
     }
 
     /**
-     * Retorna as classes CSS da seta indicadora.
+     * Indica se a visibilidade é controlada pelo consumidor via `:open`.
      */
-    public function arrowClasses(): string
+    public function controlled(): bool
     {
-        return match ($this->position) {
-            'top'   => 'bottom-0 left-1/2 -translate-x-1/2 translate-y-full border-t-white border-l-transparent border-r-transparent border-b-transparent',
-            'left'  => 'right-0 top-1/2 -translate-y-1/2 translate-x-full border-l-white border-t-transparent border-b-transparent border-r-transparent',
-            'right' => 'left-0 top-1/2 -translate-y-1/2 -translate-x-full border-r-white border-t-transparent border-b-transparent border-l-transparent',
-            default => 'top-0 left-1/2 -translate-x-1/2 -translate-y-full border-b-white border-l-transparent border-r-transparent border-t-transparent',
+        return $this->open !== null;
+    }
+
+    /**
+     * Indica se o painel nasce aberto.
+     */
+    public function isOpen(): bool
+    {
+        return $this->open === true;
+    }
+
+    /**
+     * Direção vertical do painel em relação ao gatilho: `top` ou `bottom`.
+     */
+    public function vertical(): string
+    {
+        return str_starts_with($this->position, 'top') ? 'top' : 'bottom';
+    }
+
+    /**
+     * Alinhamento horizontal do painel em relação ao gatilho: `start`, `center` ou `end`.
+     */
+    public function horizontal(): string
+    {
+        return match (true) {
+            str_ends_with($this->position, '-start') => 'start',
+            str_ends_with($this->position, '-end') => 'end',
+            default => 'center',
         };
     }
 
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.popover');
     }

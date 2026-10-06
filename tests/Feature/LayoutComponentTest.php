@@ -1,7 +1,5 @@
 <?php
 
-use Jetax\DesignSystem\View\Components\Layout;
-
 it('renders sidebar, topbar, and workspace', function () {
     $view = $this->blade('<x-jetax-layout title="Test">Content</x-jetax-layout>');
 

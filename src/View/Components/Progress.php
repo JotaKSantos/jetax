@@ -20,7 +20,7 @@ class Progress extends Component
         public int|float $max = 100,
         public string $color = 'primary',
         public string $size = 'md',
-        public string|null $label = null,
+        public ?string $label = null,
         public bool $animated = false,
     ) {}
 
@@ -57,7 +57,7 @@ class Progress extends Component
             'success' => 'bg-emerald-500',
             'warning' => 'bg-amber-500',
             'danger' => 'bg-red-600',
-            default => 'bg-[#0061a5]',
+            default => 'bg-primary',
         };
     }
 

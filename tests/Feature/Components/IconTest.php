@@ -1,7 +1,5 @@
 <?php
 
-use Jetax\DesignSystem\View\Components\Icon;
-
 it('test_renders_material_symbol_element', function () {
     $view = $this->blade('<x-jetax-icon name="settings" />');
 

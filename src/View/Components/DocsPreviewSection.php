@@ -2,6 +2,7 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class DocsPreviewSection extends Component
@@ -17,7 +18,7 @@ class DocsPreviewSection extends Component
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.docs-preview-section');
     }

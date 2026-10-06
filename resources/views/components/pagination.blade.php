@@ -7,6 +7,9 @@
     $isFirst   = $isFirstPage();
     $isLast    = $isLastPage();
     $elements  = $elements();
+    $pageName  = $pageName();
+    $scrollSnippet = $scrollIntoViewSnippet();
+    $arrowIconClass = 'material-symbols-outlined text-lg';
 @endphp
 
 <div {{ $attributes->merge(['class' => 'p-4 bg-surface-container-low flex flex-wrap items-center justify-between gap-4']) }}>
@@ -26,21 +29,27 @@
     <div class="flex items-center gap-6">
 
         {{-- Seletor de itens por página --}}
-        <div class="flex items-center gap-3">
-            <span class="text-sm text-outline hidden md:inline">Linhas por página:</span>
-            <select
-                name="per_page"
-                class="bg-surface-container-lowest border border-outline-variant rounded-lg text-xs font-semibold focus:ring-primary focus:border-primary py-1.5 pl-3 pr-8 transition-colors"
-                onchange="window.location.href = '{{ $paginator->url(1) }}'.replace(/([?&]per_page=)[^&]*/, '$1' + this.value).replace(/([?&]page=)[^&]*/, '$1' + '1') || window.location.pathname + '?per_page=' + this.value"
-            >
-                @foreach(\Jetax\DesignSystem\View\Components\Pagination::PER_PAGE_OPTIONS as $option)
-                    <option
-                        value="{{ $option }}"
-                        @selected($paginator->perPage() === $option)
-                    >{{ $option }}</option>
-                @endforeach
-            </select>
-        </div>
+        @if($showsPerPageSelector())
+            <div class="flex items-center gap-3">
+                <span class="text-sm text-outline hidden md:inline">Linhas por página:</span>
+                <select
+                    name="per_page"
+                    class="bg-surface-container-lowest border border-outline-variant rounded-lg text-xs font-semibold focus:ring-primary focus:border-primary py-1.5 pl-3 pr-8 transition-colors"
+                    @if($livewire)
+                        wire:model.live="{{ $perPageModel }}"
+                    @else
+                        onchange="window.location.href = '{{ $paginator->url(1) }}'.replace(/([?&]per_page=)[^&]*/, '$1' + this.value).replace(/([?&]page=)[^&]*/, '$1' + '1') || window.location.pathname + '?per_page=' + this.value"
+                    @endif
+                >
+                    @foreach(\Jetax\DesignSystem\View\Components\Pagination::PER_PAGE_OPTIONS as $option)
+                        <option
+                            value="{{ $option }}"
+                            @selected($paginator->perPage() === $option)
+                        >{{ $option }}</option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
 
         {{-- Navegação de páginas --}}
         <nav class="flex items-center gap-1" aria-label="Paginação">
@@ -52,18 +61,29 @@
                     disabled
                     aria-disabled="true"
                     aria-label="Página anterior"
-                    class="w-8 h-8 flex items-center justify-center rounded-lg text-outline/40 cursor-not-allowed transition-all"
+                    class="{{ $disabledArrowClasses() }}"
                 >
-                    <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    <span class="{{ $arrowIconClass }}">chevron_left</span>
+                </button>
+            @elseif($livewire)
+                <button
+                    type="button"
+                    wire:click="previousPage('{{ $pageName }}')"
+                    @if($scrollSnippet !== '') x-on:click="{{ $scrollSnippet }}" @endif
+                    wire:loading.attr="disabled"
+                    aria-label="Página anterior"
+                    class="{{ $arrowClasses() }}"
+                >
+                    <span class="{{ $arrowIconClass }}">chevron_left</span>
                 </button>
             @else
                 <a
                     href="{{ $previousPageUrl() }}"
                     wire:navigate
                     aria-label="Página anterior"
-                    class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-container transition-all"
+                    class="{{ $arrowClasses() }}"
                 >
-                    <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    <span class="{{ $arrowIconClass }}">chevron_left</span>
                 </a>
             @endif
 
@@ -76,14 +96,23 @@
                         <button
                             type="button"
                             aria-current="page"
-                            class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold"
+                            class="{{ $currentPageClasses() }}"
+                        >{{ $element }}</button>
+                    @elseif($livewire)
+                        <button
+                            type="button"
+                            wire:click="gotoPage({{ $element }}, '{{ $pageName }}')"
+                            @if($scrollSnippet !== '') x-on:click="{{ $scrollSnippet }}" @endif
+                            wire:key="paginator-{{ $pageName }}-page-{{ $element }}"
+                            aria-label="Ir para a página {{ $element }}"
+                            class="{{ $pageClasses() }}"
                         >{{ $element }}</button>
                     @else
                         <a
                             href="{{ $pageUrl($element) }}"
                             wire:navigate
                             aria-label="Ir para a página {{ $element }}"
-                            class="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container text-xs font-medium transition-all"
+                            class="{{ $pageClasses() }}"
                         >{{ $element }}</a>
                     @endif
                 @endforeach
@@ -101,18 +130,29 @@
                     disabled
                     aria-disabled="true"
                     aria-label="Próxima página"
-                    class="w-8 h-8 flex items-center justify-center rounded-lg text-outline/40 cursor-not-allowed transition-all"
+                    class="{{ $disabledArrowClasses() }}"
                 >
-                    <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    <span class="{{ $arrowIconClass }}">chevron_right</span>
+                </button>
+            @elseif($livewire)
+                <button
+                    type="button"
+                    wire:click="nextPage('{{ $pageName }}')"
+                    @if($scrollSnippet !== '') x-on:click="{{ $scrollSnippet }}" @endif
+                    wire:loading.attr="disabled"
+                    aria-label="Próxima página"
+                    class="{{ $arrowClasses() }}"
+                >
+                    <span class="{{ $arrowIconClass }}">chevron_right</span>
                 </button>
             @else
                 <a
                     href="{{ $nextPageUrl() }}"
                     wire:navigate
                     aria-label="Próxima página"
-                    class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-container transition-all"
+                    class="{{ $arrowClasses() }}"
                 >
-                    <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    <span class="{{ $arrowIconClass }}">chevron_right</span>
                 </a>
             @endif
 

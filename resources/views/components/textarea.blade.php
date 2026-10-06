@@ -1,5 +1,5 @@
 @php
-    $textareaId = $name ? $name.'_'.uniqid() : 'textarea_'.uniqid();
+    $textareaId = $attributes->get('id') ?? $fieldId('textarea', (string) $attributes->get('placeholder', ''));
     $isDisabled = $attributes->get('disabled') !== null || $attributes->has('disabled');
     $errorMessage = isset($errors) && $name ? $errors->first($name) : '';
     $hasServerError = ! empty($errorMessage);
@@ -9,8 +9,8 @@
 <div class="space-y-1.5">
     @if($label)
         <label
-            @if($name) for="{{ $textareaId }}" @endif
-            class="block text-[0.75rem] font-semibold text-[#71757e] uppercase tracking-wider font-body"
+            for="{{ $textareaId }}"
+            class="{{ $labelClasses() }}"
         >
             {{ $label }}
         </label>
@@ -26,7 +26,7 @@
             x-init="autoResize($el)"
             x-on:input="autoResize($el)"
         @endif
-        {{ $attributes->except(['class', 'disabled'])->merge([
+        {{ $attributes->except(['id', 'disabled'])->merge([
             'class' => $textareaClasses($hasError),
         ]) }}
     >{{ $slot }}</textarea>

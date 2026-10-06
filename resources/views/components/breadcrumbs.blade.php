@@ -32,7 +32,7 @@
         {{-- Último item: item atual, sem link --}}
         @if($currentItem())
             <li>
-                <span class="text-[#0061a5] font-semibold">{{ $currentItem()['label'] }}</span>
+                <span class="text-primary font-semibold">{{ $currentItem()['label'] }}</span>
             </li>
         @endif
     </ol>

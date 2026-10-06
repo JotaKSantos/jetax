@@ -43,6 +43,6 @@ class DateColumn extends Column
 
         $formatted = Carbon::parse($value)->translatedFormat($this->format);
 
-        return new HtmlString('<span>' . e($formatted) . '</span>');
+        return new HtmlString('<span>'.e($formatted).'</span>');
     }
 }

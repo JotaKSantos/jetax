@@ -1,5 +1,5 @@
 @php
-    $inputId = $name ? $name.'_'.uniqid() : 'input_'.uniqid();
+    $inputId = $attributes->get('id') ?? $fieldId('input', (string) $attributes->get('placeholder', ''));
     $isDisabled = $attributes->get('disabled') !== null || $attributes->has('disabled');
     $isReadonly = $readonly || $attributes->get('readonly') !== null || $attributes->has('readonly');
     $maskPattern = $hasMask() ? $maskPattern() : '';
@@ -12,8 +12,8 @@
 <div class="space-y-1.5">
     @if($label)
         <label
-            @if($name) for="{{ $inputId }}" @endif
-            class="block text-[0.75rem] font-semibold text-[#71757e] uppercase tracking-wider font-body"
+            for="{{ $inputId }}"
+            class="{{ $labelClasses() }}"
         >
             {{ $label }}
         </label>
@@ -21,7 +21,7 @@
 
     <div class="relative">
         @if($icon)
-            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] pointer-events-none">{{ $icon }}</span>
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] pointer-events-none">{{ $icon }}</span>
         @endif
 
         <input
@@ -34,8 +34,7 @@
                 x-data="{ mask: '{{ $maskPattern }}' }"
                 x-mask="{{ $maskPattern }}"
             @endif
-            style="height: 44px;"
-            {{ $attributes->except(['class', 'readonly', 'disabled'])->merge([
+            {{ $attributes->except(['id', 'readonly', 'disabled'])->merge([
                 'class' => $inputClasses($hasError).($icon ? ' pl-10' : '').($isDisabled ? ' opacity-50 cursor-not-allowed' : ''),
             ]) }}
         />

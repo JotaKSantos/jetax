@@ -2,12 +2,16 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Toggle extends Component
 {
     /**
-     * Identificador único gerado para associar o label ao toggle.
+     * Identificador do toggle, usado para associar o label ao botão.
+     *
+     * Derivado do `name` quando existe: um `id` que muda a cada render faz o
+     * morph do Livewire trocar o elemento no DOM e perder foco e transição.
      */
     public string $toggleId;
 
@@ -20,13 +24,13 @@ class Toggle extends Component
         public string $name = '',
         public bool $checked = false,
     ) {
-        $this->toggleId = $name ? $name.'_'.uniqid() : 'toggle_'.uniqid();
+        $this->toggleId = $name !== '' ? 'toggle_'.$name : 'toggle_'.uniqid();
     }
 
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.toggle');
     }

@@ -3,6 +3,7 @@
 namespace Jetax\DesignSystem\View\Components;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Pagination extends Component
@@ -22,7 +23,76 @@ class Pagination extends Component
      */
     public function __construct(
         public LengthAwarePaginator $paginator,
+        public bool $livewire = false,
+        public string|bool $scrollTo = 'body',
+        public ?string $perPageModel = null,
     ) {}
+
+    /**
+     * Nome do parâmetro de página do paginador (`page` por padrão).
+     */
+    public function pageName(): string
+    {
+        return method_exists($this->paginator, 'getPageName')
+            ? $this->paginator->getPageName()
+            : 'page';
+    }
+
+    /**
+     * Classes de uma página navegável, iguais nos modos `href` e `livewire`.
+     */
+    public function pageClasses(): string
+    {
+        return 'w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container text-xs font-medium transition-all';
+    }
+
+    /**
+     * Classes da página atual, iguais nos modos `href` e `livewire`.
+     */
+    public function currentPageClasses(): string
+    {
+        return 'w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary text-xs font-bold';
+    }
+
+    /**
+     * Classes das setas anterior/próxima habilitadas.
+     */
+    public function arrowClasses(): string
+    {
+        return 'w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-container transition-all';
+    }
+
+    /**
+     * Classes das setas anterior/próxima desabilitadas.
+     */
+    public function disabledArrowClasses(): string
+    {
+        return 'w-8 h-8 flex items-center justify-center rounded-lg text-outline/40 cursor-not-allowed transition-all';
+    }
+
+    /**
+     * Trecho Alpine que rola até `scrollTo` ao trocar de página no modo
+     * `livewire`. Vazio quando `scrollTo` é `false`.
+     */
+    public function scrollIntoViewSnippet(): string
+    {
+        if ($this->scrollTo === false || $this->scrollTo === '') {
+            return '';
+        }
+
+        $target = $this->scrollTo === true ? 'body' : $this->scrollTo;
+
+        return "(\$el.closest('{$target}') || document.querySelector('{$target}')).scrollIntoView()";
+    }
+
+    /**
+     * Indica se o seletor de itens por página é exibido. No modo `livewire`
+     * ele só aparece com `per-page-model`, a propriedade que recebe o valor.
+     */
+    public function showsPerPageSelector(): bool
+    {
+        return ! $this->livewire || $this->perPageModel !== null;
+    }
 
     /**
      * Retorna o número do primeiro item exibido na página atual.
@@ -149,7 +219,7 @@ class Pagination extends Component
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.pagination');
     }

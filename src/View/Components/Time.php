@@ -2,10 +2,14 @@
 
 namespace Jetax\DesignSystem\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Jetax\DesignSystem\View\Components\Concerns\FieldStyles;
 
 class Time extends Component
 {
+    use FieldStyles;
+
     /**
      * Formatos de exibição disponíveis para o input de horário.
      */
@@ -25,13 +29,14 @@ class Time extends Component
     ) {}
 
     /**
-     * Retorna as classes CSS do input baseadas no estado atual.
+     * Retorna as classes CSS do input baseadas no estado atual. A altura de
+     * 40px vem da classe h-10, nunca de style inline.
      */
     public function inputClasses(): string
     {
-        $base = 'w-full rounded-lg px-4 text-sm transition-all outline-none';
+        $base = 'w-full h-10 rounded-lg px-4 text-sm transition-all outline-none';
 
-        return $base.' bg-[#f3f3ff] border border-[#e2e6f1] focus:bg-white focus:border-[#0061a5] focus:shadow-[0_0_0_2px_rgba(0,97,165,0.1)]';
+        return $base.' bg-surface-input border border-outline-variant text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-2 focus:ring-primary/20';
     }
 
     /**
@@ -39,15 +44,15 @@ class Time extends Component
      */
     public function errorClasses(): string
     {
-        $base = 'w-full rounded-lg px-4 text-sm transition-all outline-none';
+        $base = 'w-full h-10 rounded-lg px-4 text-sm transition-all outline-none';
 
-        return $base.' bg-red-50 border border-red-500 focus:border-red-500 focus:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]';
+        return $base.' bg-error-container/30 border border-error text-on-surface focus:border-error focus:ring-2 focus:ring-error/20';
     }
 
     /**
      * Retorna a view do componente.
      */
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view('jetax::components.time');
     }

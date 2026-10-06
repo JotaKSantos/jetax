@@ -1,8 +1,5 @@
 <?php
 
-use Jetax\DesignSystem\View\Components\Carousel;
-use Jetax\DesignSystem\View\Components\CarouselItem;
-
 it('renders carousel items', function () {
     $view = $this->blade('
         <x-jetax-carousel>

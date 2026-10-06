@@ -21,7 +21,7 @@ it('renders badge column with variant based on value map', function () {
 
     Livewire::test(ShowcaseTable::class)
         ->assertSee('draft')
-        ->assertSee('bg-slate-50');
+        ->assertSee('bg-surface-container border border-outline-variant text-on-surface-variant');
 });
 
 it('maps multiple status values to distinct variants', function () {
@@ -31,10 +31,10 @@ it('maps multiple status values to distinct variants', function () {
 
     $response = Livewire::test(ShowcaseTable::class);
 
-    // neutral → bg-slate-50
-    $response->assertSee('bg-slate-50');
-    // success → bg-green-50
-    $response->assertSee('bg-green-50');
+    // neutral → bg-surface-container
+    $response->assertSee('bg-surface-container border border-outline-variant');
+    // success → bg-success/10
+    $response->assertSee('bg-success/10');
     // danger → bg-error/5
     $response->assertSee('bg-error/5');
 });

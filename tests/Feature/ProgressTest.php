@@ -16,7 +16,7 @@ it('test_aria_attributes_present', function () {
 
 it('test_color_classes_applied', function () {
     $view = $this->blade('<x-jetax-progress :value="50" color="primary" />');
-    $view->assertSee('bg-[#0061a5]', false);
+    $view->assertSee('bg-primary', false);
 
     $view = $this->blade('<x-jetax-progress :value="50" color="success" />');
     $view->assertSee('bg-emerald-500', false);

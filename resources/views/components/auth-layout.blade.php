@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @unless (config('jetax.animations', true)) data-jetax-animations="off" @endunless>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,7 +21,7 @@
 <body class="font-body antialiased min-h-screen bg-surface-container-lowest dark:bg-on-surface">
     <div class="jetax-auth-layout flex min-h-screen">
         {{-- Left Panel: Branding --}}
-        <div class="hidden lg:flex lg:w-[58%] bg-[#202947] relative overflow-hidden flex-col items-center justify-center p-12">
+        <div class="hidden lg:flex lg:w-[58%] bg-primary-deep relative overflow-hidden flex-col items-center justify-center p-12">
             {{-- Decorative blurs --}}
             <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-primary-container blur-3xl opacity-10"></div>
             <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-secondary blur-3xl opacity-5"></div>

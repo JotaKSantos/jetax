@@ -4,9 +4,12 @@ namespace Jetax\DesignSystem\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Jetax\DesignSystem\View\Components\Concerns\ValidatesVariant;
 
 class Badge extends Component
 {
+    use ValidatesVariant;
+
     /**
      * Variantes semânticas disponíveis.
      */
@@ -24,13 +27,19 @@ class Badge extends Component
 
     /**
      * Cria uma nova instância do componente de badge.
+     *
+     * `color` é alias de `variant` e, quando informado, prevalece. Por ser
+     * prop, não chega ao HTML como atributo.
      */
     public function __construct(
         public string $variant = 'neutral',
         public string $style = 'soft',
         public bool $square = false,
         public string $size = 'md',
-    ) {}
+        ?string $color = null,
+    ) {
+        $this->variant = $this->validateVariant($color ?? $variant, self::VARIANTS, 'neutral');
+    }
 
     /**
      * Retorna as classes de borda arredondada do badge.
@@ -61,11 +70,11 @@ class Badge extends Component
     protected function softClasses(): string
     {
         return match ($this->variant) {
-            'success' => 'bg-green-500/10 text-green-700',
+            'success' => 'bg-success/10 text-success-text',
             'danger' => 'bg-error/10 text-error',
-            'warning' => 'bg-amber-500/10 text-amber-700',
-            'info' => 'bg-cyan-500/10 text-cyan-700',
-            default => 'bg-slate-100 text-slate-600',
+            'warning' => 'bg-warning/10 text-warning',
+            'info' => 'bg-info/10 text-info',
+            default => 'bg-surface-container-high text-on-surface-variant',
         };
     }
 
@@ -75,11 +84,11 @@ class Badge extends Component
     protected function solidClasses(): string
     {
         return match ($this->variant) {
-            'success' => 'bg-green-600 text-white',
-            'danger' => 'bg-error text-white',
-            'warning' => 'bg-amber-500 text-white',
-            'info' => 'bg-cyan-600 text-white',
-            default => 'bg-[#141A30] text-white',
+            'success' => 'bg-success-solid text-white',
+            'danger' => 'bg-danger-solid text-white',
+            'warning' => 'bg-warning-solid text-white',
+            'info' => 'bg-secondary-container text-white',
+            default => 'bg-neutral-solid text-white',
         };
     }
 
@@ -89,11 +98,11 @@ class Badge extends Component
     protected function statusClasses(): string
     {
         return match ($this->variant) {
-            'success' => 'bg-green-50 border border-green-100 text-green-700',
+            'success' => 'bg-success/10 border border-success/20 text-success-text',
             'danger' => 'bg-error/5 border border-error/10 text-error',
-            'warning' => 'bg-amber-50 border border-amber-100 text-amber-700',
-            'info' => 'bg-blue-50 border border-blue-100 text-blue-700',
-            default => 'bg-slate-50 border border-slate-200 text-slate-600',
+            'warning' => 'bg-warning/10 border border-warning/20 text-warning',
+            'info' => 'bg-info/10 border border-info/20 text-info',
+            default => 'bg-surface-container border border-outline-variant text-on-surface-variant',
         };
     }
 
@@ -103,11 +112,11 @@ class Badge extends Component
     public function dotClasses(): string
     {
         return match ($this->variant) {
-            'success' => 'bg-green-500',
+            'success' => 'bg-success',
             'danger' => 'bg-error',
-            'warning' => 'bg-amber-500',
-            'info' => 'bg-blue-500',
-            default => 'bg-slate-400',
+            'warning' => 'bg-warning',
+            'info' => 'bg-info',
+            default => 'bg-on-surface-variant',
         };
     }
 

@@ -23,17 +23,17 @@ $codePositions = <<<'BLADE'
     </x-slot:content>
 </x-jetax-popover>
 
-<x-jetax-popover position="left">
-    <x-jetax-button>Left</x-jetax-button>
+<x-jetax-popover position="bottom-start">
+    <x-jetax-button>Bottom start</x-jetax-button>
     <x-slot:content>
-        <p>Popover a esquerda.</p>
+        <p>Popover embaixo, alinhado à esquerda do gatilho.</p>
     </x-slot:content>
 </x-jetax-popover>
 
-<x-jetax-popover position="right">
-    <x-jetax-button>Right</x-jetax-button>
+<x-jetax-popover position="bottom-end">
+    <x-jetax-button>Bottom end</x-jetax-button>
     <x-slot:content>
-        <p>Popover a direita.</p>
+        <p>Popover embaixo, alinhado à direita do gatilho.</p>
     </x-slot:content>
 </x-jetax-popover>
 BLADE;
@@ -68,17 +68,17 @@ BLADE;
                 </x-slot:content>
             </x-jetax-popover>
 
-            <x-jetax-popover position="left">
-                <x-jetax-button>Left</x-jetax-button>
+            <x-jetax-popover position="bottom-start">
+                <x-jetax-button>Bottom start</x-jetax-button>
                 <x-slot:content>
-                    <p>Popover a esquerda.</p>
+                    <p>Popover embaixo, alinhado à esquerda do gatilho.</p>
                 </x-slot:content>
             </x-jetax-popover>
 
-            <x-jetax-popover position="right">
-                <x-jetax-button>Right</x-jetax-button>
+            <x-jetax-popover position="bottom-end">
+                <x-jetax-button>Bottom end</x-jetax-button>
                 <x-slot:content>
-                    <p>Popover a direita.</p>
+                    <p>Popover embaixo, alinhado à direita do gatilho.</p>
                 </x-slot:content>
             </x-jetax-popover>
         </div>
