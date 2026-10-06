@@ -20,7 +20,7 @@ jobs:
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           # Extrair seção do CHANGELOG entre a versão atual e a próxima
-          NOTES=$(awk "/^## \[${VERSION}\]/{flag=1;next}/^## \[/{flag=0}flag" packages/jksantos/jetax/CHANGELOG.md)
+          NOTES=$(awk "/^## \[${VERSION}\]/{flag=1;next}/^## \[/{flag=0}flag" CHANGELOG.md)
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           echo "$NOTES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
