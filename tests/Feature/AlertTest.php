@@ -34,9 +34,32 @@ it('test_rich_style_has_left_border', function () {
 it('test_dismissible_has_close_button', function () {
     $view = $this->blade('<x-jetax-alert message="Alerta dismissivel" :dismissible="true" />');
 
-    $view->assertSee('close', false);
+    $view->assertSee('fa-solid fa-xmark', false);
     $view->assertSee('x-on:click', false);
 });
+
+it('test_icon_accepts_brands_prefix', function () {
+    $html = (string) $this->blade('<x-jetax-alert icon="brands:whatsapp" message="Mensagem" />');
+
+    expect($html)->toContain('fa-brands fa-whatsapp')
+        ->not->toContain('brands:');
+});
+
+it('test_icon_without_prefix_is_solid', function () {
+    $html = (string) $this->blade('<x-jetax-alert icon="bell" message="Mensagem" />');
+
+    expect($html)->toContain('fa-solid fa-bell');
+});
+
+it('test_icon_in_every_style_is_font_awesome', function (string $style) {
+    $html = (string) $this->blade(
+        "<x-jetax-alert style=\"{$style}\" icon=\"regular:bell\" message=\"Mensagem\" title=\"Título\" :dismissible=\"true\" />"
+    );
+
+    expect($html)->toContain('fa-regular fa-bell')
+        ->toContain('fa-solid fa-xmark')
+        ->not->toContain('regular:');
+})->with(['solid', 'rich', 'soft']);
 
 it('test_hidden_when_no_message', function () {
     $view = $this->blade('<x-jetax-alert :message="null" />');

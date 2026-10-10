@@ -29,8 +29,8 @@ it('renders prev and next controls', function () {
             <x-jetax-carousel-item>Slide 1</x-jetax-carousel-item>
         </x-jetax-carousel>
     ');
-    $view->assertSee('chevron_left', false);
-    $view->assertSee('chevron_right', false);
+    $view->assertSee('fa-solid fa-chevron-left', false);
+    $view->assertSee('fa-solid fa-chevron-right', false);
 });
 
 it('reflects autoplay prop in alpine data', function () {

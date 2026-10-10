@@ -43,7 +43,7 @@
             class="ml-auto text-xs text-on-surface-variant hover:text-on-surface transition-colors inline-flex items-center gap-1"
             wire:click="clearSelection"
         >
-            <x-jetax-icon name="close" size="sm" />
+            <x-jetax-icon name="xmark" size="sm" />
             Cancelar seleção
         </button>
     </div>

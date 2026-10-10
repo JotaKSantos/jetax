@@ -61,9 +61,9 @@ $codeComponentes = <<<'BLADE'
                 </td>
                 <td class="px-6 py-2.5 text-right">
                     <div class="flex justify-end gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                        <x-jetax-button size="sm" style="soft" icon="visibility" />
-                        <x-jetax-button size="sm" style="soft" icon="edit" />
-                        <x-jetax-button size="sm" style="soft" color="danger" icon="delete" />
+                        <x-jetax-button size="sm" style="soft" icon="eye" />
+                        <x-jetax-button size="sm" style="soft" icon="pen" />
+                        <x-jetax-button size="sm" style="soft" color="danger" icon="trash" />
                     </div>
                 </td>
             </tr>
@@ -175,9 +175,9 @@ $clientsData = [
                         </td>
                         <td class="px-6 py-2.5 text-right">
                             <div class="flex justify-end gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                                <x-jetax-button size="sm" style="soft" icon="visibility" />
-                                <x-jetax-button size="sm" style="soft" icon="edit" />
-                                <x-jetax-button size="sm" style="soft" color="danger" icon="delete" />
+                                <x-jetax-button size="sm" style="soft" icon="eye" />
+                                <x-jetax-button size="sm" style="soft" icon="pen" />
+                                <x-jetax-button size="sm" style="soft" color="danger" icon="trash" />
                             </div>
                         </td>
                     </tr>

@@ -28,7 +28,7 @@ it('completed steps have check icon', function () {
             <x-jetax-step-item :step="1" label="Feito" />
         </x-jetax-step>
     ');
-    $view->assertSee('check', false);
+    $view->assertSee('fa-solid fa-check', false);
 });
 
 it('pending steps have muted class', function () {

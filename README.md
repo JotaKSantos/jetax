@@ -29,9 +29,13 @@
 - Totalmente publicável — customize qualquer view, config ou asset via `vendor:publish`
 - AlpineJS carregado automaticamente via `@livewireScripts` — zero configuração extra
 - Tipografia profissional com **Manrope** (headlines) e **Inter** (body)
-- Icones via **Material Symbols Outlined** com componente `<x-jetax-icon>`
+- Icones via **Font Awesome Free 6.7.2** (webfont importada pelo consumidor) com componente `<x-jetax-icon>` — veja [Icones](#icones)
 
 ---
+
+## Atualizando da 2.x
+
+A 3.0.0 troca o sistema de icones para a webfont do Font Awesome Free: marcacao `<i>` com classes FA, `weight`/`fill` removidas, prop `variant`, `icon` em `[estilo:]nome`, import do Font Awesome no CSS da aplicacao em layer e sem CDN, e tamanhos recalibrados pela regra ÷ 1,35. O passo a passo esta no [guia de migracao 2.x → 3.0](UPGRADE.md#guia-2x-30), e a lista completa de mudancas no [CHANGELOG](CHANGELOG.md).
 
 ## Atualizando da 1.x
 
@@ -81,18 +85,28 @@ export default defineConfig({
 });
 ```
 
-No seu `resources/css/app.css`, adicione os imports das fontes **antes de qualquer outro import**:
+Instale o **Font Awesome Free** em versao exata (o Jetax nao carrega folha de icone; quem importa e a aplicacao):
+
+```bash
+npm install --save-exact @fortawesome/fontawesome-free@6.7.2
+```
+
+No seu `resources/css/app.css`, adicione os imports das fontes e do Font Awesome **antes de qualquer outro import**:
 
 ```css
 /* 1. Google Fonts — deve vir PRIMEIRO, antes de qualquer outro @import */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;600;700;800&family=Inter:wght@400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
-/* 2. Tailwind CSS */
+/* 2. Font Awesome Free — em layer(base), antes do Tailwind */
+@import "@fortawesome/fontawesome-free/css/all.min.css" layer(base);
+
+/* 3. Tailwind CSS */
 @import "tailwindcss";
 ```
 
-> **Importante:** Os imports do Google Fonts e Material Symbols precisam vir **antes** de `@import "tailwindcss"` e do import do Jetax. Quando colocados dentro de `jetax.css`, o Vite/Tailwind gera alertas de build por restrições do CSS Modules.
+> **Importante:** O import do Google Fonts precisa vir **antes** de `@import "tailwindcss"` e do import do Jetax. Quando colocado dentro de `jetax.css`, o Vite/Tailwind gera alertas de build por restricoes do CSS Modules.
+
+> **Importante:** O Font Awesome entra com `layer(base)`, antes de `@import "tailwindcss"`. Fora de layer, a regra `.fa-solid { font-size: ... }` da folha vence as utilitarias (`text-[18px]`) e o tamanho do call site deixa de valer. As webfonts saem do `node_modules` no build do Vite — sem CDN nem kit.
 
 > O **Livewire 4+** tambem e obrigatorio. Instale com `composer require livewire/livewire` caso nao tenha.
 
@@ -119,13 +133,17 @@ No seu `resources/css/app.css`, adicione (caso o instalador nao tenha feito auto
 ```css
 /* Google Fonts — SEMPRE antes de qualquer outro @import */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;600;700;800&family=Inter:wght@400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+
+/* Font Awesome Free — em layer(base), antes de @import "tailwindcss" */
+@import "@fortawesome/fontawesome-free/css/all.min.css" layer(base);
+
+@import "tailwindcss";
 
 @import "../../vendor/jksantos/jetax/resources/css/jetax.css";
 @source "../../vendor/jksantos/jetax/resources/views";
 ```
 
-> **Importante:** Os imports do Google Fonts e Material Symbols Outlined devem ser os **primeiros** `@import` do arquivo. O Jetax nao os inclui diretamente para evitar alertas de build gerados pelo Vite/Tailwind CSS ao processar URLs externas dentro de pacotes.
+> **Importante:** O import do Google Fonts deve ser o **primeiro** `@import` do arquivo, e o do Font Awesome vem em seguida, em `layer(base)` e antes de `@import "tailwindcss"`. O Jetax nao inclui nenhum dos dois para evitar alertas de build gerados pelo Vite/Tailwind CSS ao processar URLs externas dentro de pacotes.
 
 ### 4. Carregar Livewire no layout
 
@@ -233,6 +251,67 @@ php artisan vendor:publish --provider="Jetax\DesignSystem\JetaxServiceProvider"
 ```
 
 > Todos os componentes usam o prefixo `<x-jetax-*>`. Exemplo: `<x-jetax-button>`, `<x-jetax-alert>`.
+
+---
+
+## Icones
+
+Os icones sao da webfont do **Font Awesome Free 6.7.2**. O pacote emite a marcacao (`<i class="fa-solid fa-paw" aria-hidden="true"></i>`) e nao carrega folha nenhuma: instale e importe o Font Awesome no CSS da aplicacao, em layer, como na [instalacao](#pre-requisitos):
+
+```bash
+npm install --save-exact @fortawesome/fontawesome-free@6.7.2
+```
+
+```css
+@import "@fortawesome/fontawesome-free/css/all.min.css" layer(base);
+@import "tailwindcss";
+```
+
+### Nome do icone: `[estilo:]nome`
+
+O `name` de `<x-jetax-icon>` e a prop `icon` dos componentes (button, alert, input, dropdown-item, page-header, empty-state, timeline-item, stats-card, list-group-item, activity-feed-item, `ActionsColumn`, `BulkAction::icon()` e `navigation` do config) recebem o nome canonico do Font Awesome, sem o `fa-`, com prefixo de estilo opcional:
+
+| Valor | Classes emitidas |
+|-------|------------------|
+| `bell` | `fa-solid fa-bell` (sem prefixo vale `solid`) |
+| `regular:bell` | `fa-regular fa-bell` |
+| `brands:whatsapp` | `fa-brands fa-whatsapp` |
+
+Prefixo fora de `solid|regular|brands` lanca `InvalidArgumentException` em `local`/`testing` e cai para `solid` com `Log::warning` nos demais ambientes. Os nomes validos estao no manifesto `resources/icons/fontawesome-free.json`.
+
+```blade
+<x-jetax-button icon="regular:bell">Avisos</x-jetax-button>
+<x-jetax-alert icon="brands:whatsapp">Mensagem enviada</x-jetax-alert>
+```
+
+### `variant`
+
+`<x-jetax-icon>` aceita `variant="solid|regular|brands"` (default `solid`). Com prefixo no `name`, o `variant` e opcional; se os dois forem informados e divergirem, vale a regra de variante invalida acima.
+
+```blade
+<x-jetax-icon name="bell" variant="regular" />
+<x-jetax-icon name="regular:bell" />   {{-- equivalente --}}
+```
+
+### Tamanhos
+
+| `size` | Saida |
+|--------|-------|
+| `sm` | `text-[12px]` |
+| `md` (default) | `text-[15px]` |
+| `lg` | `text-[18px]` |
+| `xl` | `text-[24px]` |
+| `<n>` (numerico) | `style="font-size:<m>px"`, com `<m>` = `<n>` ÷ 1,35 arredondado (ex.: `size="27"` → `20px`) |
+
+O fator 1,35 converte o tamanho da v2 (16/20/24/32 px) para o equivalente visual do Font Awesome. O glifo do `<x-jetax-button>` acompanha o `size` do botao: `sm` → `text-[12px]`, `md` → `text-[14px]`, `lg` → `text-[18px]`.
+
+### Troca de icone no cliente
+
+Para trocar o icone com Alpine, use binding de classe, nunca `x-text`/`x-html` no elemento do icone:
+
+```blade
+<i class="fa-solid" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+```
 
 ---
 

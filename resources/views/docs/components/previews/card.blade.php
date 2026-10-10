@@ -37,7 +37,7 @@ $codeActions = <<<'BLADE'
 <x-jetax-card>
     <x-slot:header>Usuarios</x-slot:header>
     <x-slot:actions>
-        <x-jetax-button size="sm" icon="add">Novo</x-jetax-button>
+        <x-jetax-button size="sm" icon="plus">Novo</x-jetax-button>
     </x-slot:actions>
     <p>Lista de usuarios aqui.</p>
 </x-jetax-card>
@@ -89,7 +89,7 @@ BLADE;
         <x-jetax-card>
             <x-slot:header>Usuarios</x-slot:header>
             <x-slot:actions>
-                <x-jetax-button size="sm" icon="add">Novo</x-jetax-button>
+                <x-jetax-button size="sm" icon="plus">Novo</x-jetax-button>
             </x-slot:actions>
             <p>Lista de usuarios aqui.</p>
         </x-jetax-card>

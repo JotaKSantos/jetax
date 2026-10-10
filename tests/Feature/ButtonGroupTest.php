@@ -18,7 +18,7 @@ function splitGroupHtml(string $attributes = ''): string
 
             <x-jetax-dropdown position="bottom-start">
                 <x-slot:trigger>
-                    <x-jetax-button icon="expand_more" icon-only aria-label="Mais opções" />
+                    <x-jetax-button icon="chevron-down" icon-only aria-label="Mais opções" />
                 </x-slot:trigger>
                 <x-jetax-dropdown-item>Quitar com crédito</x-jetax-dropdown-item>
             </x-jetax-dropdown>

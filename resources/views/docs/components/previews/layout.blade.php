@@ -5,9 +5,9 @@ $codeBasico = <<<'BLADE'
 
     {{-- Conteudo da pagina --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <x-jetax-stats-card label="Usuarios" value="1.250" icon="group" />
-        <x-jetax-stats-card label="Vendas" value="R$ 45.000" icon="payments" />
-        <x-jetax-stats-card label="Pedidos" value="320" icon="shopping_cart" />
+        <x-jetax-stats-card label="Usuarios" value="1.250" icon="users" />
+        <x-jetax-stats-card label="Vendas" value="R$ 45.000" icon="money-bills" />
+        <x-jetax-stats-card label="Pedidos" value="320" icon="cart-shopping" />
     </div>
 </x-jetax-layout>
 BLADE;
@@ -35,15 +35,15 @@ BLADE;
                 <p class="text-slate-500 text-[10px] uppercase tracking-wider mb-4">Design System</p>
                 <div class="space-y-2">
                     <div class="flex items-center gap-2 text-white bg-white/5 px-2 py-1.5 rounded border-l-2 border-[#0D99FF]">
-                        <span class="material-symbols-outlined text-sm">dashboard</span>
+                        <x-jetax-icon name="table-cells-large" size="14" />
                         <span class="text-[10px] uppercase">Dashboard</span>
                     </div>
                     <div class="flex items-center gap-2 text-slate-400 px-2 py-1.5">
-                        <span class="material-symbols-outlined text-sm">group</span>
+                        <x-jetax-icon name="users" size="14" />
                         <span class="text-[10px] uppercase">Usuarios</span>
                     </div>
                     <div class="flex items-center gap-2 text-slate-400 px-2 py-1.5">
-                        <span class="material-symbols-outlined text-sm">settings</span>
+                        <x-jetax-icon name="gear" size="14" />
                         <span class="text-[10px] uppercase">Config</span>
                     </div>
                 </div>
@@ -52,10 +52,10 @@ BLADE;
             <div class="flex-1 flex flex-col bg-surface dark:bg-[rgb(15,18,27)]">
                 {{-- Topbar mockup --}}
                 <div class="h-10 bg-white/80 dark:bg-[rgb(22,27,42)] border-b border-outline-variant/20 dark:border-white/10 flex items-center justify-between px-4">
-                    <span class="material-symbols-outlined text-on-surface-variant/40 text-sm">search</span>
+                    <x-jetax-icon name="magnifying-glass" size="14" class="text-on-surface-variant/40" />
                     <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-on-surface-variant/40 text-sm">notifications</span>
-                        <span class="material-symbols-outlined text-on-surface-variant/40 text-sm">dark_mode</span>
+                        <x-jetax-icon name="bell" size="14" class="text-on-surface-variant/40" />
+                        <x-jetax-icon name="moon" size="14" class="text-on-surface-variant/40" />
                         <div class="w-5 h-5 rounded bg-primary-container"></div>
                     </div>
                 </div>
@@ -83,11 +83,11 @@ BLADE;
             {{-- Main area --}}
             <div class="flex-1 flex flex-col bg-surface dark:bg-[rgb(15,18,27)]">
                 <div class="h-10 bg-white/80 dark:bg-[rgb(22,27,42)] border-b border-outline-variant/20 dark:border-white/10 flex items-center justify-between px-4">
-                    <span class="material-symbols-outlined text-on-surface-variant/40 text-sm">search</span>
+                    <x-jetax-icon name="magnifying-glass" size="14" class="text-on-surface-variant/40" />
                     <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-on-surface-variant/40 text-sm">notifications</span>
+                        <x-jetax-icon name="bell" size="14" class="text-on-surface-variant/40" />
                         <div class="px-2 py-1 rounded bg-primary-container text-white text-[10px] flex items-center gap-1">
-                            <span class="material-symbols-outlined text-xs">download</span>
+                            <x-jetax-icon name="download" size="12" />
                             Exportar
                         </div>
                     </div>

@@ -9,7 +9,7 @@
             class="inline-flex items-center justify-center rounded p-1 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors"
             title="{{ $successMessage ?: 'Copiar' }}"
         >
-            <x-jetax-icon name="content_copy" x-show="!copied" />
+            <x-jetax-icon name="copy" x-show="!copied" />
             <x-jetax-icon name="check" x-show="copied" />
         </button>
     @else
@@ -18,7 +18,7 @@
         >
             {{ $slot }}
         </div>
-        <x-jetax-icon name="content_copy" x-show="!copied" class="hidden" />
+        <x-jetax-icon name="copy" x-show="!copied" class="hidden" />
         <x-jetax-icon name="check" x-show="copied" class="hidden" />
     @endif
 </div>

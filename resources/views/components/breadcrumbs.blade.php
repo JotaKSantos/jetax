@@ -6,7 +6,7 @@
                 <a href="{{ $item['url'] ?? '#' }}" class="text-slate-500 hover:text-on-surface transition-colors">
                     {{ $item['label'] }}
                 </a>
-                <span class="material-symbols-outlined text-slate-300 text-sm">chevron_right</span>
+                <x-jetax-icon name="chevron-right" size="14" class="text-slate-300" />
             </li>
         @endforeach
 
@@ -14,7 +14,7 @@
         @if($shouldTruncate())
             <li class="flex md:hidden items-center space-x-1">
                 <span class="text-slate-400 select-none">…</span>
-                <span class="material-symbols-outlined text-slate-300 text-sm">chevron_right</span>
+                <x-jetax-icon name="chevron-right" size="14" class="text-slate-300" />
             </li>
 
             {{-- Penúltimo item (visível apenas em mobile) --}}
@@ -24,7 +24,7 @@
                     <a href="{{ $mobilePenultimate['url'] ?? '#' }}" class="text-slate-500 hover:text-on-surface transition-colors">
                         {{ $mobilePenultimate['label'] }}
                     </a>
-                    <span class="material-symbols-outlined text-slate-300 text-sm">chevron_right</span>
+                    <x-jetax-icon name="chevron-right" size="14" class="text-slate-300" />
                 </li>
             @endif
         @endif

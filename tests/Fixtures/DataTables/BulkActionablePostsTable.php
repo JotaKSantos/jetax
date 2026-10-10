@@ -37,7 +37,7 @@ class BulkActionablePostsTable extends DataTableComponent
     {
         return [
             BulkAction::make('publish', 'Publicar')
-                ->icon('check_circle')
+                ->icon('circle-check')
                 ->handler(function (Collection $models) {
                     $this->lastBulkRun['publish'] = $models->pluck('id')->all();
 
@@ -45,7 +45,7 @@ class BulkActionablePostsTable extends DataTableComponent
                 }),
 
             BulkAction::make('delete', 'Excluir')
-                ->icon('delete')
+                ->icon('trash')
                 ->variant('danger')
                 ->confirm('Confirmar exclusão?')
                 ->handler(function (Collection $models) {

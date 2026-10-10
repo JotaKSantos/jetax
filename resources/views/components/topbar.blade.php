@@ -21,7 +21,7 @@
             "
             aria-label="Alternar menu"
         >
-            <span class="material-symbols-outlined text-[22px]">menu</span>
+            <x-jetax-icon name="bars" size="22" />
         </button>
 
         @if(isset($leftActions))

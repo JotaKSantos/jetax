@@ -75,15 +75,15 @@ class Dialog extends Component
     }
 
     /**
-     * Retorna o nome do ícone baseado na variante.
+     * Retorna o nome FA do ícone baseado na variante (CT-03).
      */
     public function iconName(): string
     {
         return match ($this->variant) {
-            'warning' => 'warning',
-            'primary' => 'help',
-            'success' => 'check_circle',
-            default => 'error', // danger
+            'warning' => 'triangle-exclamation',
+            'primary' => 'circle-question',
+            'success' => 'circle-check',
+            default => 'circle-exclamation', // danger
         };
     }
 

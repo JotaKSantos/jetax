@@ -38,7 +38,7 @@
         @click="prev()"
         aria-label="Slide anterior"
     >
-        <x-jetax-icon name="chevron_left" size="md" />
+        <x-jetax-icon name="chevron-left" size="md" />
     </button>
 
     {{-- Seta próxima --}}
@@ -48,7 +48,7 @@
         @click="next()"
         aria-label="Próximo slide"
     >
-        <x-jetax-icon name="chevron_right" size="md" />
+        <x-jetax-icon name="chevron-right" size="md" />
     </button>
 
     {{-- Indicadores (dots) --}}

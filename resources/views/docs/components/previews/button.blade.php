@@ -20,11 +20,11 @@ $codeSizes = <<<'BLADE'
 BLADE;
 
 $codeIcons = <<<'BLADE'
-<x-jetax-button icon="save">Salvar</x-jetax-button>
-<x-jetax-button icon="delete" color="danger">Excluir</x-jetax-button>
-<x-jetax-button icon="send" icon-position="right" color="success">Enviar</x-jetax-button>
-<x-jetax-button icon="person_add" style="outline" color="info">Adicionar</x-jetax-button>
-<x-jetax-button icon="edit" style="soft" color="warning">Editar</x-jetax-button>
+<x-jetax-button icon="floppy-disk">Salvar</x-jetax-button>
+<x-jetax-button icon="trash" color="danger">Excluir</x-jetax-button>
+<x-jetax-button icon="paper-plane" icon-position="right" color="success">Enviar</x-jetax-button>
+<x-jetax-button icon="user-plus" style="outline" color="info">Adicionar</x-jetax-button>
+<x-jetax-button icon="pen" style="soft" color="warning">Editar</x-jetax-button>
 BLADE;
 
 $codeLoading = <<<'BLADE'
@@ -98,11 +98,11 @@ BLADE;
 
     {{-- Com Icone --}}
     <x-jetax-docs-preview-section title="Com Icone" :code="$codeIcons">
-        <x-jetax-button icon="save">Salvar</x-jetax-button>
-        <x-jetax-button icon="delete" color="danger">Excluir</x-jetax-button>
-        <x-jetax-button icon="send" icon-position="right" color="success">Enviar</x-jetax-button>
-        <x-jetax-button icon="person_add" style="outline" color="info">Adicionar</x-jetax-button>
-        <x-jetax-button icon="edit" style="soft" color="warning">Editar</x-jetax-button>
+        <x-jetax-button icon="floppy-disk">Salvar</x-jetax-button>
+        <x-jetax-button icon="trash" color="danger">Excluir</x-jetax-button>
+        <x-jetax-button icon="paper-plane" icon-position="right" color="success">Enviar</x-jetax-button>
+        <x-jetax-button icon="user-plus" style="outline" color="info">Adicionar</x-jetax-button>
+        <x-jetax-button icon="pen" style="soft" color="warning">Editar</x-jetax-button>
     </x-jetax-docs-preview-section>
 
     {{-- Estado de Carregamento --}}

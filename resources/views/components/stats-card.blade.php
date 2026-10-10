@@ -4,7 +4,7 @@
         {{-- Arranjo figure: ícone translúcido à esquerda, valor sobre o rótulo à direita --}}
         @if($icon)
             <div class="{{ $iconContainerClasses() }}">
-                <span class="{{ $iconClasses() }}">{{ $icon }}</span>
+                <x-jetax-icon :name="$icon" size="lg" :class="$iconClasses()" />
             </div>
         @endif
 
@@ -20,7 +20,7 @@
 
             @if($trendValue)
                 <div class="{{ $trendClasses() }}">
-                    <span class="{{ $trendIconClasses() }}">{{ $trendIcon() }}</span>
+                    <x-jetax-icon :name="$trendIcon()" size="14" :class="$trendIconClasses()" />
                     {{ $trendValue }}
                 </div>
             @endif
@@ -43,7 +43,7 @@
 
             @if($icon)
                 <div class="{{ $iconContainerClasses() }}">
-                    <span class="{{ $iconClasses() }}">{{ $icon }}</span>
+                    <x-jetax-icon :name="$icon" size="lg" :class="$iconClasses()" />
                 </div>
             @endif
         </div>
@@ -54,7 +54,7 @@
 
             @if($trendValue)
                 <div class="{{ $trendClasses() }}">
-                    <span class="{{ $trendIconClasses() }}">{{ $trendIcon() }}</span>
+                    <x-jetax-icon :name="$trendIcon()" size="14" :class="$trendIconClasses()" />
                     {{ $trendValue }}
                 </div>
             @endif

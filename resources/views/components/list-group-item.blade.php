@@ -5,7 +5,7 @@
     >
         <div class="flex items-center gap-4 flex-1 min-w-0">
             @if($icon)
-                <span class="material-symbols-outlined text-primary text-lg shrink-0">{{ $icon }}</span>
+                <x-jetax-icon :name="$icon" size="18" class="text-primary shrink-0" />
             @endif
 
             <div class="flex flex-col min-w-0">
@@ -31,7 +31,7 @@
     <div {{ $attributes->merge(['class' => $itemClasses()]) }}>
         <div class="flex items-center gap-4 flex-1 min-w-0">
             @if($icon)
-                <span class="material-symbols-outlined text-primary text-lg shrink-0">{{ $icon }}</span>
+                <x-jetax-icon :name="$icon" size="18" class="text-primary shrink-0" />
             @endif
 
             <div class="flex flex-col min-w-0">

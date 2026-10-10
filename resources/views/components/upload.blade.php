@@ -90,7 +90,7 @@
             <span class="text-sm font-semibold text-primary">Solte os arquivos aqui</span>
         </div>
 
-        <span class="material-symbols-outlined text-4xl text-slate-400">cloud_upload</span>
+        <x-jetax-icon name="cloud-arrow-up" size="36" class="text-slate-400" />
 
         <div class="text-center">
             <p class="text-sm font-semibold text-slate-600">
@@ -123,7 +123,7 @@
         <div class="mt-3 space-y-1">
             <template x-for="(error, i) in errors" :key="i">
                 <div class="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600">
-                    <span class="material-symbols-outlined text-[16px]">error</span>
+                    <x-jetax-icon name="circle-exclamation" size="sm" />
                     <span x-html="error"></span>
                 </div>
             </template>
@@ -146,7 +146,7 @@
 
                     {{-- Ícone genérico para não-imagens --}}
                     <template x-if="!file.preview">
-                        <span class="material-symbols-outlined flex-shrink-0 text-2xl text-slate-400">insert_drive_file</span>
+                        <x-jetax-icon name="file" size="lg" class="flex-shrink-0 text-slate-400" />
                     </template>
 
                     {{-- Info do arquivo --}}
@@ -173,7 +173,7 @@
                         class="flex-shrink-0 rounded p-1 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
                         title="Remover arquivo"
                     >
-                        <span class="material-symbols-outlined text-[18px]">close</span>
+                        <x-jetax-icon name="xmark" size="18" />
                     </button>
                 </div>
             </template>

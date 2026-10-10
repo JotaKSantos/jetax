@@ -5,6 +5,34 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [3.0.0] - 2026-10-09
+
+Versão major: troca o sistema de ícones do Material Symbols para a webfont do Font Awesome
+Free 6.7.2. O pacote passa a emitir só a marcação; quem importa a folha é a aplicação, dentro
+de uma cascade layer. Os itens marcados com **[BREAKING]** quebram a API da 2.x; o passo a passo
+de cada um está no guia de migração [`UPGRADE.md`](UPGRADE.md).
+
+### Changed
+- **[BREAKING] Sistema de ícones (JETAX-017):** `<x-jetax-icon>` e todos os componentes que exibem ícone emitem `<i class="fa-<estilo> fa-<nome>" aria-hidden="true"></i>` no lugar do `<span class="material-symbols-outlined">` com ligadura. Ver [UPGRADE.md](UPGRADE.md#v3-marcacao)
+- **[BREAKING] Prop `icon` e `name` em nome do Font Awesome:** a prop `icon` de button, alert, input, dropdown-item, page-header, empty-state, timeline-item, stats-card, list-group-item, activity-feed-item, `ActionsColumn`, `BulkAction::icon()` e `navigation` do config recebe `[estilo:]<nome FA canônico>`; os nomes do Material deixam de valer. Ver [UPGRADE.md](UPGRADE.md#v3-icon-estilo)
+- **[BREAKING] Import do Font Awesome pelo consumidor:** a aplicação instala `@fortawesome/fontawesome-free` pelo npm e importa a folha no CSS de entrada, em `layer(base)`, antes de `@import "tailwindcss"`, sem CDN nem kit. Ver [UPGRADE.md](UPGRADE.md#v3-import-css)
+- **[BREAKING] Tamanhos recalibrados:** os `size` nomeados de `<x-jetax-icon>` viram classes (`sm` → `text-[12px]`, `md` → `text-[15px]`, `lg` → `text-[18px]`, `xl` → `text-[24px]`), o `size` numérico é dividido por 1,35, e o `toast-container` troca o ícone por binding de classe no lugar de `x-text`. Ver [UPGRADE.md](UPGRADE.md#v3-tamanhos)
+
+### Fixed
+- **JETAX-017:** a folha de ícones entrava sem cascade layer e a regra de `font-size` dela vencia as utilitárias do Tailwind no call site. O pacote não carrega mais folha de ícone, e o import documentado do Font Awesome entra em `layer(base)`, então `text-[<n>px]` volta a valer
+- **JETAX-014(c):** o glifo de `<x-jetax-button>` acompanha o `size` do botão, com e sem `icon-only` e nos dois lados: `sm` → `text-[12px]`, `md` → `text-[14px]`, `lg` → `text-[18px]`
+
+### Removed
+- **[BREAKING] Props `weight` e `fill` de `<x-jetax-icon>`:** o Font Awesome não tem eixo variável, e o componente não emite mais `font-variation-settings`. O preenchimento vem do estilo (`solid` ou `regular`). Ver [UPGRADE.md](UPGRADE.md#v3-weight-fill)
+- **Folha do Material Symbols:** o `<link>` do Google Fonts saiu de `partials/fonts.blade.php`, e o pacote não referencia mais o Material em `resources`, `src`, `config` nem no `README.md`
+
+### Added
+- **Prop `variant` de `<x-jetax-icon>`:** `solid` (padrão), `regular` ou `brands`. Valor fora da lista, ou divergente do prefixo do `name`, segue a regra de variante inválida (exceção em `local`/`testing`, `solid` com `Log::warning` nos demais). Ver [UPGRADE.md](UPGRADE.md#v3-variant)
+- **Prefixo `estilo:`:** `regular:bell` e `brands:whatsapp` escolhem o estilo do ícone na prop `icon` dos componentes, no `name` de `<x-jetax-icon>`, nos arrays `'icon' =>` e no config; sem prefixo vale `solid`
+- **Manifesto do Font Awesome Free:** `resources/icons/fontawesome-free.json`, congelado na versão 6.7.2, com os nomes canônicos (sem aliases) de `solid`, `regular` e `brands`. Regenerado por `bin/generate-fontawesome-manifest.php` só junto com a troca da versão
+- **`Support\FontAwesome`:** `parse()` resolve `[estilo:]nome` e `variant`, `has()` confere um nome no manifesto e `manifest()` devolve o manifesto lido
+- **Guarda do sistema de ícones:** `IconFontAwesomeGuardTest` substitui o `IconSystemGuardTest` da 2.0 e reprova resquício de Material ou nome fora do manifesto
+
 ## [2.0.0] - 2026-10-06
 
 Versão major: alinha o pacote à paleta e aos mockups do VetSoft e absorve a API que as

@@ -9,15 +9,15 @@ $codeNavCustomizado = <<<'BLADE'
 <x-jetax-sidebar>
     <x-slot:nav>
         <a href="/dashboard" class="flex items-center px-6 py-3 text-white bg-white/5">
-            <span class="material-symbols-outlined mr-3">dashboard</span>
+            <x-jetax-icon name="table-cells-large" size="lg" class="mr-3" />
             <span class="text-[11px] font-medium uppercase">Dashboard</span>
         </a>
         <a href="/usuarios" class="flex items-center px-6 py-3 text-slate-400 hover:text-white">
-            <span class="material-symbols-outlined mr-3">group</span>
+            <x-jetax-icon name="users" size="lg" class="mr-3" />
             <span class="text-[11px] font-medium uppercase">Usuarios</span>
         </a>
         <a href="/config" class="flex items-center px-6 py-3 text-slate-400 hover:text-white">
-            <span class="material-symbols-outlined mr-3">settings</span>
+            <x-jetax-icon name="gear" size="lg" class="mr-3" />
             <span class="text-[11px] font-medium uppercase">Configuracoes</span>
         </a>
     </x-slot:nav>
@@ -44,15 +44,15 @@ BLADE;
                 <div class="space-y-1">
                     <div class="flex items-center gap-2 text-white bg-white/5 px-3 py-2 rounded relative">
                         <div class="absolute left-0 w-1 h-5 bg-[#0D99FF] rounded-r-full"></div>
-                        <span class="material-symbols-outlined text-sm">dashboard</span>
+                        <x-jetax-icon name="table-cells-large" size="14" />
                         <span class="text-[10px] font-medium uppercase tracking-wider">Dashboard</span>
                     </div>
                     <div class="flex items-center gap-2 text-slate-400 px-3 py-2">
-                        <span class="material-symbols-outlined text-sm">group</span>
+                        <x-jetax-icon name="users" size="14" />
                         <span class="text-[10px] font-medium uppercase tracking-wider">Usuarios</span>
                     </div>
                     <div class="flex items-center gap-2 text-slate-400 px-3 py-2">
-                        <span class="material-symbols-outlined text-sm">inventory_2</span>
+                        <x-jetax-icon name="box" size="14" />
                         <span class="text-[10px] font-medium uppercase tracking-wider">Produtos</span>
                     </div>
                 </div>
@@ -60,7 +60,7 @@ BLADE;
                 {{-- Footer --}}
                 <div class="mt-auto pt-3 border-t border-white/5">
                     <div class="flex items-center gap-2 text-slate-400 px-3 py-2">
-                        <span class="material-symbols-outlined text-sm">settings</span>
+                        <x-jetax-icon name="gear" size="14" />
                         <span class="text-[10px] font-medium uppercase tracking-wider">Config</span>
                     </div>
                 </div>
@@ -81,15 +81,15 @@ BLADE;
                 {{-- Nav items customizados --}}
                 <div class="space-y-1">
                     <div class="flex items-center gap-2 text-white bg-white/5 px-3 py-2 rounded">
-                        <span class="material-symbols-outlined text-sm">dashboard</span>
+                        <x-jetax-icon name="table-cells-large" size="14" />
                         <span class="text-[10px] font-medium uppercase tracking-wider">Dashboard</span>
                     </div>
                     <div class="flex items-center gap-2 text-slate-400 px-3 py-2">
-                        <span class="material-symbols-outlined text-sm">group</span>
+                        <x-jetax-icon name="users" size="14" />
                         <span class="text-[10px] font-medium uppercase tracking-wider">Usuarios</span>
                     </div>
                     <div class="flex items-center gap-2 text-slate-400 px-3 py-2">
-                        <span class="material-symbols-outlined text-sm">settings</span>
+                        <x-jetax-icon name="gear" size="14" />
                         <span class="text-[10px] font-medium uppercase tracking-wider">Configuracoes</span>
                     </div>
                 </div>

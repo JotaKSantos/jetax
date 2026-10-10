@@ -9,7 +9,7 @@
             role="alert"
         >
             @if($icon)
-                <span class="material-symbols-outlined">{{ $icon }}</span>
+                <x-jetax-icon :name="$icon" size="lg" />
             @endif
 
             <span class="text-sm font-medium flex-1">
@@ -27,7 +27,7 @@
                     class="p-1 hover:bg-current/15 rounded transition-colors"
                     aria-label="Fechar"
                 >
-                    <span class="material-symbols-outlined text-sm">close</span>
+                    <x-jetax-icon name="xmark" size="14" />
                 </button>
             @endif
         </div>
@@ -43,7 +43,7 @@
         >
             <div class="flex gap-4">
                 @if($icon)
-                    <span class="material-symbols-outlined {{ $richTextClass() }}">{{ $icon }}</span>
+                    <x-jetax-icon :name="$icon" size="lg" :class="$richTextClass()" />
                 @endif
 
                 <div class="flex-1">
@@ -67,7 +67,7 @@
                         class="p-1 hover:bg-black/10 rounded transition-colors self-start"
                         aria-label="Fechar"
                     >
-                        <span class="material-symbols-outlined text-sm {{ $richTextClass() }}">close</span>
+                        <x-jetax-icon name="xmark" size="14" :class="$richTextClass()" />
                     </button>
                 @endif
             </div>
@@ -84,7 +84,7 @@
             role="alert"
         >
             @if($icon)
-                <span class="material-symbols-outlined">{{ $icon }}</span>
+                <x-jetax-icon :name="$icon" size="lg" />
             @endif
 
             <span class="text-sm font-medium flex-1">
@@ -102,7 +102,7 @@
                     class="p-1 hover:bg-current/15 rounded transition-colors"
                     aria-label="Fechar"
                 >
-                    <span class="material-symbols-outlined text-sm">close</span>
+                    <x-jetax-icon name="xmark" size="14" />
                 </button>
             @endif
         </div>

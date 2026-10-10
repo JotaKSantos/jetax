@@ -110,7 +110,7 @@
         @if($prevComponent)
             <a href="/docs/components/{{ $prevComponent['slug'] }}"
                class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-primary group transition-colors">
-                <span class="material-symbols-outlined text-lg">chevron_left</span>
+                <x-jetax-icon name="chevron-left" size="18" />
                 <div>
                     <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest font-label">Anterior</div>
                     <div class="font-medium font-headline group-hover:text-primary">{{ $prevComponent['name'] }}</div>
@@ -127,7 +127,7 @@
                     <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest font-label">Próximo</div>
                     <div class="font-medium font-headline group-hover:text-primary">{{ $nextComponent['name'] }}</div>
                 </div>
-                <span class="material-symbols-outlined text-lg">chevron_right</span>
+                <x-jetax-icon name="chevron-right" size="18" />
             </a>
         @endif
     </div>

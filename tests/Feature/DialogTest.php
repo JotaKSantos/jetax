@@ -87,7 +87,7 @@ it('test_slot_body_replaces_generated_icon_title_and_message', function () {
 
     expect($html)->toContain('Desfazer baixa?')
         ->toContain('<strong>Em aberto</strong>')
-        ->not->toContain('material-symbols-outlined text-5xl')
+        ->not->toContain('fa-circle-exclamation')
         ->not->toContain('<h2');
 });
 
@@ -189,7 +189,7 @@ it('test_invalid_panel_width_throws_in_testing', function () {
 it('test_without_slot_renders_package_default_body', function () {
     $html = (string) $this->blade('<x-jetax-dialog id="d1" title="Excluir?" message="Não dá para desfazer." />');
 
-    expect($html)->toContain('material-symbols-outlined text-5xl')
+    expect($html)->toContain('fa-solid fa-circle-exclamation')
         ->toMatch('/<h2\s+id="d1-title"/')
         ->toMatch('/<p\s+id="d1-message"/')
         ->and(htmlTag($html, 'button', 'data-dialog-cancel'))->toContain('flex-1')

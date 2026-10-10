@@ -5,7 +5,7 @@ it('renders correct number of stars', function () {
     // Check the max appears in alpine data
     $view->assertSee('max: 7', false);
     // Check star icons are present
-    expect($view->__toString())->toContain('star');
+    expect($view->__toString())->toContain('fa-solid fa-star');
 });
 
 it('disables interaction in readonly mode', function () {
@@ -22,4 +22,5 @@ it('renders hidden input with wire:model', function () {
 it('applies size classes', function () {
     $view = $this->blade('<x-jetax-rating size="lg" />');
     $view->assertSee('32px', false);
+    $view->assertSee('fa-solid fa-star text-[24px]', false);
 });

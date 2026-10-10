@@ -14,9 +14,7 @@
 
     {{-- Ícone circular --}}
     <div class="w-8 h-8 rounded-full {{ $iconBgClass() }} flex items-center justify-center flex-shrink-0 z-10">
-        <span class="material-symbols-outlined text-sm {{ $iconTextClass() }}" style="font-variation-settings: 'FILL' 1;">
-            {{ $resolvedIcon() }}
-        </span>
+        <x-jetax-icon :name="$resolvedIcon()" size="14" :class="$iconTextClass()" />
     </div>
 
     {{-- Conteúdo --}}

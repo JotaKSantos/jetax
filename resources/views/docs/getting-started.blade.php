@@ -84,12 +84,14 @@
 
 /* 1. Google Fonts — SEMPRE antes de qualquer outro @import */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;600;700;800&family=Inter:wght@400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
-/* 2. Tailwind CSS */
+/* 2. Font Awesome Free (npm install @fortawesome/fontawesome-free@6.7.2), em layer antes de utilities */
+@import "@fortawesome/fontawesome-free/css/all.min.css" layer(base);
+
+/* 3. Tailwind CSS */
 @import "tailwindcss";
 
-/* 3. Jetax Design System */
+/* 4. Jetax Design System */
 @import "../../vendor/jksantos/jetax/resources/css/jetax.css";
 @source "../../vendor/jksantos/jetax/resources/views";</code></pre>
     </section>
@@ -140,7 +142,7 @@
                 <p class="text-sm font-medium text-gray-700 dark:text-white/60 mb-2">Botão</p>
                 <pre class="bg-gray-900 text-gray-100 rounded-xl p-4 text-sm"><code>&lt;x-jetax-button color="primary"&gt;Clique aqui&lt;/x-jetax-button&gt;
 
-&lt;x-jetax-button style="outline" color="success" icon="save"&gt;
+&lt;x-jetax-button style="outline" color="success" icon="floppy-disk"&gt;
     Salvar
 &lt;/x-jetax-button&gt;</code></pre>
             </div>

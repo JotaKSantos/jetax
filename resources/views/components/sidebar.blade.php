@@ -74,7 +74,9 @@
                         :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-6'"
                         @if($isActive) aria-current="page" data-sidebar-active @endif
                     >
-                        <span class="material-symbols-outlined" :class="$store.sidebar.collapsed ? '' : 'mr-3'">{{ $item['icon'] ?? '' }}</span>
+                        @if(! empty($item['icon']))
+                            <x-jetax-icon :name="$item['icon']" size="lg" x-bind:class="$store.sidebar.collapsed ? '' : 'mr-3'" />
+                        @endif
                         <span x-show="!$store.sidebar.collapsed" x-transition:leave.opacity.duration.200ms class="text-[11px] font-medium tracking-[0.08em] uppercase">{{ $item['label'] }}</span>
                     </a>
                     {{-- Flyout tooltip --}}
@@ -109,7 +111,9 @@
                     :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-6'"
                     @if($isActive) aria-current="page" data-sidebar-active @endif
                 >
-                    <span class="material-symbols-outlined" :class="$store.sidebar.collapsed ? '' : 'mr-3'">{{ $item['icon'] ?? '' }}</span>
+                    @if(! empty($item['icon']))
+                        <x-jetax-icon :name="$item['icon']" size="lg" x-bind:class="$store.sidebar.collapsed ? '' : 'mr-3'" />
+                    @endif
                     <span x-show="!$store.sidebar.collapsed" x-transition:leave.opacity.duration.200ms class="text-[11px] font-medium tracking-[0.08em] uppercase">{{ $item['label'] }}</span>
                 </a>
                 {{-- Flyout tooltip --}}

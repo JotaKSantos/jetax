@@ -10,8 +10,8 @@ $codeTypes = <<<'BLADE'
 BLADE;
 
 $codeIcon = <<<'BLADE'
-<x-jetax-input name="busca" label="Busca" icon="search" placeholder="Pesquisar..." />
-<x-jetax-input name="email_icon" label="E-mail" icon="mail" placeholder="seu@email.com" />
+<x-jetax-input name="busca" label="Busca" icon="magnifying-glass" placeholder="Pesquisar..." />
+<x-jetax-input name="email_icon" label="E-mail" icon="envelope" placeholder="seu@email.com" />
 BLADE;
 
 $codeError = <<<'BLADE'
@@ -53,8 +53,8 @@ BLADE;
     {{-- Com Icone --}}
     <x-jetax-docs-preview-section title="Com Icone" :code="$codeIcon">
         <div class="w-full max-w-sm space-y-4">
-            <x-jetax-input name="busca" label="Busca" icon="search" placeholder="Pesquisar..." />
-            <x-jetax-input name="email_icon" label="E-mail" icon="mail" placeholder="seu@email.com" />
+            <x-jetax-input name="busca" label="Busca" icon="magnifying-glass" placeholder="Pesquisar..." />
+            <x-jetax-input name="email_icon" label="E-mail" icon="envelope" placeholder="seu@email.com" />
         </div>
     </x-jetax-docs-preview-section>
 

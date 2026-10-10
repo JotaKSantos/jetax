@@ -10,7 +10,7 @@ BLADE;
 $codeTrigger = <<<'BLADE'
 <x-jetax-clipboard text="Conteúdo personalizado">
     <x-jetax-button style="soft" size="sm">
-        <x-jetax-icon name="content_copy" size="sm" /> Copiar
+        <x-jetax-icon name="copy" size="sm" /> Copiar
     </x-jetax-button>
 </x-jetax-clipboard>
 BLADE;
@@ -32,7 +32,7 @@ BLADE;
     <x-jetax-docs-preview-section title="Trigger Customizado" :code="$codeTrigger">
         <x-jetax-clipboard text="Conteúdo personalizado">
             <x-jetax-button style="soft" size="sm">
-                <x-jetax-icon name="content_copy" size="sm" /> Copiar
+                <x-jetax-icon name="copy" size="sm" /> Copiar
             </x-jetax-button>
         </x-jetax-clipboard>
     </x-jetax-docs-preview-section>

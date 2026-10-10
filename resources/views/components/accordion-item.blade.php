@@ -30,10 +30,12 @@
         :aria-expanded="isOpen"
     >
         <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">{{ $title }}</span>
-        <span
-            class="material-symbols-outlined text-slate-400 chevron transition-transform duration-300"
-            :class="{ 'rotate-180': isOpen }"
-        >expand_more</span>
+        <x-jetax-icon
+            name="chevron-down"
+            size="lg"
+            class="text-slate-400 chevron transition-transform duration-300"
+            x-bind:class="{ 'rotate-180': isOpen }"
+        />
     </button>
 
     <div

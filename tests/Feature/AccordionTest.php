@@ -45,7 +45,7 @@ it('test_chevron_rotation_class_present', function () {
     ');
 
     $view->assertSee('rotate-180', false);
-    $view->assertSee('expand_more', false);
+    $view->assertSee('fa-solid fa-chevron-down', false);
 });
 
 it('test_item_open_by_default_when_prop_set', function () {

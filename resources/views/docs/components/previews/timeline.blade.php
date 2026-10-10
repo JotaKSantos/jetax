@@ -18,9 +18,9 @@ BLADE;
 
 $codeIcones = <<<'BLADE'
 <x-jetax-timeline>
-    <x-jetax-timeline-item title="Conta criada" date="10/01/2025" description="Bem-vindo ao sistema." icon="person_add" color="primary" />
-    <x-jetax-timeline-item title="E-mail verificado" date="10/01/2025" description="Verificacao concluida." icon="mark_email_read" color="success" />
-    <x-jetax-timeline-item title="Primeiro acesso" date="11/01/2025" description="Login realizado." icon="login" color="info" />
+    <x-jetax-timeline-item title="Conta criada" date="10/01/2025" description="Bem-vindo ao sistema." icon="user-plus" color="primary" />
+    <x-jetax-timeline-item title="E-mail verificado" date="10/01/2025" description="Verificacao concluida." icon="envelope-circle-check" color="success" />
+    <x-jetax-timeline-item title="Primeiro acesso" date="11/01/2025" description="Login realizado." icon="right-to-bracket" color="info" />
 </x-jetax-timeline>
 BLADE;
 
@@ -63,9 +63,9 @@ BLADE;
     <x-jetax-docs-preview-section title="Com Icones" :code="$codeIcones">
         <div class="max-w-lg">
             <x-jetax-timeline>
-                <x-jetax-timeline-item title="Conta criada" date="10/01/2025" description="Bem-vindo ao sistema." icon="person_add" color="primary" />
-                <x-jetax-timeline-item title="E-mail verificado" date="10/01/2025" description="Verificacao concluida." icon="mark_email_read" color="success" />
-                <x-jetax-timeline-item title="Primeiro acesso" date="11/01/2025" description="Login realizado." icon="login" color="info" />
+                <x-jetax-timeline-item title="Conta criada" date="10/01/2025" description="Bem-vindo ao sistema." icon="user-plus" color="primary" />
+                <x-jetax-timeline-item title="E-mail verificado" date="10/01/2025" description="Verificacao concluida." icon="envelope-circle-check" color="success" />
+                <x-jetax-timeline-item title="Primeiro acesso" date="11/01/2025" description="Login realizado." icon="right-to-bracket" color="info" />
             </x-jetax-timeline>
         </div>
     </x-jetax-docs-preview-section>

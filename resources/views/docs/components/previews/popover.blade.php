@@ -1,7 +1,7 @@
 @php
 $codeBasic = <<<'BLADE'
 <x-jetax-popover>
-    <x-jetax-button icon="info" style="soft">Mais informacoes</x-jetax-button>
+    <x-jetax-button icon="circle-info" style="soft">Mais informacoes</x-jetax-button>
     <x-slot:content>
         <p>Detalhes adicionais sobre o item.</p>
     </x-slot:content>
@@ -44,7 +44,7 @@ BLADE;
     {{-- Basico --}}
     <x-jetax-docs-preview-section title="Basico" :code="$codeBasic">
         <x-jetax-popover>
-            <x-jetax-button icon="info" style="soft">Mais informacoes</x-jetax-button>
+            <x-jetax-button icon="circle-info" style="soft">Mais informacoes</x-jetax-button>
             <x-slot:content>
                 <p>Detalhes adicionais sobre o item.</p>
             </x-slot:content>

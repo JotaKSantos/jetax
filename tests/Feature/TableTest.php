@@ -72,9 +72,9 @@ it('test_sortable_column_has_sort_trigger', function () {
 
     // Coluna sortable deve ter botão com evento de sort
     $view->assertSee('$dispatch(\'sort\'', false);
-    $view->assertSee('expand_all');
-    $view->assertSee('keyboard_arrow_up');
-    $view->assertSee('keyboard_arrow_down');
+    $view->assertSee('fa-arrows-up-down', false);
+    $view->assertSee('fa-angle-up', false);
+    $view->assertSee('fa-angle-down', false);
 });
 
 it('test_pagination_rendered_when_paginator_provided', function () {

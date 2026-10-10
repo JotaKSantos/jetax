@@ -11,10 +11,10 @@ class ActivityFeedItem extends Component
      * Mapeamento de tipos para classes CSS do ícone circular.
      */
     protected const TYPE_MAP = [
-        'created' => ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-600', 'icon' => 'add_circle'],
-        'updated' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-600', 'icon' => 'edit'],
-        'commented' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-600', 'icon' => 'chat_bubble'],
-        'status' => ['bg' => 'bg-purple-100', 'text' => 'text-purple-600', 'icon' => 'swap_horiz'],
+        'created' => ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-600', 'icon' => 'circle-plus'],
+        'updated' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-600', 'icon' => 'pen'],
+        'commented' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-600', 'icon' => 'comment'],
+        'status' => ['bg' => 'bg-purple-100', 'text' => 'text-purple-600', 'icon' => 'right-left'],
         'default' => ['bg' => 'bg-slate-100', 'text' => 'text-slate-500', 'icon' => 'circle'],
     ];
 

@@ -1,4 +1,4 @@
-<span
-    {{ $attributes->merge(['class' => 'material-symbols-outlined']) }}
-    style="{{ $sizeClasses() }}; font-variation-settings: {!! $fontVariationSettings() !!}; color: inherit;"
->{{ $name }}</span>
+<i
+    {{ $attributes->merge(['class' => $iconClasses()])->merge(array_filter(['style' => $inlineFontSize()])) }}
+    aria-hidden="true"
+></i>

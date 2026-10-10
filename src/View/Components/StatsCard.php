@@ -147,10 +147,10 @@ class StatsCard extends Component
     public function iconClasses(): string
     {
         if ($this->isSolid()) {
-            return 'material-symbols-outlined text-on-primary';
+            return 'text-on-primary';
         }
 
-        return 'material-symbols-outlined text-primary';
+        return 'text-primary';
     }
 
     /**
@@ -185,18 +185,18 @@ class StatsCard extends Component
      */
     public function trendIconClasses(): string
     {
-        return 'material-symbols-outlined text-sm';
+        return 'shrink-0';
     }
 
     /**
-     * Retorna o ícone Material Symbol para o trend.
+     * Retorna o nome FA do ícone do trend (CT-03).
      */
     public function trendIcon(): string
     {
         return match ($this->trend) {
-            'up' => 'trending_up',
-            'down' => 'trending_down',
-            default => 'trending_flat',
+            'up' => 'arrow-trend-up',
+            'down' => 'arrow-trend-down',
+            default => 'arrow-right-long',
         };
     }
 

@@ -24,8 +24,8 @@ it('has inline script that prevents flash in auth layout', function () {
 it('toggle component renders sun and moon icons', function () {
     $view = $this->blade('<x-jetax::dark-mode-toggle />');
 
-    $view->assertSee('light_mode', false);
-    $view->assertSee('dark_mode', false);
+    $view->assertSee('fa-solid fa-sun', false);
+    $view->assertSee('fa-solid fa-moon', false);
     $view->assertSee('jetax-dark-mode-toggle', false);
 });
 

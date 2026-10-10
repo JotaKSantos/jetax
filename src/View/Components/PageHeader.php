@@ -16,7 +16,7 @@ class PageHeader extends Component
      * @param  string  $title  Título da página
      * @param  string|null  $subtitle  Subtítulo muted
      * @param  array<int, array{label: string, url?: string}>  $breadcrumbs  Itens de breadcrumb
-     * @param  string|null  $icon  Material Symbol do quadrado de 44px à esquerda do título
+     * @param  string|null  $icon  ícone FA (`[estilo:]nome`, CT-03) do quadrado de 44px à esquerda do título
      * @param  string  $heading  Tag do título: `h1` ou `h2` (padrão; qualquer outro valor vira `h2`)
      * @param  bool  $subtitleBesideIcon  Põe o subtítulo na coluna à direita do quadrado (só com `icon`)
      */

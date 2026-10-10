@@ -1,7 +1,7 @@
 @php
 $codeBasic = <<<'BLADE'
 <x-jetax-tooltip content="Clique para salvar">
-    <x-jetax-button icon="save">Salvar</x-jetax-button>
+    <x-jetax-button icon="floppy-disk">Salvar</x-jetax-button>
 </x-jetax-tooltip>
 BLADE;
 
@@ -29,7 +29,7 @@ BLADE;
     {{-- Basico --}}
     <x-jetax-docs-preview-section title="Basico" :code="$codeBasic">
         <x-jetax-tooltip content="Clique para salvar">
-            <x-jetax-button icon="save">Salvar</x-jetax-button>
+            <x-jetax-button icon="floppy-disk">Salvar</x-jetax-button>
         </x-jetax-tooltip>
     </x-jetax-docs-preview-section>
 
