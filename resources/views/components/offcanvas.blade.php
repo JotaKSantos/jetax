@@ -53,7 +53,7 @@
                 class="ml-4 p-1.5 rounded-lg hover:bg-black/5 transition-colors hover:scale-[1.02] active:scale-95"
                 aria-label="Fechar painel"
             >
-                <span class="material-symbols-outlined text-xl">close</span>
+                <x-jetax-icon name="xmark" size="md" />
             </button>
         </div>
 

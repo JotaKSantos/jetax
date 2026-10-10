@@ -11,7 +11,7 @@
                 wire:click="$dispatch('load-more')"
                 @click="$dispatch('load-more')"
             >
-                <span class="material-symbols-outlined text-base">expand_more</span>
+                <x-jetax-icon name="chevron-down" size="sm" />
                 Ver mais
             </button>
         </div>

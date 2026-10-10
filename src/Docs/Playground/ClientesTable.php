@@ -49,9 +49,9 @@ class ClientesTable extends DataTableComponent
             DateColumn::make('created_at', 'Criado em')->sortable(),
             ActionsColumn::make()
                 ->actions([
-                    ['key' => 'view', 'label' => 'Visualizar', 'icon' => 'visibility', 'href' => '#'],
-                    ['key' => 'edit', 'label' => 'Editar', 'icon' => 'edit', 'href' => '#'],
-                    ['key' => 'delete', 'label' => 'Excluir', 'icon' => 'delete', 'href' => '#'],
+                    ['key' => 'view', 'label' => 'Visualizar', 'icon' => 'eye', 'href' => '#'],
+                    ['key' => 'edit', 'label' => 'Editar', 'icon' => 'pen', 'href' => '#'],
+                    ['key' => 'delete', 'label' => 'Excluir', 'icon' => 'trash', 'href' => '#'],
                 ]),
         ];
     }
@@ -79,14 +79,14 @@ class ClientesTable extends DataTableComponent
     {
         return [
             BulkAction::make('activate', 'Ativar')
-                ->icon('check_circle')
+                ->icon('circle-check')
                 ->variant('primary')
                 ->handler(function (Collection $models) {
                     $models->each(fn (Cliente $cliente) => $cliente->update(['status' => 'ativo']));
                 }),
 
             BulkAction::make('block', 'Bloquear')
-                ->icon('block')
+                ->icon('ban')
                 ->variant('danger')
                 ->confirm('Tem certeza que deseja bloquear os clientes selecionados?')
                 ->handler(function (Collection $models) {

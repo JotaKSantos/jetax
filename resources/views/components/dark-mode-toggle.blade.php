@@ -10,9 +10,9 @@
     @click="toggle()"
 >
     {{-- Sun icon (visible in dark mode) --}}
-    <span x-show="isDark" class="material-symbols-outlined text-[20px]">light_mode</span>
+    <x-jetax-icon name="sun" size="md" x-show="isDark" />
     {{-- Moon icon (visible in light mode) --}}
-    <span x-show="!isDark" class="material-symbols-outlined text-[20px]">dark_mode</span>
+    <x-jetax-icon name="moon" size="md" x-show="!isDark" />
 </button>
 
 @once

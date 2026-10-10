@@ -9,7 +9,6 @@
     $elements  = $elements();
     $pageName  = $pageName();
     $scrollSnippet = $scrollIntoViewSnippet();
-    $arrowIconClass = 'material-symbols-outlined text-lg';
 @endphp
 
 <div {{ $attributes->merge(['class' => 'p-4 bg-surface-container-low flex flex-wrap items-center justify-between gap-4']) }}>
@@ -63,7 +62,7 @@
                     aria-label="Página anterior"
                     class="{{ $disabledArrowClasses() }}"
                 >
-                    <span class="{{ $arrowIconClass }}">chevron_left</span>
+                    <x-jetax-icon name="chevron-left" size="18" />
                 </button>
             @elseif($livewire)
                 <button
@@ -74,7 +73,7 @@
                     aria-label="Página anterior"
                     class="{{ $arrowClasses() }}"
                 >
-                    <span class="{{ $arrowIconClass }}">chevron_left</span>
+                    <x-jetax-icon name="chevron-left" size="18" />
                 </button>
             @else
                 <a
@@ -83,7 +82,7 @@
                     aria-label="Página anterior"
                     class="{{ $arrowClasses() }}"
                 >
-                    <span class="{{ $arrowIconClass }}">chevron_left</span>
+                    <x-jetax-icon name="chevron-left" size="18" />
                 </a>
             @endif
 
@@ -132,7 +131,7 @@
                     aria-label="Próxima página"
                     class="{{ $disabledArrowClasses() }}"
                 >
-                    <span class="{{ $arrowIconClass }}">chevron_right</span>
+                    <x-jetax-icon name="chevron-right" size="18" />
                 </button>
             @elseif($livewire)
                 <button
@@ -143,7 +142,7 @@
                     aria-label="Próxima página"
                     class="{{ $arrowClasses() }}"
                 >
-                    <span class="{{ $arrowIconClass }}">chevron_right</span>
+                    <x-jetax-icon name="chevron-right" size="18" />
                 </button>
             @else
                 <a
@@ -152,7 +151,7 @@
                     aria-label="Próxima página"
                     class="{{ $arrowClasses() }}"
                 >
-                    <span class="{{ $arrowIconClass }}">chevron_right</span>
+                    <x-jetax-icon name="chevron-right" size="18" />
                 </a>
             @endif
 

@@ -9,4 +9,4 @@
             'aria-label' => $removeLabel,
             'title' => $removeLabel,
         ]) }}
-    ><span class="material-symbols-outlined text-sm leading-none" aria-hidden="true">close</span></button>@endif</span>
+    ><x-jetax-icon name="xmark" size="14" class="leading-none" /></button>@endif</span>

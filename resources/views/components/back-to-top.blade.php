@@ -8,5 +8,5 @@
     aria-label="Voltar ao topo"
     type="button"
 >
-    <x-jetax-icon name="arrow_upward" />
+    <x-jetax-icon name="arrow-up" />
 </button>

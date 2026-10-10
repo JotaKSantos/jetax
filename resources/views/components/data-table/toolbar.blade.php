@@ -2,7 +2,7 @@
     <div class="flex-1 min-w-[220px] max-w-md">
         <x-jetax-input
             name="search"
-            icon="search"
+            icon="magnifying-glass"
             placeholder="Buscar..."
             wire:model.live.debounce.300ms="search"
         />

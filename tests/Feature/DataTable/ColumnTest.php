@@ -92,14 +92,14 @@ it('renders actions column scoped to row with icons', function () {
             [
                 'key' => 'edit',
                 'label' => 'Editar',
-                'icon' => 'edit',
+                'icon' => 'pen',
                 'href' => "/posts/{$row->id}/edit",
             ],
         ]);
 
     $rendered = (string) $column->render($post);
 
-    expect($rendered)->toContain('edit');
+    expect($rendered)->toContain('fa-solid fa-pen');
     expect($rendered)->toContain("/posts/{$post->id}/edit");
 });
 
@@ -108,23 +108,25 @@ it('collapses extra actions into dropdown', function () {
 
     $column = ActionsColumn::make('actions', '')
         ->actions([
-            ['key' => 'a1', 'label' => 'Ação 1', 'icon' => 'edit', 'href' => '#'],
-            ['key' => 'a2', 'label' => 'Ação 2', 'icon' => 'visibility', 'href' => '#'],
-            ['key' => 'a3', 'label' => 'Ação 3', 'icon' => 'share', 'href' => '#'],
-            ['key' => 'a4', 'label' => 'Ação 4', 'icon' => 'archive', 'href' => '#'],
-            ['key' => 'a5', 'label' => 'Ação 5', 'icon' => 'delete', 'href' => '#'],
+            ['key' => 'a1', 'label' => 'Ação 1', 'icon' => 'pen', 'href' => '#'],
+            ['key' => 'a2', 'label' => 'Ação 2', 'icon' => 'eye', 'href' => '#'],
+            ['key' => 'a3', 'label' => 'Ação 3', 'icon' => 'share-nodes', 'href' => '#'],
+            ['key' => 'a4', 'label' => 'Ação 4', 'icon' => 'box-archive', 'href' => '#'],
+            ['key' => 'a5', 'label' => 'Ação 5', 'icon' => 'regular:trash-can', 'href' => '#'],
         ])
         ->collapseAfter(3);
 
     $rendered = (string) $column->render($post);
 
-    // Icone more_vert deve aparecer para o dropdown
-    expect($rendered)->toContain('more_vert');
-    // Ação 4 e 5 estão colapsadas → aparecem como dropdown-item, não como ícone direto
-    expect($rendered)->toContain('archive');
-    expect($rendered)->toContain('delete');
+    // O gatilho do dropdown usa o FA mapeado de more_vert
+    expect($rendered)->toContain('fa-solid fa-ellipsis-vertical');
+    // Ação 4 e 5 estão colapsadas → aparecem como dropdown-item, com o estilo do prefixo
+    expect($rendered)->toContain('fa-solid fa-box-archive');
+    expect($rendered)->toContain('fa-regular fa-trash-can');
     // As 3 primeiras estão visíveis como x-jetax-icon direto
-    expect($rendered)->toContain('edit');
-    expect($rendered)->toContain('visibility');
-    expect($rendered)->toContain('share');
+    expect($rendered)->toContain('fa-solid fa-pen');
+    expect($rendered)->toContain('fa-solid fa-eye');
+    expect($rendered)->toContain('fa-solid fa-share-nodes');
+    expect($rendered)->not->toContain('regular:')
+        ->not->toContain('material');
 });

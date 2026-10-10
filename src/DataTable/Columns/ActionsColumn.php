@@ -107,7 +107,7 @@ class ActionsColumn extends Column
         <x-jetax-dropdown>
             <x-slot name="trigger">
                 <button type="button" class="p-1.5 rounded hover:bg-slate-100">
-                    <x-jetax-icon name="more_vert" size="sm" />
+                    <x-jetax-icon name="ellipsis-vertical" size="sm" />
                 </button>
             </x-slot>
             @foreach($collapsedActions as $extra)

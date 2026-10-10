@@ -6,7 +6,7 @@
                 @click="showCode = !showCode"
                 class="text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 flex items-center gap-1 transition-colors"
             >
-                <span class="material-symbols-outlined text-sm" x-text="showCode ? 'visibility_off' : 'code'"></span>
+                <i class="fa-solid text-[10px]" :class="showCode ? 'fa-eye-slash' : 'fa-code'" aria-hidden="true"></i>
                 <span x-text="showCode ? 'Ocultar Codigo' : 'Ver Codigo'"></span>
             </button>
             <button
@@ -24,7 +24,7 @@
                 "
                 class="text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 flex items-center gap-1 transition-colors"
             >
-                <span class="material-symbols-outlined text-sm">content_copy</span>
+                <x-jetax-icon name="copy" size="14" />
                 <span>Copiar</span>
             </button>
         </div>

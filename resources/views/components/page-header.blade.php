@@ -9,7 +9,7 @@
                  coluna, o título com `titleAfter` em cima e o subtítulo embaixo. --}}
             <div class="flex items-center gap-3.5">
                 <span class="{{ $iconSquareClasses() }}">
-                    <span class="material-symbols-outlined text-[26px]">{{ $icon }}</span>
+                    <x-jetax-icon :name="$icon" size="26" />
                 </span>
 
                 <div>
@@ -31,7 +31,7 @@
                 <div class="flex items-center gap-3.5">
                     @if($hasIcon())
                         <span class="{{ $iconSquareClasses() }}">
-                            <span class="material-symbols-outlined text-[26px]">{{ $icon }}</span>
+                            <x-jetax-icon :name="$icon" size="26" />
                         </span>
                     @endif
 

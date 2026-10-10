@@ -27,7 +27,7 @@ it('test_removable_sends_wire_click_to_remove_button', function () {
         ->toContain('type="button"')
         ->toContain('aria-label="Remover"')
         ->and($root)->not->toContain('wire:click')
-        ->and($html)->toContain('>close</span></button>');
+        ->and($html)->toMatch('#<i\b[^>]*fa-solid fa-xmark[^>]*></i>\s*</button>#');
 });
 
 it('test_remove_prefixed_attributes_reach_button_without_prefix', function () {

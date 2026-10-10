@@ -34,13 +34,13 @@ class ShowcaseTable extends DataTableComponent
                     [
                         'key' => 'edit',
                         'label' => 'Editar',
-                        'icon' => 'edit',
+                        'icon' => 'pen',
                         'href' => '#',
                     ],
                     [
                         'key' => 'delete',
                         'label' => 'Excluir',
-                        'icon' => 'delete',
+                        'icon' => 'trash',
                         'href' => '#',
                     ],
                 ]),

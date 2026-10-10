@@ -20,7 +20,7 @@ it('test_enabled_item_html_has_no_disabled_substring', function () {
 });
 
 it('test_link_item_keeps_package_markup', function () {
-    $html = Blade::render('<x-jetax-dropdown-item href="/perfil" icon="person">Perfil</x-jetax-dropdown-item>');
+    $html = Blade::render('<x-jetax-dropdown-item href="/perfil" icon="user">Perfil</x-jetax-dropdown-item>');
 
     expect($html)->toContain('<a')
         ->toContain('href="/perfil"')

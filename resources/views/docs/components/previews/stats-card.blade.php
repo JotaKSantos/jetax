@@ -5,14 +5,14 @@ $codeBasico = <<<'BLADE'
     value="1.284"
     trend-value="+8%"
     trend="up"
-    icon="group"
+    icon="users"
 />
 BLADE;
 
 $codeTrends = <<<'BLADE'
-<x-jetax-stats-card label="Receita" value="R$ 45.200" trend-value="+12%" trend="up" icon="payments" />
-<x-jetax-stats-card label="Cancelamentos" value="23" trend-value="-5%" trend="down" icon="cancel" />
-<x-jetax-stats-card label="Ticket Medio" value="R$ 89,50" trend-value="0%" trend="neutral" icon="confirmation_number" />
+<x-jetax-stats-card label="Receita" value="R$ 45.200" trend-value="+12%" trend="up" icon="money-bills" />
+<x-jetax-stats-card label="Cancelamentos" value="23" trend-value="-5%" trend="down" icon="circle-xmark" />
+<x-jetax-stats-card label="Ticket Medio" value="R$ 89,50" trend-value="0%" trend="neutral" icon="ticket" />
 BLADE;
 
 $codeHighlighted = <<<'BLADE'
@@ -21,7 +21,7 @@ $codeHighlighted = <<<'BLADE'
     value="142%"
     trend-value="+42%"
     trend="up"
-    icon="emoji_events"
+    icon="trophy"
     :highlighted="true"
 />
 BLADE;
@@ -46,7 +46,7 @@ BLADE;
                 value="1.284"
                 trend-value="+8%"
                 trend="up"
-                icon="group"
+                icon="users"
             />
         </div>
     </x-jetax-docs-preview-section>
@@ -54,9 +54,9 @@ BLADE;
     {{-- Trends --}}
     <x-jetax-docs-preview-section title="Trends (Up, Down, Neutral)" :code="$codeTrends">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <x-jetax-stats-card label="Receita" value="R$ 45.200" trend-value="+12%" trend="up" icon="payments" />
-            <x-jetax-stats-card label="Cancelamentos" value="23" trend-value="-5%" trend="down" icon="cancel" />
-            <x-jetax-stats-card label="Ticket Medio" value="R$ 89,50" trend-value="0%" trend="neutral" icon="confirmation_number" />
+            <x-jetax-stats-card label="Receita" value="R$ 45.200" trend-value="+12%" trend="up" icon="money-bills" />
+            <x-jetax-stats-card label="Cancelamentos" value="23" trend-value="-5%" trend="down" icon="circle-xmark" />
+            <x-jetax-stats-card label="Ticket Medio" value="R$ 89,50" trend-value="0%" trend="neutral" icon="ticket" />
         </div>
     </x-jetax-docs-preview-section>
 
@@ -68,7 +68,7 @@ BLADE;
                 value="142%"
                 trend-value="+42%"
                 trend="up"
-                icon="emoji_events"
+                icon="trophy"
                 :highlighted="true"
             />
         </div>

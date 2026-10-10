@@ -116,7 +116,7 @@
         >
             <div class="p-6 flex flex-col items-center text-center gap-4">
                 {{-- Ícone --}}
-                <span class="material-symbols-outlined text-5xl {{ $iconClasses() }}">{{ $iconName() }}</span>
+                <x-jetax-icon :name="$iconName()" size="48" :class="$iconClasses()" />
 
                 {{-- Título --}}
                 @if ($title)

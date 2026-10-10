@@ -71,11 +71,50 @@ it('test_disabled_attribute_passthrough', function () {
 });
 
 it('test_icon_rendered_left_and_right', function () {
-    $leftView = $this->blade('<x-jetax-button icon="search" icon-position="left">Buscar</x-jetax-button>');
-    $leftView->assertSeeInOrder(['material-symbols-outlined', 'Buscar'], false);
+    $leftView = $this->blade('<x-jetax-button icon="magnifying-glass" icon-position="left">Buscar</x-jetax-button>');
+    $leftView->assertSeeInOrder(['fa-solid fa-magnifying-glass', 'Buscar'], false);
 
-    $rightView = $this->blade('<x-jetax-button icon="arrow_forward" icon-position="right">Avançar</x-jetax-button>');
-    $rightView->assertSeeInOrder(['Avançar', 'material-symbols-outlined'], false);
+    $rightView = $this->blade('<x-jetax-button icon="arrow-right" icon-position="right">Avançar</x-jetax-button>');
+    $rightView->assertSeeInOrder(['Avançar', 'fa-solid fa-arrow-right'], false);
+});
+
+it('test_glyph_size_follows_button_size', function (string $size, string $glyphClass, string $template) {
+    $html = (string) $this->blade(sprintf($template, $size));
+    $glyph = htmlTag($html, 'i', 'fa-bell');
+
+    preg_match_all('/\btext-\[\d+px\]/', tagClass($glyph), $sizeClasses);
+
+    expect($sizeClasses[0])->toBe([$glyphClass])
+        ->and($glyph)->not->toContain('style=')
+        ->toContain('aria-hidden="true"')
+        ->and($html)->toContain($glyph.'</i>');
+})->with([
+    'sm' => ['sm', 'text-[12px]'],
+    'md' => ['md', 'text-[14px]'],
+    'lg' => ['lg', 'text-[18px]'],
+])->with([
+    'esquerda' => ['<x-jetax-button size="%s" icon="bell" icon-position="left">Avisos</x-jetax-button>'],
+    'direita' => ['<x-jetax-button size="%s" icon="bell" icon-position="right">Avisos</x-jetax-button>'],
+    'icon-only' => ['<x-jetax-button size="%s" icon="bell" icon-only aria-label="Avisos" />'],
+]);
+
+it('test_icon_accepts_style_prefix', function () {
+    $html = (string) $this->blade('<x-jetax-button icon="regular:bell">Avisos</x-jetax-button>');
+
+    expect($html)->toContain('fa-regular fa-bell')
+        ->not->toContain('regular:')
+        ->not->toContain('fa-solid');
+});
+
+it('test_icon_without_prefix_is_solid', function () {
+    $html = (string) $this->blade('<x-jetax-button icon="bell">Avisos</x-jetax-button>');
+
+    expect($html)->toContain('fa-solid fa-bell');
+});
+
+it('test_icon_with_invalid_style_prefix_throws_in_testing', function () {
+    expect(bladeRenderFailure('<x-jetax-button icon="outlined:bell">Avisos</x-jetax-button>'))
+        ->toBeInstanceOf(InvalidArgumentException::class);
 });
 
 it('test_all_6_styles_x_8_colors_x_3_sizes_render', function () {
@@ -101,7 +140,7 @@ it('test_invalid_color_throws_in_testing', function () {
 
 it('test_icon_only_renders_square_without_horizontal_padding', function (string $size, string $square) {
     $html = (string) $this->blade(
-        "<x-jetax-button icon-only size=\"{$size}\" icon=\"delete\" aria-label=\"Excluir\" />"
+        "<x-jetax-button icon-only size=\"{$size}\" icon=\"trash\" aria-label=\"Excluir\" />"
     );
 
     expect(htmlTag($html, 'button'))->toContain($square)
@@ -114,7 +153,7 @@ it('test_icon_only_renders_square_without_horizontal_padding', function (string 
 ]);
 
 it('test_icon_only_md_has_w_11_h_11_and_no_px_5', function () {
-    $html = (string) $this->blade('<x-jetax-button icon-only size="md" icon="edit" title="Editar" />');
+    $html = (string) $this->blade('<x-jetax-button icon-only size="md" icon="pen" title="Editar" />');
 
     expect($html)->toContain('w-11 h-11')
         ->not->toContain('px-5')
@@ -123,29 +162,29 @@ it('test_icon_only_md_has_w_11_h_11_and_no_px_5', function () {
 });
 
 it('test_icon_only_keeps_glyph_size', function () {
-    $html = (string) $this->blade('<x-jetax-button icon-only size="lg" icon="edit" aria-label="Editar" />');
+    $html = (string) $this->blade('<x-jetax-button icon-only size="lg" icon="pen" aria-label="Editar" />');
 
-    expect($html)->toContain('<span class="material-symbols-outlined">edit</span>');
+    expect($html)->toContain('<i class="fa-solid fa-pen text-[18px]" aria-hidden="true"></i>');
 });
 
 it('test_icon_only_without_accessible_name_throws_in_testing', function () {
-    expect(bladeRenderFailure('<x-jetax-button icon-only icon="delete" />'))
+    expect(bladeRenderFailure('<x-jetax-button icon-only icon="trash" />'))
         ->toBeInstanceOf(InvalidArgumentException::class);
 });
 
 it('test_icon_only_with_aria_label_title_or_slot_text_renders', function (string $template) {
     expect(bladeRenderFailure($template))->toBeNull();
 })->with([
-    'aria-label' => ['<x-jetax-button icon-only icon="delete" aria-label="Excluir" />'],
-    'title' => ['<x-jetax-button icon-only icon="delete" title="Excluir" />'],
-    'texto no slot' => ['<x-jetax-button icon-only icon="delete"><span class="sr-only">Excluir</span></x-jetax-button>'],
+    'aria-label' => ['<x-jetax-button icon-only icon="trash" aria-label="Excluir" />'],
+    'title' => ['<x-jetax-button icon-only icon="trash" title="Excluir" />'],
+    'texto no slot' => ['<x-jetax-button icon-only icon="trash"><span class="sr-only">Excluir</span></x-jetax-button>'],
 ]);
 
 it('test_icon_only_without_accessible_name_logs_and_renders_in_production', function () {
     config()->set('app.env', 'production');
     Log::spy();
 
-    $html = (string) $this->blade('<x-jetax-button icon-only icon="delete" />');
+    $html = (string) $this->blade('<x-jetax-button icon-only icon="trash" />');
 
     expect($html)->toContain('w-11 h-11');
     Log::shouldHaveReceived('warning')->once();

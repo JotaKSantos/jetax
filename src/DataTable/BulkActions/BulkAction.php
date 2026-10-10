@@ -14,7 +14,7 @@ class BulkAction
     protected ?\Closure $handler = null;
 
     /**
-     * Ícone opcional (Material Symbols) exibido ao lado do label.
+     * Ícone opcional exibido ao lado do label, em `[estilo:]nome` do Font Awesome (CT-03).
      */
     protected ?string $icon = null;
 

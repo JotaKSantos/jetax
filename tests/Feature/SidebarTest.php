@@ -4,21 +4,21 @@ use Illuminate\Support\Facades\Route;
 
 it('renders nav items from config', function () {
     config()->set('jetax.navigation.main', [
-        ['label' => 'Dashboard', 'icon' => 'dashboard', 'route' => 'dashboard'],
-        ['label' => 'Clientes', 'icon' => 'group', 'route' => 'clients.*'],
+        ['label' => 'Dashboard', 'icon' => 'table-cells-large', 'route' => 'dashboard'],
+        ['label' => 'Clientes', 'icon' => 'users', 'route' => 'clients.*'],
     ]);
 
     $view = $this->blade('<x-jetax::sidebar title="Test" />');
 
     $view->assertSee('Dashboard');
     $view->assertSee('Clientes');
-    $view->assertSee('dashboard', false); // icon name
-    $view->assertSee('group', false); // icon name
+    $view->assertSee('fa-solid fa-table-cells-large', false);
+    $view->assertSee('fa-solid fa-users', false);
 });
 
 it('renders nav items from slot overriding config', function () {
     config()->set('jetax.navigation.main', [
-        ['label' => 'Dashboard', 'icon' => 'dashboard', 'route' => 'dashboard'],
+        ['label' => 'Dashboard', 'icon' => 'table-cells-large', 'route' => 'dashboard'],
     ]);
 
     $view = $this->blade('
@@ -40,7 +40,7 @@ it('marks active item with pill indicator', function () {
     })->name('test.active');
 
     config()->set('jetax.navigation.main', [
-        ['label' => 'Home', 'icon' => 'home', 'route' => 'test.active'],
+        ['label' => 'Home', 'icon' => 'house', 'route' => 'test.active'],
     ]);
 
     // Simula request na rota nomeada para que routeIs() retorne true
@@ -55,7 +55,7 @@ it('marks active item with pill indicator', function () {
 
 it('inactive items have no pill', function () {
     config()->set('jetax.navigation.main', [
-        ['label' => 'Never Active', 'icon' => 'block', 'route' => 'nonexistent.route'],
+        ['label' => 'Never Active', 'icon' => 'ban', 'route' => 'nonexistent.route'],
     ]);
 
     $view = $this->blade('<x-jetax::sidebar title="Test" />');
@@ -73,4 +73,19 @@ it('has aria-current on active item', function () {
     $view = $this->blade('<x-jetax::sidebar title="Test" />');
 
     $view->assertDontSee('aria-current', false);
+});
+
+it('renders navigation icon with style prefix', function () {
+    config()->set('jetax.navigation.main', [
+        ['label' => 'Avisos', 'icon' => 'regular:bell', 'route' => 'nonexistent.route'],
+        ['label' => 'WhatsApp', 'icon' => 'brands:whatsapp', 'route' => 'nonexistent.route'],
+    ]);
+
+    $html = (string) $this->blade('<x-jetax::sidebar title="Test" />');
+
+    expect($html)->toContain('fa-regular fa-bell')
+        ->toContain('fa-brands fa-whatsapp')
+        ->not->toContain('regular:')
+        ->not->toContain('brands:')
+        ->not->toContain('material');
 });

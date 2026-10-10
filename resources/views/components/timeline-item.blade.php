@@ -13,7 +13,7 @@
         {{-- Marcador circular --}}
         <div class="w-6 h-6 rounded-full {{ $markerBgClass() }} flex items-center justify-center flex-shrink-0 border-2 border-surface-container-lowest z-10{{ $hasMarkerOverlay ? ' relative' : '' }}">
             @if($icon)
-                <span class="material-symbols-outlined text-[14px] {{ $iconColorClass() }}">{{ $icon }}</span>
+                <x-jetax-icon :name="$icon" size="14" :class="$iconColorClass()" />
             @else
                 <div class="w-2 h-2 rounded-full {{ $markerDotClass() }}"></div>
             @endif
@@ -48,7 +48,7 @@
         {{-- Marcador circular --}}
         <div class="w-6 h-6 rounded-full {{ $markerBgClass() }} flex items-center justify-center flex-shrink-0 border-2 border-surface-container-lowest z-10 -ml-9{{ $hasMarkerOverlay ? ' relative' : '' }}">
             @if($icon)
-                <span class="material-symbols-outlined text-[14px] {{ $iconColorClass() }}">{{ $icon }}</span>
+                <x-jetax-icon :name="$icon" size="14" :class="$iconColorClass()" />
             @else
                 <div class="w-2 h-2 rounded-full {{ $markerDotClass() }}"></div>
             @endif

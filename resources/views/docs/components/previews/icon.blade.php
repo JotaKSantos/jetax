@@ -1,11 +1,11 @@
 @php
 $codeBasico = <<<'BLADE'
 <div class="flex items-center gap-4">
-    <x-jetax-icon name="home" />
-    <x-jetax-icon name="search" />
-    <x-jetax-icon name="settings" />
-    <x-jetax-icon name="favorite" />
-    <x-jetax-icon name="delete" />
+    <x-jetax-icon name="house" />
+    <x-jetax-icon name="magnifying-glass" />
+    <x-jetax-icon name="gear" />
+    <x-jetax-icon name="heart" />
+    <x-jetax-icon name="trash" />
 </div>
 BLADE;
 
@@ -19,19 +19,18 @@ $codeTamanhos = <<<'BLADE'
 </div>
 BLADE;
 
-$codePeso = <<<'BLADE'
+$codeEstilos = <<<'BLADE'
 <div class="flex items-center gap-4">
-    <x-jetax-icon name="settings" :weight="100" />
-    <x-jetax-icon name="settings" :weight="300" />
-    <x-jetax-icon name="settings" :weight="400" />
-    <x-jetax-icon name="settings" :weight="700" />
+    <x-jetax-icon name="bell" />
+    <x-jetax-icon name="bell" variant="regular" />
+    <x-jetax-icon name="brands:whatsapp" />
 </div>
 BLADE;
 
-$codeFill = <<<'BLADE'
+$codePrefixo = <<<'BLADE'
 <div class="flex items-center gap-4">
-    <x-jetax-icon name="favorite" />
-    <x-jetax-icon name="favorite" :fill="true" />
+    <x-jetax-icon name="heart" />
+    <x-jetax-icon name="regular:heart" />
 </div>
 BLADE;
 @endphp
@@ -41,11 +40,11 @@ BLADE;
     {{-- Basico --}}
     <x-jetax-docs-preview-section title="Basico" :code="$codeBasico">
         <div class="flex items-center gap-4">
-            <x-jetax-icon name="home" />
-            <x-jetax-icon name="search" />
-            <x-jetax-icon name="settings" />
-            <x-jetax-icon name="favorite" />
-            <x-jetax-icon name="delete" />
+            <x-jetax-icon name="house" />
+            <x-jetax-icon name="magnifying-glass" />
+            <x-jetax-icon name="gear" />
+            <x-jetax-icon name="heart" />
+            <x-jetax-icon name="trash" />
         </div>
     </x-jetax-docs-preview-section>
 
@@ -60,21 +59,20 @@ BLADE;
         </div>
     </x-jetax-docs-preview-section>
 
-    {{-- Peso (Weight) --}}
-    <x-jetax-docs-preview-section title="Peso (Weight)" :code="$codePeso">
+    {{-- Estilos (variant) --}}
+    <x-jetax-docs-preview-section title="Estilos (variant)" :code="$codeEstilos">
         <div class="flex items-center gap-4">
-            <x-jetax-icon name="settings" :weight="100" />
-            <x-jetax-icon name="settings" :weight="300" />
-            <x-jetax-icon name="settings" :weight="400" />
-            <x-jetax-icon name="settings" :weight="700" />
+            <x-jetax-icon name="bell" />
+            <x-jetax-icon name="bell" variant="regular" />
+            <x-jetax-icon name="brands:whatsapp" />
         </div>
     </x-jetax-docs-preview-section>
 
-    {{-- Preenchido (Fill) --}}
-    <x-jetax-docs-preview-section title="Preenchido (Fill)" :code="$codeFill">
+    {{-- Prefixo de estilo no nome --}}
+    <x-jetax-docs-preview-section title="Prefixo de estilo no nome" :code="$codePrefixo">
         <div class="flex items-center gap-4">
-            <x-jetax-icon name="favorite" />
-            <x-jetax-icon name="favorite" :fill="true" />
+            <x-jetax-icon name="heart" />
+            <x-jetax-icon name="regular:heart" />
         </div>
     </x-jetax-docs-preview-section>
 

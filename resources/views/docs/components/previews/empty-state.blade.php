@@ -3,7 +3,7 @@ $codeBasic = <<<'BLADE'
 <x-jetax-empty-state
     title="Nenhum resultado"
     description="Tente ajustar os filtros de busca."
-    icon="search_off"
+    icon="magnifying-glass"
 />
 BLADE;
 
@@ -13,7 +13,7 @@ $codeAction = <<<'BLADE'
     description="Comece adicionando o primeiro item."
     icon="inbox"
 >
-    <x-jetax-button icon="add" color="primary">Criar novo</x-jetax-button>
+    <x-jetax-button icon="plus" color="primary">Criar novo</x-jetax-button>
 </x-jetax-empty-state>
 BLADE;
 
@@ -21,14 +21,14 @@ $codeTypes = <<<'BLADE'
 <x-jetax-empty-state
     title="Lista vazia"
     description="Nenhum item cadastrado ainda."
-    icon="folder_open"
+    icon="folder-open"
     type="empty"
 />
 
 <x-jetax-empty-state
     title="Nenhum resultado encontrado"
     description="Tente buscar com outros termos."
-    icon="search_off"
+    icon="magnifying-glass"
     type="no-results"
 />
 BLADE;
@@ -41,7 +41,7 @@ BLADE;
         <x-jetax-empty-state
             title="Nenhum resultado"
             description="Tente ajustar os filtros de busca."
-            icon="search_off"
+            icon="magnifying-glass"
         />
     </x-jetax-docs-preview-section>
 
@@ -52,7 +52,7 @@ BLADE;
             description="Comece adicionando o primeiro item."
             icon="inbox"
         >
-            <x-jetax-button icon="add" color="primary">Criar novo</x-jetax-button>
+            <x-jetax-button icon="plus" color="primary">Criar novo</x-jetax-button>
         </x-jetax-empty-state>
     </x-jetax-docs-preview-section>
 
@@ -62,13 +62,13 @@ BLADE;
             <x-jetax-empty-state
                 title="Lista vazia"
                 description="Nenhum item cadastrado ainda."
-                icon="folder_open"
+                icon="folder-open"
                 type="empty"
             />
             <x-jetax-empty-state
                 title="Nenhum resultado encontrado"
                 description="Tente buscar com outros termos."
-                icon="search_off"
+                icon="magnifying-glass"
                 type="no-results"
             />
         </div>

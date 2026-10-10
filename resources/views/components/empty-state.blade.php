@@ -2,7 +2,7 @@
 
 <div {{ $attributes->merge(['class' => 'flex flex-col items-center justify-center text-center p-12']) }}>
     <div class="w-20 h-20 rounded-full bg-surface-container-low flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-4xl {{ $iconColorClasses() }}">{{ $icon }}</span>
+        <x-jetax-icon :name="$icon" size="36" :class="$iconColorClasses()" />
     </div>
 
     @if ($title)

@@ -2,7 +2,7 @@
 
 it('renders trigger button', function () {
     $view = $this->blade('<x-jetax-clipboard text="hello" />');
-    $view->assertSee('content_copy', false);
+    $view->assertSee('fa-solid fa-copy', false);
 });
 
 it('has text prop in alpine data', function () {
@@ -12,5 +12,5 @@ it('has text prop in alpine data', function () {
 
 it('has check icon in html hidden by default', function () {
     $view = $this->blade('<x-jetax-clipboard text="hello" />');
-    $view->assertSee('check', false);
+    $view->assertSee('fa-solid fa-check', false);
 });

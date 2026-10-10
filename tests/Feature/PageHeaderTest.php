@@ -74,13 +74,13 @@ it('test_title_after_slot_is_inline_with_title', function () {
 });
 
 it('test_icon_renders_44px_square_before_title', function () {
-    $html = Blade::render('<x-jetax-page-header title="Animais" icon="pets" />');
+    $html = Blade::render('<x-jetax-page-header title="Animais" icon="paw" />');
 
-    expect($html)->toMatch('/<span class="w-11 h-11 flex-none rounded-\[11px\][^"]*">\s*<span class="material-symbols-outlined[^"]*">pets<\/span>\s*<\/span>\s*<h2/');
+    expect($html)->toMatch('/<span class="w-11 h-11 flex-none rounded-\[11px\][^"]*">\s*<i\b[^>]*class="fa-solid fa-paw[^"]*"[^>]*><\/i>\s*<\/span>\s*<h2/');
 });
 
 it('test_icon_square_uses_pri_to_pri_deep_gradient', function () {
-    $html = Blade::render('<x-jetax-page-header title="Animais" icon="pets" />');
+    $html = Blade::render('<x-jetax-page-header title="Animais" icon="paw" />');
 
     expect($html)->toContain('bg-linear-to-br from-primary-container to-primary-deep')
         ->and($html)->not->toContain('from-brand-blue');
@@ -91,7 +91,7 @@ it('test_icon_square_uses_pri_to_pri_deep_gradient', function () {
 });
 
 it('test_icon_switches_title_to_design_typography', function () {
-    $html = Blade::render('<x-jetax-page-header title="Animais" icon="pets" />');
+    $html = Blade::render('<x-jetax-page-header title="Animais" icon="paw" />');
 
     preg_match('/<h2 class="([^"]*)">/', $html, $matches);
 
@@ -102,7 +102,7 @@ it('test_icon_switches_title_to_design_typography', function () {
 });
 
 it('test_icon_attribute_does_not_leak', function () {
-    $html = Blade::render('<x-jetax-page-header title="Animais" icon="pets" heading="h1" subtitle-beside-icon />');
+    $html = Blade::render('<x-jetax-page-header title="Animais" icon="paw" heading="h1" subtitle-beside-icon />');
 
     expect($html)->not->toContain('icon=')
         ->not->toContain('heading=')
@@ -110,12 +110,12 @@ it('test_icon_attribute_does_not_leak', function () {
 });
 
 it('test_bottom_padding_depends_on_icon', function () {
-    expect(Blade::render('<x-jetax-page-header title="Animais" icon="pets" />'))->toContain('<div class="pb-5">')
+    expect(Blade::render('<x-jetax-page-header title="Animais" icon="paw" />'))->toContain('<div class="pb-5">')
         ->and(Blade::render('<x-jetax-page-header title="Animais" />'))->toContain('<div class="pb-9">');
 });
 
 it('test_heading_attribute_switches_title_tag', function () {
-    $h1 = Blade::render('<x-jetax-page-header title="A receber" icon="payments" heading="h1" />');
+    $h1 = Blade::render('<x-jetax-page-header title="A receber" icon="money-bills" heading="h1" />');
     $default = Blade::render('<x-jetax-page-header title="A receber" />');
     $other = Blade::render('<x-jetax-page-header title="A receber" heading="h3" />');
 
@@ -129,14 +129,14 @@ it('test_heading_attribute_switches_title_tag', function () {
 
 it('test_subtitle_beside_icon_renders_column_to_the_right_of_square', function () {
     $html = Blade::render('
-        <x-jetax-page-header title="Grupos" subtitle="Sub" icon="stacks" subtitle-beside-icon>
+        <x-jetax-page-header title="Grupos" subtitle="Sub" icon="layer-group" subtitle-beside-icon>
             <x-slot:titleAfter><a id="ajuda">?</a></x-slot:titleAfter>
         </x-jetax-page-header>
     ');
 
     expect($html)->toMatch(
         '/<div class="flex items-center gap-3\.5">\s*'
-        .'<span class="w-11 h-11[^"]*">\s*<span class="material-symbols-outlined[^"]*">stacks<\/span>\s*<\/span>\s*'
+        .'<span class="w-11 h-11[^"]*">\s*<i\b[^>]*class="fa-solid fa-layer-group[^"]*"[^>]*><\/i>\s*<\/span>\s*'
         .'<div>\s*<div class="flex items-center[^"]*">\s*<h2[^>]*>Grupos<\/h2>\s*<a id="ajuda">\?<\/a>\s*<\/div>\s*'
         .'<p class="text-sm text-on-surface-variant mt-0\.5">Sub<\/p>\s*<\/div>\s*<\/div>/'
     );
@@ -152,9 +152,17 @@ it('test_subtitle_beside_icon_requires_icon', function () {
 
 it('test_subtitle_uses_on_surface_variant_token', function () {
     $plain = Blade::render('<x-jetax-page-header title="Clientes" subtitle="Sub" />');
-    $withIcon = Blade::render('<x-jetax-page-header title="Clientes" subtitle="Sub" icon="pets" />');
+    $withIcon = Blade::render('<x-jetax-page-header title="Clientes" subtitle="Sub" icon="paw" />');
 
     expect($plain)->toContain('<p class="text-sm text-on-surface-variant mt-1">Sub</p>')
         ->and($withIcon)->toContain('<p class="text-sm text-on-surface-variant mt-1">Sub</p>')
         ->and($plain.$withIcon)->not->toContain('slate-');
+});
+
+it('test_icon_accepts_style_prefix', function () {
+    $html = Blade::render('<x-jetax-page-header title="Animais" icon="regular:bell" />');
+
+    expect($html)->toContain('fa-regular fa-bell')
+        ->not->toContain('regular:')
+        ->not->toContain('material');
 });

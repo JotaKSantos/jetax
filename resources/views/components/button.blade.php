@@ -17,12 +17,12 @@
     @if($loading)
         <x-jetax-spinner />
     @elseif($icon && $iconPosition === 'left')
-        <span class="material-symbols-outlined">{{ $icon }}</span>
+        <i class="{{ $iconClasses() }}" aria-hidden="true"></i>
     @endif
 
     {{ $slot }}
 
     @if(!$loading && $icon && $iconPosition === 'right')
-        <span class="material-symbols-outlined">{{ $icon }}</span>
+        <i class="{{ $iconClasses() }}" aria-hidden="true"></i>
     @endif
 </button>

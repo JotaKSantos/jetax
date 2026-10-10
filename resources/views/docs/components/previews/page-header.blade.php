@@ -25,7 +25,7 @@ $codeActions = <<<'BLADE'
 <x-jetax-page-header title="Usuarios">
     <x-slot:actions>
         <x-jetax-button size="sm" style="soft" icon="download">Exportar</x-jetax-button>
-        <x-jetax-button size="sm" icon="add">Novo Usuario</x-jetax-button>
+        <x-jetax-button size="sm" icon="plus">Novo Usuario</x-jetax-button>
     </x-slot:actions>
 </x-jetax-page-header>
 BLADE;
@@ -42,7 +42,7 @@ $codeCompleto = <<<'BLADE'
 >
     <x-slot:actions>
         <x-jetax-button size="sm" style="soft" icon="download">Exportar</x-jetax-button>
-        <x-jetax-button size="sm" icon="add">Novo Usuario</x-jetax-button>
+        <x-jetax-button size="sm" icon="plus">Novo Usuario</x-jetax-button>
     </x-slot:actions>
 </x-jetax-page-header>
 BLADE;
@@ -81,7 +81,7 @@ BLADE;
             <x-jetax-page-header title="Usuarios">
                 <x-slot:actions>
                     <x-jetax-button size="sm" style="soft" icon="download">Exportar</x-jetax-button>
-                    <x-jetax-button size="sm" icon="add">Novo Usuario</x-jetax-button>
+                    <x-jetax-button size="sm" icon="plus">Novo Usuario</x-jetax-button>
                 </x-slot:actions>
             </x-jetax-page-header>
         </div>
@@ -101,7 +101,7 @@ BLADE;
             >
                 <x-slot:actions>
                     <x-jetax-button size="sm" style="soft" icon="download">Exportar</x-jetax-button>
-                    <x-jetax-button size="sm" icon="add">Novo Usuario</x-jetax-button>
+                    <x-jetax-button size="sm" icon="plus">Novo Usuario</x-jetax-button>
                 </x-slot:actions>
             </x-jetax-page-header>
         </div>

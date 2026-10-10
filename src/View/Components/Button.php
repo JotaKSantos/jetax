@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\Component;
 use InvalidArgumentException;
+use Jetax\DesignSystem\Support\FontAwesome;
 use Jetax\DesignSystem\View\Components\Concerns\ValidatesVariant;
 
 class Button extends Component
@@ -31,6 +32,16 @@ class Button extends Component
      * Tamanhos disponíveis.
      */
     public const SIZES = ['sm', 'md', 'lg'];
+
+    /**
+     * Classe de tamanho do glifo por `size` do botão (JETAX-014 c, SPEC jetax-f2 RF-04, CT-05):
+     * valores fixos que acompanham a fonte do próprio botão.
+     */
+    public const GLYPH_SIZES = [
+        'sm' => 'text-[12px]',
+        'md' => 'text-[14px]',
+        'lg' => 'text-[18px]',
+    ];
 
     /**
      * Cria uma nova instância do componente de botão.
@@ -78,6 +89,19 @@ class Button extends Component
             'lg' => $isRounded ? 'px-8 py-4 text-lg font-headline' : 'px-8 py-4 text-lg rounded-xl font-headline',
             default => $isRounded ? 'px-5 py-2.5 text-sm' : 'px-5 py-2.5 text-sm rounded-xl',
         };
+    }
+
+    /**
+     * Classes FA do glifo (CT-01): `fa-<estilo> fa-<nome>` com o `icon` em `[estilo:]nome`
+     * (CT-03) e a classe de tamanho do `size` do botão, sem `style` inline.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function iconClasses(): string
+    {
+        ['style' => $style, 'name' => $name] = FontAwesome::parse($this->icon);
+
+        return "fa-{$style} fa-{$name} ".(self::GLYPH_SIZES[$this->size] ?? self::GLYPH_SIZES['md']);
     }
 
     /**

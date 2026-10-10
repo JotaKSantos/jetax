@@ -40,7 +40,7 @@ BLADE;
 
     {{-- Link para preview completo --}}
     <div class="flex items-center gap-3 p-4 rounded-xl bg-surface-container-low dark:bg-white/5 border border-outline-variant/20 dark:border-white/10">
-        <span class="material-symbols-outlined text-primary-container">open_in_new</span>
+        <x-jetax-icon name="arrow-up-right-from-square" size="lg" class="text-primary-container" />
         <div>
             <p class="text-sm text-on-surface dark:text-white/80">
                 Este componente e um layout de pagina completo e nao pode ser renderizado inline.
@@ -63,7 +63,7 @@ BLADE;
                 <div class="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-primary-container blur-3xl opacity-10"></div>
                 <div class="relative z-10 text-center">
                     <div class="mx-auto mb-3 w-10 h-10 rounded-lg bg-gradient-to-br from-primary-container to-info flex items-center justify-center">
-                        <span class="material-symbols-outlined text-white text-lg">lock</span>
+                        <x-jetax-icon name="lock" size="18" class="text-white" />
                     </div>
                     <p class="text-white font-bold text-lg">Jetax</p>
                     <p class="text-slate-400 text-[10px] uppercase tracking-wider">Design System</p>
@@ -92,7 +92,7 @@ BLADE;
                 <div class="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-primary-container blur-3xl opacity-10"></div>
                 <div class="relative z-10 text-center">
                     <div class="mx-auto mb-3 w-10 h-10 rounded-lg bg-gradient-to-br from-primary-container to-info flex items-center justify-center">
-                        <span class="material-symbols-outlined text-white text-lg">lock</span>
+                        <x-jetax-icon name="lock" size="18" class="text-white" />
                     </div>
                     <p class="text-white font-bold text-lg">Jetax</p>
                     <p class="text-slate-400 text-[10px] uppercase tracking-wider">Design System</p>
@@ -123,7 +123,7 @@ BLADE;
                 <div class="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-primary-container blur-3xl opacity-10"></div>
                 <div class="relative z-10 text-center">
                     <div class="mx-auto mb-3 w-10 h-10 rounded-lg bg-gradient-to-br from-primary-container to-info flex items-center justify-center">
-                        <span class="material-symbols-outlined text-white text-lg">image</span>
+                        <x-jetax-icon name="image" size="18" class="text-white" />
                     </div>
                     <p class="text-white font-bold text-lg">Jetax</p>
                     <p class="text-slate-400 text-[10px] uppercase tracking-wider">Design System</p>

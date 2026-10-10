@@ -5,19 +5,19 @@ $codeSoft = implode("\n", array_map(fn($v) => '<x-jetax-alert variant="' . $v . 
 
 $codeSolid = implode("\n", array_map(fn($v) => '<x-jetax-alert variant="' . $v . '" style="solid" message="Alerta ' . ucfirst($v) . '" />', $variants));
 
-$codeRich = implode("\n", array_map(fn($v) => '<x-jetax-alert variant="' . $v . '" style="rich" title="' . ucfirst($v) . '" icon="info" message="Mensagem detalhada do alerta." />', $variants));
+$codeRich = implode("\n", array_map(fn($v) => '<x-jetax-alert variant="' . $v . '" style="rich" title="' . ucfirst($v) . '" icon="circle-info" message="Mensagem detalhada do alerta." />', $variants));
 
 $codeIcons = <<<'BLADE'
-<x-jetax-alert variant="info" icon="info" message="Informacao importante." />
-<x-jetax-alert variant="success" icon="check_circle" message="Operacao realizada!" />
-<x-jetax-alert variant="warning" icon="warning" message="Atencao aos dados." />
-<x-jetax-alert variant="danger" icon="error" message="Erro ao processar." />
+<x-jetax-alert variant="info" icon="circle-info" message="Informacao importante." />
+<x-jetax-alert variant="success" icon="circle-check" message="Operacao realizada!" />
+<x-jetax-alert variant="warning" icon="triangle-exclamation" message="Atencao aos dados." />
+<x-jetax-alert variant="danger" icon="circle-exclamation" message="Erro ao processar." />
 BLADE;
 
 $codeDismissible = <<<'BLADE'
 <x-jetax-alert variant="success" message="Voce pode fechar este alerta." dismissible />
 <x-jetax-alert variant="warning" style="solid" message="Alerta solid dispensavel." dismissible />
-<x-jetax-alert variant="info" style="rich" title="Dispensavel" icon="info" message="Alerta rich dispensavel." dismissible />
+<x-jetax-alert variant="info" style="rich" title="Dispensavel" icon="circle-info" message="Alerta rich dispensavel." dismissible />
 BLADE;
 
 $codeSlot = <<<'BLADE'
@@ -51,7 +51,7 @@ BLADE;
     <x-jetax-docs-preview-section title="Estilo Rich" :code="$codeRich">
         <div class="space-y-3">
             @foreach($variants as $variant)
-                <x-jetax-alert :variant="$variant" style="rich" :title="ucfirst($variant)" icon="info" message="Mensagem detalhada do alerta." />
+                <x-jetax-alert :variant="$variant" style="rich" :title="ucfirst($variant)" icon="circle-info" message="Mensagem detalhada do alerta." />
             @endforeach
         </div>
     </x-jetax-docs-preview-section>
@@ -59,10 +59,10 @@ BLADE;
     {{-- Com Icones --}}
     <x-jetax-docs-preview-section title="Com Icones" :code="$codeIcons">
         <div class="space-y-3">
-            <x-jetax-alert variant="info" icon="info" message="Informacao importante." />
-            <x-jetax-alert variant="success" icon="check_circle" message="Operacao realizada!" />
-            <x-jetax-alert variant="warning" icon="warning" message="Atencao aos dados." />
-            <x-jetax-alert variant="danger" icon="error" message="Erro ao processar." />
+            <x-jetax-alert variant="info" icon="circle-info" message="Informacao importante." />
+            <x-jetax-alert variant="success" icon="circle-check" message="Operacao realizada!" />
+            <x-jetax-alert variant="warning" icon="triangle-exclamation" message="Atencao aos dados." />
+            <x-jetax-alert variant="danger" icon="circle-exclamation" message="Erro ao processar." />
         </div>
     </x-jetax-docs-preview-section>
 
@@ -71,7 +71,7 @@ BLADE;
         <div class="space-y-3">
             <x-jetax-alert variant="success" message="Voce pode fechar este alerta." dismissible />
             <x-jetax-alert variant="warning" style="solid" message="Alerta solid dispensavel." dismissible />
-            <x-jetax-alert variant="info" style="rich" title="Dispensavel" icon="info" message="Alerta rich dispensavel." dismissible />
+            <x-jetax-alert variant="info" style="rich" title="Dispensavel" icon="circle-info" message="Alerta rich dispensavel." dismissible />
         </div>
     </x-jetax-docs-preview-section>
 

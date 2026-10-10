@@ -72,10 +72,17 @@ it('test_wire_model_attribute_preserved', function () {
 });
 
 it('test_icon_rendered_when_prop_provided', function () {
-    $view = $this->blade('<x-jetax-input name="campo" icon="search" />');
+    $view = $this->blade('<x-jetax-input name="campo" icon="magnifying-glass" />');
 
-    $view->assertSee('material-symbols-outlined', false);
-    $view->assertSee('search', false);
+    $view->assertSee('fa-solid fa-magnifying-glass', false);
+    $view->assertSee('aria-hidden="true"', false);
+});
+
+it('test_icon_accepts_style_prefix', function () {
+    $html = (string) $this->blade('<x-jetax-input name="campo" icon="regular:envelope" />');
+
+    expect($html)->toContain('fa-regular fa-envelope')
+        ->not->toContain('regular:');
 });
 
 it('test_mask_directive_applied_when_prop_present', function () {

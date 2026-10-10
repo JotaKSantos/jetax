@@ -2,7 +2,7 @@
 
 it('renders close button', function () {
     $view = $this->blade('<x-jetax-dismissable>Conteúdo</x-jetax-dismissable>');
-    $view->assertSee('close', false);
+    $view->assertSee('fa-solid fa-xmark', false);
 });
 
 it('renders slot content', function () {

@@ -55,11 +55,11 @@
                                         <span>{{ $column->getLabel() }}</span>
                                         <span class="inline-flex items-center leading-none">
                                             @if($this->sortBy === $column->getKey() && $this->sortDirection === 'asc')
-                                                <x-jetax-icon name="keyboard_arrow_up" size="md" class="text-on-surface" />
+                                                <x-jetax-icon name="angle-up" size="md" class="text-on-surface" />
                                             @elseif($this->sortBy === $column->getKey() && $this->sortDirection === 'desc')
-                                                <x-jetax-icon name="keyboard_arrow_down" size="md" class="text-on-surface" />
+                                                <x-jetax-icon name="angle-down" size="md" class="text-on-surface" />
                                             @else
-                                                <x-jetax-icon name="expand_all" size="md" class="text-on-surface-variant/40" />
+                                                <x-jetax-icon name="arrows-up-down" size="md" class="text-on-surface-variant/40" />
                                             @endif
                                         </span>
                                     </button>

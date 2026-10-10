@@ -21,7 +21,7 @@
 
     <div class="relative">
         @if($icon)
-            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] pointer-events-none">{{ $icon }}</span>
+            <x-jetax-icon :name="$icon" size="md" class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
         @endif
 
         <input

@@ -40,8 +40,8 @@ it('test_separator_is_chevron', function () {
 
     $view = $this->blade('<x-jetax-breadcrumbs :items="$items" />', ['items' => $items]);
 
-    // O separador deve usar o ícone Material Symbols "chevron_right"
-    $view->assertSee('chevron_right', false);
+    // O separador usa o ícone FA "chevron-right"
+    $view->assertSee('fa-solid fa-chevron-right', false);
     // O separador não deve ser uma barra literal entre os textos dos itens
     $view->assertDontSee('Home / Detalhes', false);
     $view->assertDontSee('>/<', false);

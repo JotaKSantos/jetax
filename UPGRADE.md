@@ -1,3 +1,273 @@
+<a id="guia-2x-30"></a>
+# Guia de migração 2.x → 3.0
+
+A 3.0.0 troca o sistema de ícones do Material Symbols para a webfont do **Font Awesome Free
+6.7.2**. O pacote passa a emitir só a marcação (`<i class="fa-<estilo> fa-<nome>">`) e não
+carrega folha de ícone nenhuma: quem importa o Font Awesome é a aplicação. Este guia lista cada
+quebra da [seção 3.0.0 do CHANGELOG](CHANGELOG.md), com o uso antigo, o novo e o passo de
+migração.
+
+## Checklist da 3.0
+
+- [ ] Trocar `jksantos/jetax` para `^3.0` no `composer.json` e rodar `composer update jksantos/jetax`.
+- [ ] Instalar `@fortawesome/fontawesome-free@6.7.2` pelo npm e importar a folha no CSS de entrada, em `layer(base)`.
+- [ ] Remover o import do Material Symbols do CSS e dos layouts da aplicação.
+- [ ] Trocar todo nome de ícone do Material pelo nome canônico do Font Awesome, com `regular:` ou `brands:` quando o estilo não for `solid`.
+- [ ] Remover `weight` e `fill` de `<x-jetax-icon>` e escolher o estilo por `variant` ou prefixo.
+- [ ] Recalibrar as classes de tamanho dos ícones da aplicação pela regra ÷ 1,35.
+- [ ] Trocar `x-text`/`x-html` em elemento de ícone por binding de classe.
+- [ ] Apagar as views publicadas em `resources/views/vendor/jetax/` que ainda emitem `material-symbols-outlined`, e rodar `php artisan jetax:check` nas que ficarem.
+
+## Quebras de API da 3.0
+
+<a id="v3-marcacao"></a>
+### Marcação do ícone: `span` com ligadura → `i` com classes FA
+
+`<x-jetax-icon>` e todos os componentes que exibem ícone deixam de emitir um `<span>` com a
+classe `material-symbols-outlined` e o nome do ícone como texto (ligadura). A saída passa a ser
+um `<i>` vazio com as classes do Font Awesome e `aria-hidden="true"` (JETAX-017).
+
+**Antes**
+
+```html
+<span class="material-symbols-outlined" style="font-size: 20px; font-variation-settings: 'FILL' 0, 'wght' 400; color: inherit;">pets</span>
+```
+
+**Depois**
+
+```html
+<i class="fa-solid fa-paw text-[15px]" aria-hidden="true"></i>
+```
+
+**Como migrar**
+
+1. Troque na aplicação todo `<span class="material-symbols-outlined">nome</span>` escrito à mão
+   por `<x-jetax-icon name="…" />` ou por `<i class="fa-solid fa-…" aria-hidden="true"></i>`.
+2. Ajuste seletores CSS e de teste que procuravam `material-symbols-outlined` ou o texto do
+   ícone: o elemento agora é `<i>` e não tem texto.
+3. Ícone sem rótulo visível continua precisando de `aria-label` ou `title` no elemento
+   interativo que o contém, porque o `<i>` é `aria-hidden`.
+
+<a id="v3-weight-fill"></a>
+### Props `weight` e `fill` removidas
+
+O Font Awesome não tem eixo variável. `<x-jetax-icon>` não aceita mais `weight` nem `fill` e não
+emite `font-variation-settings`. O "preenchido" e o "contorno" passam a ser estilos distintos.
+
+**Antes**
+
+```blade
+<x-jetax-icon name="favorite" :fill="true" :weight="600" />
+<x-jetax-icon name="favorite" />
+```
+
+**Depois**
+
+```blade
+<x-jetax-icon name="heart" />            {{-- preenchido: solid --}}
+<x-jetax-icon name="regular:heart" />    {{-- contorno: regular --}}
+```
+
+**Como migrar**
+
+1. Remova `weight` e `fill` de todo `<x-jetax-icon>`; passados como atributo, eles vazariam
+   para o HTML.
+2. Ícone com `fill` ligado vira o estilo `solid` (o padrão).
+3. Ícone em contorno vira o estilo `regular`, quando o nome existe nele no manifesto. O Font
+   Awesome Free tem bem menos nomes em `regular` que em `solid`; sem o nome em `regular`, use o
+   `solid`.
+
+<a id="v3-variant"></a>
+### Prop `variant`
+
+`<x-jetax-icon>` ganha a prop `variant`, com `solid` (padrão), `regular` ou `brands`. Ela escolhe
+o estilo quando o `name` não tem prefixo.
+
+**Antes**
+
+```blade
+{{-- não havia estilo: só o Material Symbols Outlined --}}
+<x-jetax-icon name="notifications" />
+```
+
+**Depois**
+
+```blade
+<x-jetax-icon name="bell" variant="regular" />
+<x-jetax-icon name="regular:bell" />                  {{-- equivalente --}}
+<x-jetax-icon name="whatsapp" variant="brands" />
+```
+
+**Como migrar**
+
+1. Use `variant` (ou o prefixo `estilo:`, ver a próxima seção) só quando o estilo não for `solid`.
+2. Marcas (`whatsapp`, `instagram`, `pix`…) ficam em `brands` e não existem em `solid`.
+3. Valor fora de `solid|regular|brands`, ou `variant` diferente do prefixo do `name`, segue a
+   regra de variante inválida: `InvalidArgumentException` em `local`/`testing` e `solid` com
+   `Log::warning` nos demais ambientes.
+
+<a id="v3-icon-estilo"></a>
+### `icon` dos componentes em `[estilo:]nome`
+
+A prop `icon` de button, alert, input, dropdown-item, page-header, empty-state, timeline-item,
+stats-card, list-group-item e activity-feed-item, o `icon` de `ActionsColumn` e de
+`BulkAction::icon()`, os itens de `navigation` do config e o `name` de `<x-jetax-icon>` recebem
+o nome canônico do Font Awesome, sem o `fa-`, com prefixo de estilo opcional. Sem prefixo, vale
+`solid`. Não existe prop paralela de estilo nesses componentes.
+
+**Antes**
+
+```blade
+<x-jetax-button icon="add">Novo</x-jetax-button>
+<x-jetax-alert icon="notifications">Aviso</x-jetax-alert>
+```
+
+```php
+// config/jetax.php
+'navigation' => [
+    ['label' => 'Clientes', 'icon' => 'group', 'route' => 'clientes.index'],
+],
+```
+
+**Depois**
+
+```blade
+<x-jetax-button icon="plus">Novo</x-jetax-button>
+<x-jetax-alert icon="regular:bell">Aviso</x-jetax-alert>
+<x-jetax-button icon="brands:whatsapp">Enviar</x-jetax-button>
+```
+
+```php
+// config/jetax.php
+'navigation' => [
+    ['label' => 'Clientes', 'icon' => 'users', 'route' => 'clientes.index'],
+],
+```
+
+**Como migrar**
+
+1. Troque cada nome do Material pelo nome canônico do Font Awesome (`add` → `plus`, `close` →
+   `xmark`, `pets` → `paw`, `group` → `users`). Aliases do Font Awesome não valem: use o nome
+   canônico.
+2. Acrescente `regular:` ou `brands:` quando o estilo não for `solid`.
+3. Faça o mesmo nos `icon()` de enums e presenters, nos arrays `'icon' =>` e no `navigation` do
+   `config/jetax.php` publicado.
+4. Confira os nomes no manifesto `resources/icons/fontawesome-free.json` do pacote, ou pela API
+   `Jetax\DesignSystem\Support\FontAwesome::has($nome, $estilo)`.
+
+<a id="v3-import-css"></a>
+### Import do Font Awesome no CSS do consumidor, em layer e sem CDN
+
+O pacote não carrega mais folha de ícone: o `<link>` do Google Fonts para o Material Symbols
+saiu de `partials/fonts.blade.php`. A aplicação instala o Font Awesome pelo npm e importa a
+folha no CSS de entrada do Vite, dentro de uma cascade layer declarada antes de `utilities`.
+As webfonts saem do `node_modules` no build, sem CDN nem kit.
+
+**Antes**
+
+```css
+/* resources/css/app.css */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+@import "tailwindcss";
+```
+
+**Depois**
+
+```bash
+npm install --save-exact @fortawesome/fontawesome-free@6.7.2
+```
+
+```css
+/* resources/css/app.css */
+@import "@fortawesome/fontawesome-free/css/all.min.css" layer(base);
+@import "tailwindcss";
+```
+
+**Como migrar**
+
+1. Instale o Font Awesome Free em versão exata, a mesma do manifesto do pacote (6.7.2).
+2. Remova o import do Material Symbols do CSS e qualquer `<link>` dele nos layouts.
+3. Importe a folha com `layer(base)`, antes de `@import "tailwindcss"`. Fora de layer, a regra
+   `font-size` da folha vence as utilitárias (`text-[18px]`) e o tamanho do call site deixa de
+   valer (JETAX-017).
+4. Não use CDN nem kit do Font Awesome.
+
+<a id="v3-tamanhos"></a>
+### Tamanhos recalibrados e `x-text` → binding de classe
+
+O glifo do Font Awesome é maior que o do Material no mesmo `font-size`. Os tamanhos nomeados de
+`<x-jetax-icon>` viram classes utilitárias, sem `style` inline, e o tamanho numérico é dividido
+por 1,35. O glifo de `<x-jetax-button>` acompanha o `size` do botão (JETAX-014(c)). A troca de
+ícone no cliente passa a ser por classe, porque o `<i>` do Font Awesome não tem texto.
+
+| `size` | 2.x | 3.0 |
+|--------|-----|-----|
+| `sm` | `font-size: 16px` | `text-[12px]` |
+| `md` (padrão) | `font-size: 20px` | `text-[15px]` |
+| `lg` | `font-size: 24px` | `text-[18px]` |
+| `xl` | `font-size: 32px` | `text-[24px]` |
+| `<n>` | `font-size: <n>px` | `style="font-size:<m>px"`, `<m>` = `<n>` ÷ 1,35 arredondado |
+| botão `sm`/`md`/`lg` | herdado | `text-[12px]` / `text-[14px]` / `text-[18px]` |
+
+**Antes**
+
+```blade
+<x-jetax-icon name="pets" size="27" />
+<span class="material-symbols-outlined text-[18px]">search</span>
+
+<span class="material-symbols-outlined" x-text="open ? 'expand_less' : 'expand_more'"></span>
+```
+
+**Depois**
+
+```blade
+<x-jetax-icon name="paw" size="27" />   {{-- emite style="font-size:20px" --}}
+<i class="fa-solid fa-magnifying-glass text-[13px]" aria-hidden="true"></i>
+
+<i class="fa-solid" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+```
+
+**Como migrar**
+
+1. Recalcule toda classe de tamanho de ícone escrita na aplicação pela regra de equivalência
+   abaixo (ex.: `text-[18px]` → `text-[13px]`).
+2. Não ajuste os `size` de `<x-jetax-icon>`: o componente já aplica a regra.
+3. Troque `x-text`/`x-html` em elemento de ícone por `:class`/`x-bind:class` com os nomes FA;
+   o `toast-container` do pacote já faz isso.
+
+## Referência da 3.0
+
+### Regra de equivalência de tamanho
+
+O tamanho do Material equivale ao do Font Awesome × 1,35 (registrado na JETAX-017). Para
+converter um tamanho da 2.x, divida o px por **1,35** e arredonde ao inteiro mais próximo:
+16 → 12, 20 → 15, 24 → 18, 32 → 24. Para um utilitário nomeado do Tailwind (ex.: `text-base`),
+parta do px da escala padrão do Tailwind v4. O glifo do `<x-jetax-button>` é a exceção, com
+valores fixos que acompanham a fonte do botão (12, 14 e 18 px).
+
+### Manifesto do Font Awesome Free
+
+`resources/icons/fontawesome-free.json` traz os nomes canônicos (sem aliases) de `solid`,
+`regular` e `brands`, ordenados, e a versão de origem (`"version": "6.7.2"`). Ele muda só junto
+com a troca da versão do Font Awesome. Para regenerá-lo, a partir da raiz do Jetax:
+
+```bash
+VERSION=6.7.2
+mkdir -p /tmp/fa && cd /tmp/fa
+curl -sSfLo fa.tgz https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-$VERSION.tgz
+tar xzf fa.tgz && cd -
+docker run --rm -u "$(id -u):$(id -g)" \
+  -v /tmp/fa/package:/fa:ro -v "$PWD":/app -w /app \
+  laravelsail/php84-composer@sha256:a2716e93e577c80bca7551126056446c1e06cb141af652ee6932537158108400 \
+  php bin/generate-fontawesome-manifest.php /fa/metadata
+```
+
+O script `bin/generate-fontawesome-manifest.php` recebe o diretório `metadata/` do pacote npm
+extraído e, opcionalmente, o arquivo de saída.
+
+---
+
+<a id="guia-1x-20"></a>
 # Guia de migração 1.x → 2.0
 
 A 2.0.0 alinha o Jetax à paleta e aos mockups do VetSoft e traz para o pacote a API que as

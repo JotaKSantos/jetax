@@ -20,7 +20,7 @@
                 class="absolute top-0 right-0 p-1 text-current opacity-60 hover:opacity-100 transition-opacity"
                 aria-label="Fechar"
             >
-                <x-jetax-icon name="close" size="sm" />
+                <x-jetax-icon name="xmark" size="sm" />
             </button>
         @endif
     @else
@@ -30,7 +30,7 @@
             class="absolute top-0 right-0 p-1 text-current opacity-60 hover:opacity-100 transition-opacity"
             aria-label="Fechar"
         >
-            <x-jetax-icon name="close" size="sm" />
+            <x-jetax-icon name="xmark" size="sm" />
         </button>
     @endisset
 </div>

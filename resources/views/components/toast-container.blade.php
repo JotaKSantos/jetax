@@ -33,13 +33,17 @@
             class="flex items-center gap-3 py-3 px-5 rounded-xl shadow-2xl min-w-72 max-w-sm"
             role="alert"
         >
-            {{-- Ícone por variante --}}
-            <span class="material-symbols-outlined text-xl flex-shrink-0" x-text="
-                toast.variant === 'success' ? 'check_circle' :
-                toast.variant === 'error' ? 'error' :
-                toast.variant === 'warning' ? 'warning' :
-                'info'
-            "></span>
+            {{-- Ícone por variante: troca por binding de classe, nunca por texto (RF-07) --}}
+            <i
+                class="fa-solid text-[15px] flex-shrink-0"
+                :class="{
+                    'fa-circle-check': toast.variant === 'success',
+                    'fa-circle-exclamation': toast.variant === 'error',
+                    'fa-triangle-exclamation': toast.variant === 'warning',
+                    'fa-circle-info': !toast.variant || toast.variant === 'info'
+                }"
+                aria-hidden="true"
+            ></i>
 
             {{-- Mensagem --}}
             <span class="text-sm font-medium flex-1" x-text="toast.message"></span>
@@ -51,7 +55,7 @@
                 class="p-1 hover:bg-white/20 rounded transition-colors flex-shrink-0"
                 aria-label="Fechar notificação"
             >
-                <span class="material-symbols-outlined text-sm">close</span>
+                <x-jetax-icon name="xmark" size="14" />
             </button>
         </div>
     </template>

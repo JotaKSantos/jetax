@@ -46,7 +46,7 @@ it('test_default_trigger_when_no_slot', function () {
     ');
 
     $view->assertSee('Mostrar conteúdo');
-    $view->assertSee('expand_more', false);
+    $view->assertSee('fa-solid fa-chevron-down', false);
 });
 
 it('test_toggle_interaction_wired', function () {

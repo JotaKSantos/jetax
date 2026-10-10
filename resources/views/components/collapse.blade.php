@@ -13,10 +13,12 @@
                 :aria-expanded="open"
             >
                 <span>Mostrar conteúdo</span>
-                <span
-                    class="material-symbols-outlined text-slate-400 transition-transform duration-300"
-                    :class="{ 'rotate-180': open }"
-                >expand_more</span>
+                <x-jetax-icon
+                    name="chevron-down"
+                    size="lg"
+                    class="text-slate-400 transition-transform duration-300"
+                    x-bind:class="{ 'rotate-180': open }"
+                />
             </button>
         @endif
     </div>

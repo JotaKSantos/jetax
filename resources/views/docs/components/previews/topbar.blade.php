@@ -7,7 +7,7 @@ $codeActions = <<<'BLADE'
 <x-jetax-topbar title="Dashboard">
     <x-slot:actions>
         <x-jetax-button size="sm" style="soft" icon="download">Exportar</x-jetax-button>
-        <x-jetax-button size="sm" icon="add">Novo</x-jetax-button>
+        <x-jetax-button size="sm" icon="plus">Novo</x-jetax-button>
     </x-slot:actions>
 </x-jetax-topbar>
 BLADE;
@@ -22,20 +22,20 @@ BLADE;
                 {{-- Left side --}}
                 <div class="flex items-center gap-4">
                     <button type="button" class="flex items-center justify-center w-10 h-10 rounded-lg text-on-surface-variant dark:text-white/60 hover:bg-surface-container-low dark:hover:bg-white/5 transition-colors">
-                        <span class="material-symbols-outlined text-[24px]">menu</span>
+                        <x-jetax-icon name="bars" size="lg" />
                     </button>
                     <div class="relative hidden sm:block">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 dark:text-white/40">search</span>
+                        <x-jetax-icon name="magnifying-glass" size="lg" class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 dark:text-white/40" />
                         <input type="text" placeholder="Pesquisar..." class="bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 text-sm w-64 text-on-surface placeholder:text-on-surface/40">
                     </div>
                 </div>
                 {{-- Right side --}}
                 <div class="flex items-center gap-3">
                     <button type="button" class="p-2 text-on-surface/60 dark:text-white/60 hover:bg-surface-container-low dark:hover:bg-white/5 rounded-lg transition-all">
-                        <span class="material-symbols-outlined">notifications</span>
+                        <x-jetax-icon name="bell" size="lg" />
                     </button>
                     <button type="button" class="p-2 text-on-surface/60 dark:text-white/60 hover:bg-surface-container-low dark:hover:bg-white/5 rounded-lg transition-all">
-                        <span class="material-symbols-outlined">dark_mode</span>
+                        <x-jetax-icon name="moon" size="lg" />
                     </button>
                 </div>
             </div>
@@ -49,17 +49,17 @@ BLADE;
                 {{-- Left side --}}
                 <div class="flex items-center gap-4">
                     <button type="button" class="flex items-center justify-center w-10 h-10 rounded-lg text-on-surface-variant dark:text-white/60 hover:bg-surface-container-low dark:hover:bg-white/5 transition-colors">
-                        <span class="material-symbols-outlined text-[24px]">menu</span>
+                        <x-jetax-icon name="bars" size="lg" />
                     </button>
                     <div class="relative hidden sm:block">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 dark:text-white/40">search</span>
+                        <x-jetax-icon name="magnifying-glass" size="lg" class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 dark:text-white/40" />
                         <input type="text" placeholder="Pesquisar..." class="bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 text-sm w-64 text-on-surface placeholder:text-on-surface/40">
                     </div>
                 </div>
                 {{-- Right side with actions --}}
                 <div class="flex items-center gap-3">
                     <x-jetax-button size="sm" style="soft" icon="download">Exportar</x-jetax-button>
-                    <x-jetax-button size="sm" icon="add">Novo</x-jetax-button>
+                    <x-jetax-button size="sm" icon="plus">Novo</x-jetax-button>
                 </div>
             </div>
         </div>

@@ -73,13 +73,15 @@ test('changelog follows keep a changelog format', function () {
         ->toContain('### Added');
 });
 
-test('changelog has a dated 2.0.0 section as the latest release', function () {
+test('changelog has a dated 2.0.0 section', function () {
     $content = file_get_contents(__DIR__.'/../../CHANGELOG.md');
 
     expect($content)->toMatch('/^## \[2\.0\.0\] - \d{4}-\d{2}-\d{2}$/m');
+});
 
-    preg_match('/^## \[([^\]]+)\]/m', $content, $first);
-    expect($first[1])->toBe('2.0.0');
+test('changelog 2.0.0 section is unchanged by the 3.0.0 release', function () {
+    expect(hash('sha256', changelogSection('2.0.0')))
+        ->toBe('4a2e0f1b621885190d66212ca5ab3e21614988c7f115840560905c69a52ebd94');
 });
 
 test('changelog 2.0.0 has added, changed, fixed and removed subsections', function () {
@@ -191,4 +193,121 @@ test('upgrade guide summarizes the component contracts and the animations config
 
 test('readme links to the upgrade guide', function () {
     expect(file_get_contents(__DIR__.'/../../README.md'))->toContain('(UPGRADE.md)');
+});
+
+test('changelog has a dated 3.0.0 section as the latest release', function () {
+    $content = file_get_contents(__DIR__.'/../../CHANGELOG.md');
+
+    expect($content)->toMatch('/^## \[3\.0\.0\] - \d{4}-\d{2}-\d{2}$/m');
+
+    preg_match('/^## \[([^\]]+)\]/m', $content, $first);
+    expect($first[1])->toBe('3.0.0');
+});
+
+test('changelog 3.0.0 has changed, fixed, removed and added subsections', function () {
+    $section = changelogSection('3.0.0');
+
+    expect($section)
+        ->toContain('### Changed')
+        ->toContain('### Fixed')
+        ->toContain('### Removed')
+        ->toContain('### Added');
+});
+
+test('changelog 3.0.0 flags the icon system change as breaking', function () {
+    $changed = changelogSubsection(changelogSection('3.0.0'), 'Changed');
+
+    expect($changed)->toMatch('/^- \*\*\[BREAKING\] Sistema de ícones/m');
+});
+
+test('changelog 3.0.0 cites the deferred issues as fixed', function (string $issue) {
+    expect(changelogSubsection(changelogSection('3.0.0'), 'Fixed'))->toContain($issue);
+})->with(['JETAX-017', 'JETAX-014(c)']);
+
+test('changelog 3.0.0 lists the removed icon props and the material stylesheet', function () {
+    $removed = changelogSubsection(changelogSection('3.0.0'), 'Removed');
+
+    expect($removed)
+        ->toContain('`weight`')
+        ->toContain('`fill`')
+        ->toContain('Folha do Material Symbols');
+});
+
+test('changelog 3.0.0 lists the variant prop, the style prefix, the manifest and the helper as added', function () {
+    $added = changelogSubsection(changelogSection('3.0.0'), 'Added');
+
+    expect($added)
+        ->toContain('`variant`')
+        ->toContain('`estilo:`')
+        ->toContain('resources/icons/fontawesome-free.json')
+        ->toContain('`Support\\FontAwesome`');
+});
+
+test('changelog 3.0.0 references the upgrade guide', function () {
+    expect(changelogSection('3.0.0'))->toContain('(UPGRADE.md)');
+});
+
+test('upgrade guide has the 2.x to 3.0 section header', function () {
+    $guide = file_get_contents(__DIR__.'/../../UPGRADE.md');
+
+    expect($guide)
+        ->toContain('<a id="guia-2x-30"></a>')
+        ->toMatch('/^# Guia de migração 2\.x → 3\.0$/m');
+});
+
+test('upgrade guide 2.x to 3.0 has a before, after and how to migrate block per breaking change', function (string $anchor) {
+    $subsection = upgradeSubsection($anchor);
+
+    expect($subsection)
+        ->toMatch('/^### /m')
+        ->toContain('**Antes**')
+        ->toContain('**Depois**')
+        ->toContain('**Como migrar**');
+})->with([
+    'markup' => 'v3-marcacao',
+    'weight and fill' => 'v3-weight-fill',
+    'variant' => 'v3-variant',
+    'icon with style prefix' => 'v3-icon-estilo',
+    'css import in a layer' => 'v3-import-css',
+    'sizes and x-text' => 'v3-tamanhos',
+]);
+
+test('every 3.0.0 breaking change links to an upgrade guide subsection', function () {
+    $breaking = array_filter(
+        explode("\n", changelogSection('3.0.0')),
+        fn (string $line): bool => str_starts_with($line, '- **[BREAKING]'),
+    );
+
+    expect($breaking)->toHaveCount(5);
+
+    foreach ($breaking as $line) {
+        expect($line)->toMatch('/\(UPGRADE\.md#v3-[a-z0-9-]+\)/');
+    }
+});
+
+test('changelog 3.0.0 and the upgrade guide share the same six 3.0 subsections', function () {
+    preg_match_all('/\(UPGRADE\.md#(v3-[a-z0-9-]+)\)/', changelogSection('3.0.0'), $links);
+    preg_match_all('/<a id="(v3-[a-z0-9-]+)"><\/a>/', file_get_contents(__DIR__.'/../../UPGRADE.md'), $anchors);
+
+    expect($anchors[1])
+        ->toHaveCount(6)
+        ->toEqualCanonicalizing($links[1]);
+});
+
+test('upgrade guide documents the size equivalence rule and the manifest command', function () {
+    $guide = file_get_contents(__DIR__.'/../../UPGRADE.md');
+
+    expect($guide)
+        ->toContain('1,35')
+        ->toContain('generate-fontawesome-manifest');
+});
+
+test('upgrade guide 2.x to 3.0 covers the class binding in place of x-text', function () {
+    expect(upgradeSubsection('v3-tamanhos'))
+        ->toContain('x-text')
+        ->toContain(':class');
+});
+
+test('readme links to the 2.x to 3.0 upgrade section', function () {
+    expect(file_get_contents(__DIR__.'/../../README.md'))->toContain('(UPGRADE.md#guia-2x-30)');
 });

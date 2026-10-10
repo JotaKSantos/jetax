@@ -40,8 +40,8 @@ class ClientesTable extends DataTableComponent
             ]),
             DateColumn::make('created_at', 'Criado em')->sortable(),
             ActionsColumn::make()->actions([
-                ['key' => 'edit',   'label' => 'Editar',   'icon' => 'edit',   'href' => '#'],
-                ['key' => 'delete', 'label' => 'Excluir',  'icon' => 'delete', 'href' => '#'],
+                ['key' => 'edit',   'label' => 'Editar',   'icon' => 'pen',   'href' => '#'],
+                ['key' => 'delete', 'label' => 'Excluir',  'icon' => 'trash', 'href' => '#'],
             ]),
         ];
     }
@@ -65,7 +65,7 @@ class ClientesTable extends DataTableComponent
     {
         return [
             BulkAction::make('activate', 'Ativar')
-                ->icon('check_circle')
+                ->icon('circle-check')
                 ->variant('primary')
                 ->handler(fn (Collection $models) => $models->each->update(['status' => 'ativo'])),
         ];
@@ -96,8 +96,8 @@ DateColumn::make('created_at', 'Criado em')
 
 ActionsColumn::make()
     ->actions([
-        ['key' => 'edit',   'label' => 'Editar',  'icon' => 'edit',   'href' => fn ($row) => "/clientes/{$row->id}/editar"],
-        ['key' => 'delete', 'label' => 'Excluir', 'icon' => 'delete', 'href' => '#'],
+        ['key' => 'edit',   'label' => 'Editar',  'icon' => 'pen',   'href' => fn ($row) => "/clientes/{$row->id}/editar"],
+        ['key' => 'delete', 'label' => 'Excluir', 'icon' => 'trash', 'href' => '#'],
     ])
     ->collapseAfter(3);
 PHP;
@@ -117,12 +117,12 @@ PHP;
 
 $codeBulkActions = <<<'PHP'
 BulkAction::make('activate', 'Ativar')
-    ->icon('check_circle')
+    ->icon('circle-check')
     ->variant('primary')
     ->handler(fn (Collection $models) => $models->each->update(['status' => 'ativo']));
 
 BulkAction::make('delete', 'Excluir')
-    ->icon('delete')
+    ->icon('trash')
     ->variant('danger')
     ->confirm('Tem certeza?')
     ->handler(fn (Collection $models) => $models->each->delete());
@@ -143,7 +143,7 @@ $temCount = \Illuminate\Support\Facades\Schema::hasTable('jetax_playground_clien
         <x-jetax-alert
             variant="warning"
             style="rich"
-            icon="info"
+            icon="circle-info"
             title="Playground precisa de dados"
         >
             A tabela <code>jetax_playground_clientes</code> está vazia (ou ainda não existe).

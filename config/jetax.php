@@ -69,21 +69,22 @@ return [
     |--------------------------------------------------------------------------
     |
     | Define os itens de navegação exibidos no sidebar.
-    | Cada item pode conter: label, icon (Material Symbols), route e url.
+    | Cada item pode conter: label, icon (Font Awesome Free em `[estilo:]nome`,
+    | ex.: `house`, `regular:bell`, `brands:whatsapp`), route e url.
     |
     */
     'navigation' => [
         'main' => [
-            ['label' => 'Dashboard', 'icon' => 'dashboard', 'route' => 'dashboard'],
-            ['label' => 'Clientes', 'icon' => 'group', 'route' => 'clients.*'],
-            ['label' => 'Projetos', 'icon' => 'work', 'route' => 'projects.*'],
-            ['label' => 'Tarefas', 'icon' => 'task_alt', 'route' => 'tasks.*'],
-            ['label' => 'Faturamento', 'icon' => 'payments', 'route' => 'billing.*'],
-            ['label' => 'Relatórios', 'icon' => 'bar_chart', 'route' => 'reports.*'],
+            ['label' => 'Dashboard', 'icon' => 'table-cells-large', 'route' => 'dashboard'],
+            ['label' => 'Clientes', 'icon' => 'users', 'route' => 'clients.*'],
+            ['label' => 'Projetos', 'icon' => 'briefcase', 'route' => 'projects.*'],
+            ['label' => 'Tarefas', 'icon' => 'circle-check', 'route' => 'tasks.*'],
+            ['label' => 'Faturamento', 'icon' => 'money-bills', 'route' => 'billing.*'],
+            ['label' => 'Relatórios', 'icon' => 'chart-column', 'route' => 'reports.*'],
         ],
         'footer' => [
-            ['label' => 'Configurações', 'icon' => 'settings', 'route' => 'settings'],
-            ['label' => 'Sair', 'icon' => 'logout', 'route' => 'logout'],
+            ['label' => 'Configurações', 'icon' => 'gear', 'route' => 'settings'],
+            ['label' => 'Sair', 'icon' => 'right-from-bracket', 'route' => 'logout'],
         ],
     ],
 

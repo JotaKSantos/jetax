@@ -97,20 +97,26 @@
                                     >
                                         <span>{{ $column['label'] }}</span>
                                         <span class="inline-flex items-center leading-none">
-                                            <span
-                                                class="material-symbols-outlined text-base text-on-surface-variant/40"
+                                            <x-jetax-icon
+                                                name="arrows-up-down"
+                                                size="sm"
+                                                class="text-on-surface-variant/40"
                                                 x-show="sortColumn !== '{{ $column['key'] }}'"
-                                            >expand_all</span>
-                                            <span
-                                                class="material-symbols-outlined text-base text-on-surface"
+                                            />
+                                            <x-jetax-icon
+                                                name="angle-up"
+                                                size="sm"
+                                                class="text-on-surface"
                                                 x-show="sortColumn === '{{ $column['key'] }}' && sortDirection === 'asc'"
                                                 x-cloak
-                                            >keyboard_arrow_up</span>
-                                            <span
-                                                class="material-symbols-outlined text-base text-on-surface"
+                                            />
+                                            <x-jetax-icon
+                                                name="angle-down"
+                                                size="sm"
+                                                class="text-on-surface"
                                                 x-show="sortColumn === '{{ $column['key'] }}' && sortDirection === 'desc'"
                                                 x-cloak
-                                            >keyboard_arrow_down</span>
+                                            />
                                         </span>
                                     </button>
                                 @else

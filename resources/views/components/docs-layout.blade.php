@@ -41,8 +41,8 @@
 
             @php
                 $generalLinks = [
-                    ['url' => '/docs', 'label' => 'Visão Geral', 'icon' => 'home', 'match' => fn () => request()->is('docs') && !request()->segment(2)],
-                    ['url' => '/docs/getting-started', 'label' => 'Primeiros Passos', 'icon' => 'rocket_launch', 'match' => fn () => request()->is('docs/getting-started')],
+                    ['url' => '/docs', 'label' => 'Visão Geral', 'icon' => 'house', 'match' => fn () => request()->is('docs') && !request()->segment(2)],
+                    ['url' => '/docs/getting-started', 'label' => 'Primeiros Passos', 'icon' => 'rocket', 'match' => fn () => request()->is('docs/getting-started')],
                     ['url' => '/docs/customization', 'label' => 'Customização', 'icon' => 'palette', 'match' => fn () => request()->is('docs/customization')],
                 ];
             @endphp
@@ -61,7 +61,7 @@
                         :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-6'"
                         @if($isActive) aria-current="page" data-sidebar-active @endif
                     >
-                        <span class="material-symbols-outlined" :class="$store.sidebar.collapsed ? '' : 'mr-3'">{{ $link['icon'] }}</span>
+                        <x-jetax-icon :name="$link['icon']" size="lg" x-bind:class="$store.sidebar.collapsed ? '' : 'mr-3'" />
                         <span x-show="!$store.sidebar.collapsed" x-transition:leave.opacity.duration.200ms class="text-[11px] font-medium tracking-[0.08em] uppercase">{{ $link['label'] }}</span>
                     </a>
                     <div
@@ -95,7 +95,7 @@
                                 }}"
                             @if($isActive) aria-current="page" data-sidebar-active @endif
                         >
-                            <span class="material-symbols-outlined mr-3 text-[18px]">{{ $iconMap[$item['slug']] ?? 'widgets' }}</span>
+                            <x-jetax-icon :name="$iconMap[$item['slug']] ?? 'cubes'" size="18" class="mr-3" />
                             <span class="text-[11px] font-medium tracking-[0.08em] uppercase">{{ $item['name'] }}</span>
                         </a>
                     @endforeach
@@ -114,7 +114,7 @@
                         type="button"
                         class="w-full flex items-center justify-center py-3 transition-colors duration-200 {{ $hasActiveInGroup ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-white/5' }}"
                     >
-                        <span class="material-symbols-outlined text-[20px]">{{ $iconMap[$firstItem['slug'] ?? ''] ?? 'widgets' }}</span>
+                        <x-jetax-icon :name="$iconMap[$firstItem['slug'] ?? ''] ?? 'cubes'" size="md" />
                     </button>
                     {{-- Flyout do grupo --}}
                     <div
@@ -148,7 +148,7 @@
                                 class="flex items-center px-3 py-2 text-xs transition-colors duration-200
                                     {{ $isActive ? 'text-white font-semibold bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}"
                             >
-                                <span class="material-symbols-outlined mr-2 text-[16px]">{{ $iconMap[$item['slug']] ?? 'widgets' }}</span>
+                                <x-jetax-icon :name="$iconMap[$item['slug']] ?? 'cubes'" size="sm" class="mr-2" />
                                 {{ $item['name'] }}
                             </a>
                         @endforeach
@@ -167,7 +167,7 @@
                 class="p-2 text-on-surface/60 dark:text-slate-400 hover:text-primary hover:bg-surface-container-high rounded-lg transition-all"
                 aria-label="Tela cheia"
             >
-                <span class="material-symbols-outlined">fullscreen</span>
+                <x-jetax-icon name="expand" size="lg" />
             </button>
 
             {{-- Notifications --}}
@@ -176,7 +176,7 @@
                 class="p-2 text-on-surface/60 dark:text-slate-400 hover:text-primary hover:bg-surface-container-high rounded-lg transition-all relative"
                 aria-label="Notificações"
             >
-                <span class="material-symbols-outlined">notifications</span>
+                <x-jetax-icon name="bell" size="lg" />
                 <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest dark:ring-sidebar"></span>
             </button>
 
@@ -188,8 +188,8 @@
                 class="p-2 rounded-lg transition-all text-on-surface/60 dark:text-slate-400 hover:text-primary hover:bg-surface-container-high"
                 aria-label="Alternar modo escuro"
             >
-                <span class="material-symbols-outlined" x-show="!dark">dark_mode</span>
-                <span class="material-symbols-outlined" x-show="dark" x-cloak>light_mode</span>
+                <x-jetax-icon name="moon" size="lg" x-show="!dark" />
+                <x-jetax-icon name="sun" size="lg" x-show="dark" x-cloak />
             </button>
 
             {{-- Divider --}}
@@ -202,7 +202,7 @@
                     <p class="text-[10px] text-on-surface/60 dark:text-slate-400">Administrator</p>
                 </div>
                 <div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
-                    <span class="material-symbols-outlined text-white text-lg">person</span>
+                    <x-jetax-icon name="user" size="18" class="text-white" />
                 </div>
             </div>
         </x-slot:actions>

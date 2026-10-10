@@ -36,7 +36,7 @@
             {{ $slot }}
         </select>
 
-        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">expand_more</span>
+        <x-jetax-icon name="chevron-down" size="md" class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant" />
     </div>
 
     @if($hasError && $errorMessage)

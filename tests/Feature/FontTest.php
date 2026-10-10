@@ -8,8 +8,18 @@ it('Google Fonts link is rendered when font_source is google', function () {
     expect($html)
         ->toContain('fonts.googleapis.com')
         ->toContain('Manrope')
-        ->toContain('Inter')
-        ->toContain('Material+Symbols+Outlined');
+        ->toContain('Inter');
+});
+
+it('Google Fonts link loads only Manrope and Inter', function () {
+    config()->set('jetax.font_source', 'google');
+
+    $html = view('jetax::partials.fonts')->render();
+
+    preg_match_all('/<link\b[^>]*rel="stylesheet"[^>]*>/', $html, $stylesheets);
+
+    expect($stylesheets[0])->toHaveCount(1)
+        ->and($stylesheets[0][0])->toContain('family=Manrope')->toContain('family=Inter');
 });
 
 it('font link is not rendered when font_source is false', function () {

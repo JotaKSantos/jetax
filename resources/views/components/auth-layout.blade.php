@@ -34,7 +34,7 @@
                     </div>
                 @else
                     <div class="mx-auto mb-8 w-16 h-16 rounded-xl bg-gradient-to-br from-primary-container to-info flex items-center justify-center shadow-lg">
-                        <span class="material-symbols-outlined text-white text-3xl">lock</span>
+                        <x-jetax-icon name="lock" size="30" class="text-white" />
                     </div>
                 @endif
 

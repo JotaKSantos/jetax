@@ -303,7 +303,7 @@
             x-cloak
             class="flex items-center gap-2 px-2 py-1.5 border-b border-outline-variant bg-surface-container-low"
         >
-            <span class="material-symbols-outlined text-base text-on-surface-variant">link</span>
+            <x-jetax-icon name="link" size="sm" class="text-on-surface-variant" />
             <input
                 x-ref="linkInput"
                 type="url"
