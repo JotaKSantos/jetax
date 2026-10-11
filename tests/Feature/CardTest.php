@@ -1,12 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
 use Jetax\DesignSystem\View\Components\Card;
 
-it('test_has_shadow_class', function () {
-    $view = $this->blade('<x-jetax-card>Conteúdo</x-jetax-card>');
+it('test_has_no_light_shadow_and_keeps_dark_shadow', function () {
+    // JETAX-033: o mockup não tem box-shadow no card (Clientes.dc.html:157); a sombra fica só no escuro.
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-card>Conteúdo</x-jetax-card>'), 'div'));
 
-    $view->assertSee('shadow-on-surface/5', false);
+    expect($class)->not->toContain('shadow-on-surface/5')
+        ->not->toMatch('/(^|\s)shadow-sm(\s|$)/')
+        ->toContain('dark:shadow-lg dark:shadow-black/20');
 });
 
 it('test_default_background_uses_surface_token', function () {
@@ -17,10 +21,12 @@ it('test_default_background_uses_surface_token', function () {
     $view->assertDontSee('#161B2A', false);
 });
 
-it('test_dark_mode_has_subtle_border', function () {
-    $view = $this->blade('<x-jetax-card>Conteúdo</x-jetax-card>');
+it('test_border_is_present_in_both_themes', function () {
+    // JETAX-033: borda de 1 px nos dois temas (Clientes.dc.html:157), não só no escuro.
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-card>Conteúdo</x-jetax-card>'), 'div'));
 
-    $view->assertSee('dark:border-outline-variant', false);
+    expect($class)->toContain('border border-outline-variant')
+        ->not->toContain('dark:border');
 });
 
 it('test_bordered_variant', function () {
@@ -145,4 +151,51 @@ it('test_detects_padding_classes', function () {
     foreach (['mb-4', 'pointer-events-none', 'place-items-center', 'shadow-none', 'md:mb-2'] as $class) {
         expect(Card::isPaddingClass($class))->toBeFalse();
     }
+});
+
+it('test_jetax_033_radius_is_10px', function () {
+    foreach (['<x-jetax-card>Corpo</x-jetax-card>', '<x-jetax-card bordered>Corpo</x-jetax-card>', '<x-jetax-card featured>Corpo</x-jetax-card>'] as $template) {
+        $class = tagClass(htmlTag((string) $this->blade($template), 'div'));
+
+        expect($class)->toContain('rounded-[10px]')
+            ->not->toContain('rounded-xl');
+    }
+});
+
+it('test_jetax_033_error_state_uses_state_border_color', function () {
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-card state="error">Falha ao carregar</x-jetax-card>'), 'div'));
+
+    expect($class)->toContain('border border-error/34')
+        ->toContain('rounded-[10px]')
+        ->not->toContain('border-outline-variant')
+        ->not->toContain('state=');
+});
+
+it('test_jetax_033_error_state_on_bordered_card', function () {
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-card bordered state="error">Falha</x-jetax-card>'), 'div'));
+
+    expect($class)->toContain('border border-error/34')
+        ->not->toContain('border-outline-variant');
+});
+
+it('test_jetax_033_states_constant_names_error', function () {
+    expect(Card::STATES)->toBe(['error'])
+        ->and((new Card(state: 'error'))->state)->toBe('error')
+        ->and((new Card)->state)->toBe('');
+});
+
+it('test_jetax_033_invalid_state_throws_in_testing', function () {
+    expect(bladeRenderFailure('<x-jetax-card state="danger">Corpo</x-jetax-card>'))
+        ->toBeInstanceOf(InvalidArgumentException::class);
+});
+
+it('test_jetax_033_invalid_state_logs_and_falls_back_in_production', function () {
+    config()->set('app.env', 'production');
+    Log::spy();
+
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-card state="danger">Corpo</x-jetax-card>'), 'div'));
+
+    expect($class)->toContain('border border-outline-variant')
+        ->not->toContain('border-error');
+    Log::shouldHaveReceived('warning')->once();
 });

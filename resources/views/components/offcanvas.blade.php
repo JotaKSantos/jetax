@@ -7,8 +7,7 @@
     id="{{ $id }}"
     role="dialog"
     aria-modal="true"
-    class="fixed inset-0 z-50"
-    style="display: none;"
+    {{ $attributes->merge(['class' => 'fixed inset-0 z-50', 'style' => 'display: none;']) }}
 >
     {{-- Backdrop --}}
     <div

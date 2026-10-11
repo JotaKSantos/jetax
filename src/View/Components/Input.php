@@ -63,11 +63,12 @@ class Input extends Component
     /**
      * Retorna as classes CSS do input baseadas no estado atual.
      * A detecção de erro via $errors é feita no Blade template. A altura de
-     * 40px vem da classe h-10, nunca de style inline.
+     * 40px vem da classe h-10, nunca de style inline; raio de 8px e padding
+     * horizontal de 12px do Claude Design (JETAX-037).
      */
     public function inputClasses(bool $hasError = false): string
     {
-        $base = 'w-full h-10 rounded-lg px-4 text-sm transition-all outline-none';
+        $base = 'w-full h-10 rounded-[8px] px-3 text-sm transition-all outline-none';
 
         if ($this->readonly || $this->attributes?->get('readonly') !== null) {
             return $base.' bg-surface-container-low border border-outline-variant text-on-surface/40 cursor-default';

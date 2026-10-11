@@ -32,7 +32,19 @@ class Table extends Component
         public array $rows = [],
         public bool $selectable = false,
         public ?LengthAwarePaginator $paginator = null,
+        public bool $flush = false,
     ) {}
+
+    /**
+     * Classes do contêiner (JETAX-034): moldura de 1 px e raio de 14 px, sem sombra. Com `flush`,
+     * a tabela fica sem moldura, embutida em outro contêiner (card, modal).
+     */
+    public function containerClasses(): string
+    {
+        return $this->flush
+            ? 'rounded-none overflow-hidden bg-surface-container-lowest'
+            : 'rounded-[14px] overflow-hidden bg-surface-container-lowest border border-outline-variant';
+    }
 
     /**
      * Indica se a tabela não possui nenhuma linha.
@@ -75,7 +87,7 @@ class Table extends Component
         }
 
         return $attributes->class([
-            'px-6 py-3 text-xs font-medium uppercase tracking-wider text-on-surface-variant',
+            'px-4 py-3.5 text-xs font-medium uppercase tracking-wider text-on-surface-variant',
             $this->alignClass($column),
             $column['thClass'] ?? '',
         ]);
@@ -89,7 +101,7 @@ class Table extends Component
     public function cellClass(array $column): string
     {
         return trim(implode(' ', array_filter([
-            'px-6 py-2.5 text-sm text-on-surface',
+            'px-4 py-3.5 text-sm text-on-surface',
             $this->alignClass($column),
             $column['class'] ?? '',
         ])));

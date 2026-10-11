@@ -129,3 +129,11 @@ it('test_toggle_has_no_hex_or_named_palette', function () {
     expect($template)->not->toMatch('/#[0-9a-fA-F]{3,8}\b/');
     expect($template)->not->toMatch('/(?:bg|text|border|ring)-(?:slate|gray|zinc|red|green|amber|blue)-\d/');
 });
+
+it('test_jetax_046_track_radius_is_999px', function () {
+    $track = htmlTag(Blade::render('<x-jetax-toggle />'), 'button', 'role="switch"');
+
+    expect($track)->toContain('rounded-[999px]')
+        ->and($track)->toContain('h-6 w-11')
+        ->and($track)->not->toMatch('/rounded-full/');
+});

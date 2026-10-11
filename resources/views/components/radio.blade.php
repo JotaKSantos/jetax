@@ -1,4 +1,4 @@
-<div class="flex items-center gap-2">
+<div {{ $attributes->only('class')->merge(['class' => 'flex items-center gap-2']) }}>
     <input
         type="radio"
         id="{{ $radioId }}"

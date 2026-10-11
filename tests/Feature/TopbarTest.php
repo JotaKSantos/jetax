@@ -81,7 +81,7 @@ it('test_sidebar_widths_come_from_props', function () {
         ->and($custom)->toContain('md:left-[72px]')
         ->and($custom)->not->toContain('sidebar-width=')
         ->and($custom)->not->toContain('collapsed-width=')
-        ->and($default)->toContain("\$store.sidebar.collapsed ? 'md:left-[70px]' : 'md:left-[16rem]'");
+        ->and($default)->toContain("\$store.sidebar.collapsed ? 'md:left-[70px]' : 'md:left-[246px]'");
 });
 
 it('test_header_has_no_left_transition', function () {
@@ -101,4 +101,18 @@ it('test_hamburger_button_matches_header_buttons', function () {
 
     expect($button)->toContain('w-[38px] h-[38px] rounded-[9px] border border-outline-variant bg-surface-container text-on-surface-variant')
         ->not->toContain('dark:text-slate-');
+});
+
+it('test_jetax_045_default_sidebar_width_follows_sidebar', function () {
+    $html = Blade::render('<x-jetax::topbar />');
+
+    expect(topbarHeaderTag($html))->toContain('md:left-[246px]')
+        ->and($html)->not->toContain('md:left-[16rem]');
+});
+
+it('test_jetax_047_horizontal_padding_is_22px_from_md', function () {
+    $header = topbarHeaderTag(Blade::render('<x-jetax::topbar />'));
+
+    expect($header)->toContain('px-4 md:px-[22px]')
+        ->and($header)->not->toContain('md:px-5');
 });

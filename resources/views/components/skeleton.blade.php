@@ -1,3 +1,6 @@
+<div
+    {{ $attributes->merge(['class' => 'jetax-skeleton-shimmer '.$skeletonClasses()]) }}
+></div>
 <style>
     @keyframes jetax-shimmer {
         0% { background-position: -200% 0; }
@@ -9,6 +12,3 @@
         animation: jetax-shimmer 1.5s infinite linear;
     }
 </style>
-<div
-    {{ $attributes->merge(['class' => 'jetax-skeleton-shimmer '.$skeletonClasses()]) }}
-></div>

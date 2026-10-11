@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Blade;
+use Jetax\DesignSystem\View\Components\Pagination;
 
 it('test_renders_page_numbers', function () {
     $paginator = new LengthAwarePaginator(
@@ -203,4 +205,29 @@ it('test_livewire_mode_per_page_selector_requires_model', function () {
         ->and($with)->toContain('<select')
         ->and($with)->toContain('wire:model.live="perPage"')
         ->and($with)->not->toContain('onchange=');
+});
+
+it('test_jetax_044_page_button_is_38px_with_border_and_9px_radius', function () {
+    $html = Blade::render('<x-jetax-pagination :paginator="$paginator" />', ['paginator' => middlePagePaginator()]);
+    $page = htmlTag($html, 'a', 'text-on-surface-variant');
+
+    expect($page)->toContain('min-w-[38px] h-[38px]')
+        ->and($page)->toContain('rounded-[9px] border border-outline-variant')
+        ->and($page)->not->toContain('w-8 h-8')
+        ->and($page)->not->toContain('rounded-lg');
+});
+
+it('test_jetax_044_current_page_has_same_size_without_border', function () {
+    $current = currentPageTag(Blade::render('<x-jetax-pagination :paginator="$paginator" />', ['paginator' => middlePagePaginator()]));
+
+    expect($current)->toContain('min-w-[38px] h-[38px]')
+        ->and($current)->toContain('rounded-[9px] bg-primary')
+        ->and($current)->not->toContain('border');
+});
+
+it('test_jetax_044_arrows_follow_page_shape', function () {
+    $pagination = new Pagination(paginator: middlePagePaginator());
+
+    expect($pagination->arrowClasses())->toContain('min-w-[38px] h-[38px] flex items-center justify-center rounded-[9px] border border-outline-variant')
+        ->and($pagination->disabledArrowClasses())->toContain('min-w-[38px] h-[38px] flex items-center justify-center rounded-[9px] border border-outline-variant');
 });

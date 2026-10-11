@@ -1,3 +1,512 @@
+<a id="guia-3x-40"></a>
+# Guia de migração 3.x → 4.0 (v3 → v4)
+
+A 4.0.0 alinha a **forma** dos componentes (raio, altura, padding, largura, borda, sombra, glifo,
+caixa e cor de borda de estado) aos mockups do VetSoft no Claude Design, pelas issues JETAX-029 a
+JETAX-047. Nenhuma prop, slot, atributo `data-*` ou chave de `SIZES`/`STYLES`/`COLORS`/`GLYPH_SIZES`
+foi removida, mas os defaults visuais abaixo mudaram: quem usa a 3.x sem prop explícita vê o
+componente com outra medida. Este guia lista cada quebra da
+[seção 4.0.0 do CHANGELOG](CHANGELOG.md), com o uso antigo, o novo e o passo de migração.
+
+## Checklist da 4.0
+
+- [ ] Trocar `jksantos/jetax` para `^4.0` no `composer.json` e rodar `composer update jksantos/jetax`.
+- [ ] Procurar na aplicação compensações de forma em tags `<x-jetax-*>` (`!rounded-*`, `!h-*`, `!p-*`, `!max-w-*`, `[&_.fa-solid]:text-*`, `[&_th]:*`, `!normal-case`, `!border-error*`) e trocar cada uma pela prop nova ou removê-la quando o pacote já entrega a forma.
+- [ ] Conferir o `size` de cada `<x-jetax-modal>`: `md` e `lg` mudaram de largura, e há quatro chaves novas.
+- [ ] Conferir telas com botões `md`, `outline` ou só de ícone: alturas, raios, borda do `outline` e glifo `md` mudaram.
+- [ ] Trocar `size` inválido de `<x-jetax-button>` e `<x-jetax-modal>` por um valor da constante: agora ele lança exceção em `local`/`testing`.
+- [ ] Apagar ou atualizar as views publicadas em `resources/views/vendor/jetax/` dos componentes listados abaixo, para não congelar a forma da 3.x.
+
+## Quebras de forma da 4.0
+
+<a id="v4-botao-glifo"></a>
+### Botão: glifo `md` 14 → 15 px
+
+`Button::GLYPH_SIZES['md']` passa de `text-[14px]` a `text-[15px]` (JETAX-030), que é o glifo do
+botão "Atualizar" do mockup (`Clientes.dc.html:152`). O só-ícone usa a constante nova
+`Button::ICON_ONLY_GLYPH_SIZES`, também com `md` = 15 px. `sm` (12 px) e `lg` (18 px) não mudam.
+
+**Antes**
+
+```html
+<!-- <x-jetax-button icon="rotate">Atualizar</x-jetax-button> -->
+<i class="fa-solid fa-rotate text-[14px]" aria-hidden="true"></i>
+```
+
+**Depois**
+
+```html
+<i class="fa-solid fa-rotate text-[15px]" aria-hidden="true"></i>
+```
+
+**Como migrar**
+
+1. Remova os seletores `[&_.fa-solid]:text-[15px]` dos botões `md`: o pacote já entrega 15 px.
+2. Onde a tela precisa de 14 px ao lado de um campo, use `size="field"` (glifo de 14 px) no lugar
+   de `[&_.fa-solid]:text-[14px]`.
+3. Ajuste testes que afirmavam `text-[14px]` no glifo do botão `md`.
+
+<a id="v4-botao-tamanhos"></a>
+### Botão: tamanhos, raio e borda do `outline`
+
+Os tamanhos passam a ter altura fixa no lugar de padding vertical (JETAX-029, JETAX-030), e a borda
+do `outline` fica com 1 px. `Button::SIZES` ganha `field` (40 px, a altura do campo). O `size`
+passa a ser validado: valor fora de `Button::SIZES` lança exceção em `local`/`testing` e cai em
+`md` com `Log::warning` nos demais ambientes.
+
+**Antes**
+
+| tamanho | com texto | só ícone |
+|---|---|---|
+| `sm` | `px-3 py-1.5 text-xs rounded-lg` | `w-8 h-8 rounded-lg` |
+| `md` | `px-5 py-2.5 text-sm rounded-xl` | `w-11 h-11 rounded-xl` |
+| `lg` | `px-8 py-4 text-lg rounded-xl` | `w-12 h-12 rounded-xl` |
+| `outline` | `border-2` | `border-2` |
+
+**Depois**
+
+| tamanho | com texto | só ícone |
+|---|---|---|
+| `sm` | `h-[34px] px-3 text-xs rounded-[8px]` | `w-[34px] h-[34px] rounded-[8px]` |
+| `md` | `h-11 px-5 text-sm rounded-xl` (`outline`: `h-10 px-[18px]`) | `w-11 h-11 rounded-[10px]` |
+| `lg` | `h-[52px] px-8 text-lg rounded-[10px]` | `w-12 h-12 rounded-xl` |
+| `field` (novo) | `h-10 px-[18px] text-sm rounded-[8px]` | `w-10 h-10 rounded-[8px]` |
+| `outline` | `border` | `border` |
+
+**Como migrar**
+
+1. Troque `!h-10 !w-10 !p-0` em botão só de ícone ao lado de campo por `icon-only size="field"`.
+2. Troque `!w-[34px] !h-[34px] !p-0` por `icon-only size="sm"`.
+3. Remova `!rounded-*`, `!h-*` e `!border` que só reproduziam a forma do mockup.
+4. Corrija todo `size` fora de `sm`, `md`, `lg` e `field`.
+
+<a id="v4-modal"></a>
+### Modal: recalibração de `Modal::SIZES`
+
+`Modal::SIZES` passa de `['sm', 'md', 'lg', 'fullscreen']` a
+`['sm', 'md', 'md-lg', 'lg', 'xl', '2xl', '3xl', 'fullscreen']` (JETAX-031). `md` e `lg` mudam
+de largura, as quatro chaves novas vêm dos modais do mockup, e o painel ganha o raio e a sombra do
+mockup (`Clientes.dc.html:1005`). O `size` passa a ser validado: valor fora da lista lança
+exceção em `local`/`testing` e cai em `md` com `Log::warning` nos demais. Não existe prop de
+largura livre. O nome `3xl` (980 px) é mais estreito que `2xl` (1080 px).
+
+**Antes**
+
+| chave | classe | px |
+|---|---|---|
+| `sm` | `max-w-xs` | 320 |
+| `md` | `max-w-xl` | 576 |
+| `lg` | `max-w-4xl` | 896 |
+| `fullscreen` | `w-full max-w-full h-full` | — |
+| painel | `rounded-xl shadow-2xl` | — |
+
+**Depois**
+
+| chave | classe | px |
+|---|---|---|
+| `sm` | `max-w-xs` | 320 |
+| `md` | `max-w-[560px]` | 560 |
+| `md-lg` (novo) | `max-w-[600px]` | 600 |
+| `lg` | `max-w-[660px]` | 660 |
+| `xl` (novo) | `max-w-[820px]` | 820 |
+| `2xl` (novo) | `max-w-[1080px]` | 1080 |
+| `3xl` (novo) | `max-w-[980px]` | 980 |
+| `fullscreen` | `w-full max-w-full h-full` | — |
+| painel | `rounded-[14px] shadow-[0_24px_60px_rgb(9_42_66/0.16)]` | — |
+
+**Como migrar**
+
+1. Troque cada `!max-w-*` do modal pelo `size` de largura mais próxima (ex.: `!max-w-2xl`,
+   672 px → `size="lg"`, 660 px; `!max-w-5xl`, 1024 px → `size="3xl"`, 980 px).
+2. Revise os modais com `size="lg"` sem compensação: eles encolhem de 896 px para 660 px. Se a
+   tela precisar da largura antiga, use `size="xl"` (820 px) ou `size="2xl"` (1080 px).
+3. Corrija todo `size` fora da lista.
+
+<a id="v4-dialog"></a>
+### Dialog: largura, raio, borda e sombra
+
+O painel de confirmação com corpo livre fica 12 px mais largo, e os três painéis do dialog ganham
+o raio, a borda e a sombra do modal (JETAX-032, `Clientes.dc.html:1145`).
+
+**Antes**
+
+```text
+max-w-md (448 px) · rounded-xl shadow-2xl · sem borda
+```
+
+**Depois**
+
+```text
+max-w-[460px] · rounded-[14px] border border-outline-variant shadow-[0_24px_60px_rgb(9_42_66/0.16)]
+```
+
+**Como migrar**
+
+1. Remova compensações de raio, borda e sombra no `<x-jetax-dialog>`.
+2. Confira telas que dependiam da largura de 448 px.
+
+<a id="v4-card"></a>
+### Card: raio, borda e sombra
+
+O card tem raio de 10 px, borda `border-outline-variant` nos dois temas e não tem mais sombra no
+tema claro (JETAX-033). O estado de erro vem da prop nova `state="error"`.
+
+**Antes**
+
+```text
+rounded-xl · shadow-sm shadow-on-surface/5 · borda só em dark:border
+```
+
+**Depois**
+
+```text
+rounded-[10px] · border border-outline-variant · sem sombra no claro · state="error" → border-error/34
+```
+
+**Como migrar**
+
+1. Troque `!border !border-error/60` por `state="error"`.
+2. Remova `!rounded-[10px]` e as compensações de borda que só reproduziam o mockup.
+3. Se a tela precisa da sombra antiga, aplique-a no call site como layout da tela.
+
+<a id="v4-table"></a>
+### Table: moldura e padding das células
+
+O contêiner da tabela ganha borda e raio de 14 px e perde a sombra inline; `th` e `td` passam a
+`px-4 py-3.5` (JETAX-034). A prop nova `flush` tira a moldura, para a tabela dentro de um card.
+
+**Antes**
+
+```text
+contêiner: rounded-2xl · style="box-shadow: 0 4px 20px -2px …" · sem borda
+th: px-6 py-3 · td: px-6 py-2.5
+```
+
+**Depois**
+
+```text
+contêiner: rounded-[14px] border border-outline-variant · sem sombra
+th: px-4 py-3.5 · td: px-4 py-3.5
+flush: rounded-none, sem borda e sem sombra
+```
+
+**Como migrar**
+
+1. Remova `[&_th]:*` e `[&_td]:*` que só reproduziam o padding do mockup.
+2. Use `flush` na tabela colada dentro de um `<x-jetax-card>`.
+3. Ajuste testes que afirmavam `px-6` nas células.
+
+<a id="v4-badge"></a>
+### Badge: raio, padding, borda e caixa
+
+O badge não quadrado tem raio de 6 px, o `md` fica mais baixo e o estilo `status` perde a borda
+(JETAX-035). A prop nova `text-case="normal"` tira `uppercase` e `tracking-wider`.
+
+**Antes**
+
+```text
+rounded-full · md: px-3 py-1 · status: border border-* · sempre uppercase tracking-wider
+```
+
+**Depois**
+
+```text
+rounded-[6px] · md: px-2 py-0.5 leading-[15px] · status: sem borda · text-case="upper" (default) | "normal"
+```
+
+**Como migrar**
+
+1. Troque `!normal-case !tracking-normal` por `text-case="normal"`.
+2. Remova compensações de raio e padding do badge.
+3. Ajuste testes que afirmavam `border` no badge de `status`.
+
+<a id="v4-select"></a>
+### Select: altura, raio, padding e borda
+
+O select tem 38 px de altura, raio de 8 px, `pl-2.5` e borda padrão `border-primary/18`
+(JETAX-036). A prop nova `state="error"`, com o mesmo nome e valor do `<x-jetax-input>`, pinta a
+borda de erro sem depender do `$errors`.
+
+**Antes**
+
+```text
+h-10 rounded-lg pl-4 pr-9 · border-outline-variant
+```
+
+**Depois**
+
+```text
+h-[38px] rounded-[8px] pl-2.5 pr-9 · border-primary/18 · state="error" → border-error
+```
+
+**Como migrar**
+
+1. Troque `!border-error` por `state="error"`.
+2. Confira formulários que alinhavam o select a um input de 40 px pela altura.
+
+<a id="v4-input"></a>
+### Input: raio e padding
+
+O input tem raio de 8 px e padding horizontal de 12 px em todos os estados (JETAX-037). A altura
+de 40 px não muda.
+
+**Antes**
+
+```text
+h-10 rounded-lg px-4
+```
+
+**Depois**
+
+```text
+h-10 rounded-[8px] px-3
+```
+
+**Como migrar**
+
+1. Remova `!rounded-*` e `!px-*` que reproduziam o mockup.
+2. Ajuste testes que afirmavam `rounded-lg px-4`.
+
+<a id="v4-textarea"></a>
+### Textarea: raio e padding
+
+O textarea tem raio de 8 px e padding de 10 px (JETAX-038).
+
+**Antes**
+
+```text
+rounded-lg px-4 py-3
+```
+
+**Depois**
+
+```text
+rounded-[8px] p-2.5
+```
+
+**Como migrar**
+
+1. Remova compensações de raio e padding do `<x-jetax-textarea>`.
+
+<a id="v4-empty-state"></a>
+### Empty state: padding, tamanho e moldura
+
+O padding padrão passa de 48 px a `40px 20px` (JETAX-039). As props novas `size="sm"` (vazio de
+uma linha, peso 700) e `bordered` (moldura tracejada com raio 10 px) cobrem as variações do
+mockup.
+
+**Antes**
+
+```text
+p-12 · descrição: text-on-surface-variant text-sm mb-8 max-w-xs
+```
+
+**Depois**
+
+```text
+px-5 py-10 · size="md" (default) | "sm": text-sm font-bold text-on-surface · bordered: border-dashed border-primary/18 rounded-[10px]
+```
+
+**Como migrar**
+
+1. Troque o seletor `[&_p]:!…` da descrição por `size="sm"`.
+2. Troque a moldura tracejada escrita no call site por `bordered`.
+
+<a id="v4-checkbox"></a>
+### Checkbox: tamanho da caixa
+
+A caixa do checkbox tem 15 px no lugar de 16 px (JETAX-040). Raio e borda não mudam.
+
+**Antes**
+
+```text
+w-4 h-4
+```
+
+**Depois**
+
+```text
+w-[15px] h-[15px]
+```
+
+**Como migrar**
+
+1. Remova `!w-*`/`!h-*` que reproduziam os 15 px.
+
+<a id="v4-chip"></a>
+### Chip: padding do chip removível
+
+O chip removível tem padding esquerdo de 11 px (JETAX-041). A altura `h-7` não muda.
+
+**Antes**
+
+```text
+pl-3
+```
+
+**Depois**
+
+```text
+pl-[11px]
+```
+
+**Como migrar**
+
+1. Remova `!pl-*` do `<x-jetax-chip removable>`.
+
+<a id="v4-dropdown"></a>
+### Dropdown: moldura e sombra do menu
+
+O menu troca o `ring-1` por borda, ganha a sombra do mockup, raio de 10 px e `p-1.5` (JETAX-042).
+
+**Antes**
+
+```text
+rounded-xl architect-shadow ring-1 ring-outline-variant py-2
+```
+
+**Depois**
+
+```text
+rounded-[10px] border border-outline-variant shadow-[0_12px_30px_rgb(9_42_66/0.16)] p-1.5
+```
+
+**Como migrar**
+
+1. Remova compensações de raio, sombra e contorno do menu.
+2. Confira itens largos: o padding lateral do menu passou a 6 px.
+
+<a id="v4-dropdown-item"></a>
+### Dropdown item: padding e raio
+
+O item tem `px-2.5 py-2` e raio de 7 px, no link e no botão (JETAX-043).
+
+**Antes**
+
+```text
+px-4 py-2.5 · sem raio
+```
+
+**Depois**
+
+```text
+px-2.5 py-2 rounded-[7px]
+```
+
+**Como migrar**
+
+1. Remova `!px-*`, `!py-*` e `!rounded-*` do `<x-jetax-dropdown-item>`.
+
+<a id="v4-pagination"></a>
+### Pagination: altura, borda e raio dos botões
+
+Os botões de página e as setas têm 38 px, raio de 9 px e borda `border-outline-variant`; a página
+atual não tem borda (JETAX-044).
+
+**Antes**
+
+```text
+w-8 h-8 rounded-lg · sem borda
+```
+
+**Depois**
+
+```text
+min-w-[38px] h-[38px] rounded-[9px] border border-outline-variant (página atual sem borda)
+```
+
+**Como migrar**
+
+1. Remova compensações de tamanho e raio da paginação.
+2. Confira rodapés estreitos: cada botão ficou 6 px maior.
+
+<a id="v4-sidebar"></a>
+### Sidebar e topbar: largura de 246 px
+
+A sidebar tem 246 px e `border-r` no lugar da sombra lateral, e os textos usam tokens de tema
+(`on-surface`, `on-surface-variant`, `primary`) no lugar de `white`/`slate` (JETAX-045). O default
+da prop `sidebar-width` da topbar acompanha a sidebar.
+
+**Antes**
+
+```text
+sidebar: w-64 (256 px) · sombra lateral · text-white / text-slate-400
+topbar: sidebar-width="16rem"
+```
+
+**Depois**
+
+```text
+sidebar: w-[246px] · border-r border-outline-variant · text-on-surface / text-on-surface-variant / text-primary
+topbar: sidebar-width="246px"
+```
+
+**Como migrar**
+
+1. Se o layout publicava a sidebar com outra largura, passe a mesma largura em `sidebar-width`.
+2. Remova `!w-*` e sombras escritas para imitar o mockup.
+
+<a id="v4-toggle"></a>
+### Toggle: raio do trilho
+
+O trilho do toggle é uma pílula de verdade (JETAX-046). O `rounded-full` do `@theme` do pacote vale
+12 px; o trilho passa a `rounded-[999px]`. A largura `w-11` não muda.
+
+**Antes**
+
+```text
+rounded-full (12 px no @theme)
+```
+
+**Depois**
+
+```text
+rounded-[999px]
+```
+
+**Como migrar**
+
+1. Remova `!rounded-*` do trilho do `<x-jetax-toggle>`.
+
+<a id="v4-topbar"></a>
+### Topbar: padding horizontal
+
+A topbar tem padding horizontal de 22 px a partir de `md` (JETAX-047).
+
+**Antes**
+
+```text
+md:px-5
+```
+
+**Depois**
+
+```text
+md:px-[22px]
+```
+
+**Como migrar**
+
+1. Remova `!px-*` da topbar.
+
+## Referência da 4.0
+
+### Chaves públicas
+
+Nenhuma chave existente de `SIZES`, `STYLES`, `COLORS` ou `GLYPH_SIZES` foi removida. Chaves e
+props novas: `Modal::SIZES` `md-lg`, `xl`, `2xl`, `3xl`; `Button::SIZES['field']`,
+`Button::GLYPH_SIZES['field']`, `Button::ICON_ONLY_GLYPH_SIZES`; `Badge::TEXT_CASES` e a prop
+`text-case`; `Select::STATES` e `Card::STATES` com a prop `state`; `EmptyState::SIZES` e as props
+`size` e `bordered`; a prop `flush` da table. Toda prop nova de valor enumerado segue a regra de
+variante inválida.
+
+### Glifo do botão
+
+O glifo do `<x-jetax-button>` continua com valores fixos que acompanham a fonte do botão: 12, 15 e
+18 px em `sm`, `md` e `lg`, e 14 px em `field`. No só-ícone, `sm` sobe para 14 px.
+
+---
+
 <a id="guia-2x-30"></a>
 # Guia de migração 2.x → 3.0
 

@@ -166,3 +166,21 @@ it('test_menu_position_classes_method_was_removed', function () {
 it('test_root_merges_consumer_class', function () {
     expect(renderDropdown('class="probe-xyz"'))->toContain('class="relative inline-block probe-xyz"');
 });
+
+it('test_jetax_042_menu_has_border_mockup_shadow_and_10px_radius', function () {
+    $menu = dropdownMenuTag(renderDropdown());
+
+    expect($menu)->toContain('border border-outline-variant')
+        ->and($menu)->toContain('shadow-[0_12px_30px_rgb(9_42_66/0.16)]')
+        ->and($menu)->toContain('rounded-[10px]')
+        ->and($menu)->not->toContain('ring-1')
+        ->and($menu)->not->toContain('architect-shadow')
+        ->and($menu)->not->toContain('rounded-xl');
+});
+
+it('test_jetax_042_list_padding_is_6px', function () {
+    $html = renderDropdown();
+
+    expect($html)->toContain('<div class="p-1.5">')
+        ->and($html)->not->toContain('<div class="py-2">');
+});

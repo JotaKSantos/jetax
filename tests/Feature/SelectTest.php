@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
 use Jetax\DesignSystem\View\Components\Select;
 
 it('test_renders_options_from_prop', function () {
@@ -44,10 +45,10 @@ it('test_consumer_class_reaches_select_element', function () {
     expect(tagClass(htmlTag($html, 'div')))->not->toContain('w-40');
 });
 
-it('test_height_is_40px_by_class_without_inline_style', function () {
+it('test_height_is_38px_by_class_without_inline_style', function () {
     $html = Blade::render('<x-jetax-select name="especie" />');
 
-    expect(tagClass(htmlTag($html, 'select')))->toContain('h-10');
+    expect(tagClass(htmlTag($html, 'select')))->toContain('h-[38px]')->not->toContain('h-10');
     expect($html)->not->toContain('style="height:');
 });
 
@@ -88,4 +89,60 @@ it('test_id_is_deterministic', function () {
 
     expect($match)->not->toBeEmpty();
     expect($second)->toContain('id="'.$match[1].'"');
+});
+
+it('test_jetax_036_states_constant_matches_input_error_state', function () {
+    expect(Select::STATES)->toBe(['error']);
+});
+
+it('test_jetax_036_error_state_renders_border_error_without_errors_bag', function () {
+    $html = Blade::render('<x-jetax-select name="porte" state="error" />');
+    $classes = tagClass(htmlTag($html, 'select'));
+
+    expect($classes)->toContain('border-error')
+        ->and($classes)->toContain('focus:ring-error/20')
+        ->and($classes)->not->toContain('border-primary/18')
+        ->and(htmlTag($html, 'select'))->not->toContain('state=');
+});
+
+it('test_jetax_036_error_state_uses_same_classes_as_errors_bag', function () {
+    $byState = new Select(name: 'porte', state: 'error');
+    $byBag = new Select(name: 'porte');
+
+    expect($byState->selectClasses())->toBe($byBag->selectClasses(true));
+});
+
+it('test_jetax_036_error_state_without_name', function () {
+    $html = Blade::render('<x-jetax-select state="error"><option>Pequeno</option></x-jetax-select>');
+
+    expect(tagClass(htmlTag($html, 'select')))->toContain('border-error');
+});
+
+it('test_jetax_036_default_shape_follows_mockup', function () {
+    $classes = tagClass(htmlTag(Blade::render('<x-jetax-select name="especie" />'), 'select'));
+
+    expect($classes)->toContain('rounded-[8px]')
+        ->and($classes)->toContain('h-[38px]')
+        ->and($classes)->toContain('pl-2.5')
+        ->and($classes)->toContain('pr-9')
+        ->and($classes)->toContain('border-primary/18')
+        ->and($classes)->not->toContain('rounded-lg')
+        ->and($classes)->not->toContain('pl-4')
+        ->and($classes)->not->toContain('border-outline-variant');
+});
+
+it('test_jetax_036_invalid_state_throws_in_testing', function () {
+    expect(bladeRenderFailure('<x-jetax-select name="porte" state="warning" />'))->toBeInstanceOf(InvalidArgumentException::class);
+});
+
+it('test_jetax_036_invalid_state_logs_and_falls_back_in_production', function () {
+    config(['app.env' => 'production']);
+    Log::spy();
+
+    $select = new Select(name: 'porte', state: 'warning');
+
+    expect($select->state)->toBe('')
+        ->and($select->selectClasses())->not->toContain('border-error');
+
+    Log::shouldHaveReceived('warning')->once();
 });

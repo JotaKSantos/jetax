@@ -24,6 +24,10 @@ dataset('componentes_rnf03', [
     'dropdown-item', 'editor', 'form-group', 'input', 'modal', 'page-header', 'pagination',
     'popover', 'select', 'stats-card', 'table', 'tag-input', 'textarea', 'time',
     'timeline-item', 'toggle', 'topbar', 'chip', 'button-group',
+    // F3 (SPEC jetax-f3-matriz-forma, RNF-03): componentes tocados pelas T14..T21.
+    'empty-state', 'sidebar', 'color', 'data-table/bulk-bar', 'data-table/empty',
+    'data-table/index', 'data-table/toolbar', 'dropdown-separator', 'offcanvas', 'pin',
+    'radio', 'range', 'rating', 'skeleton', 'toast-container', 'tooltip', 'upload',
 ]);
 
 /**

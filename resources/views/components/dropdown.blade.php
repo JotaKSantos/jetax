@@ -38,10 +38,10 @@
         x-transition:leave-start="transform opacity-100 scale-100"
         x-transition:leave-end="transform opacity-0 scale-95"
         @endif
-        class="fixed z-50 min-w-[12rem] w-max max-w-[20rem] bg-surface-container-high rounded-xl architect-shadow ring-1 ring-outline-variant overflow-hidden"
+        class="fixed z-50 min-w-[12rem] w-max max-w-[20rem] bg-surface-container-high rounded-[10px] shadow-[0_12px_30px_rgb(9_42_66/0.16)] border border-outline-variant overflow-hidden"
         style="display: none;"
     >
-        <div class="py-2">
+        <div class="p-1.5">
             {{ $slot }}
         </div>
     </div>

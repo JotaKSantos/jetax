@@ -4,9 +4,17 @@ namespace Jetax\DesignSystem\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Jetax\DesignSystem\View\Components\Concerns\ValidatesVariant;
 
 class Card extends Component
 {
+    use ValidatesVariant;
+
+    /**
+     * Estados aceitos pela prop `state` (JETAX-033). Sem estado, o card usa a borda padrão.
+     */
+    public const STATES = ['error'];
+
     /**
      * Valores de padding aceitos pela prop e a classe equivalente.
      */
@@ -31,7 +39,12 @@ class Card extends Component
         public bool $bordered = false,
         public string $headerClass = '',
         public string $footerClass = '',
-    ) {}
+        public string $state = '',
+    ) {
+        if ($state !== '') {
+            $this->state = $this->validateVariant($state, self::STATES, '', 'state');
+        }
+    }
 
     /**
      * Indica se uma classe utilitária é de padding (p-*, px-*, py-*, pt-*...),
@@ -87,21 +100,24 @@ class Card extends Component
     }
 
     /**
-     * Retorna as classes CSS do container baseadas na variante.
+     * Retorna as classes CSS do container baseadas na variante (JETAX-033): raio de 10 px,
+     * borda de 1 px nos dois temas, sem sombra no tema claro e a cor de borda do `state`.
      */
     public function containerClasses(): string
     {
-        $base = 'rounded-xl overflow-hidden bg-surface-container-lowest';
+        $base = 'rounded-[10px] overflow-hidden bg-surface-container-lowest';
 
         if ($this->featured) {
             return $base.' shadow-sm shadow-on-surface/5 dark:shadow-lg dark:shadow-black/20 dark:border dark:border-outline-variant border-t-4 border-error';
         }
 
+        $border = $this->state === 'error' ? 'border border-error/34' : 'border border-outline-variant';
+
         if ($this->bordered) {
-            return $base.' shadow-sm border border-outline-variant';
+            return $base.' shadow-sm '.$border;
         }
 
-        return $base.' shadow-sm shadow-on-surface/5 dark:shadow-lg dark:shadow-black/20 dark:border dark:border-outline-variant';
+        return $base.' dark:shadow-lg dark:shadow-black/20 '.$border;
     }
 
     /**

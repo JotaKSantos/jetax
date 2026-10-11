@@ -2,9 +2,9 @@
      presente. Sem `transition-all`: o `left` depende do `$store.sidebar`, lido do localStorage
      só depois do primeiro paint, e com transição a barra deslizava a cada carga de página.
 
-     Larguras padrão (literais aqui para o Tailwind gerar): md:left-[16rem] md:left-[70px] --}}
+     Larguras padrão (literais aqui para o Tailwind gerar): md:left-[246px] md:left-[70px] --}}
 <header
-    {{ $attributes->merge(['class' => 'jetax-topbar fixed top-0 left-0 right-0 h-16 z-40 flex items-center justify-between px-4 md:px-5 bg-sidebar border-b border-outline-variant']) }}
+    {{ $attributes->merge(['class' => 'jetax-topbar fixed top-0 left-0 right-0 h-16 z-40 flex items-center justify-between px-4 md:px-[22px] bg-sidebar border-b border-outline-variant']) }}
     :class="$store.sidebar.collapsed ? '{{ $collapsedLeftClass() }}' : '{{ $expandedLeftClass() }}'"
 >
     {{-- Esquerda: hambúrguer, ações contextuais da tela e título --}}

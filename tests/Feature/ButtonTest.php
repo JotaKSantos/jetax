@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Log;
+use Jetax\DesignSystem\View\Components\Button;
 
 it('test_solid_style_has_bg_class', function () {
     $view = $this->blade('<x-jetax-button style="solid" color="primary">Clique</x-jetax-button>');
@@ -11,8 +12,10 @@ it('test_solid_style_has_bg_class', function () {
 it('test_outline_style_has_border_class', function () {
     $view = $this->blade('<x-jetax-button style="outline" color="primary">Clique</x-jetax-button>');
 
+    // JETAX-029: a borda do outline é de 1 px (`border`), não mais `border-2`.
+    expect(tagClass(htmlTag((string) $view, 'button')))->toMatch('/(^|\s)border(\s|$)/')
+        ->not->toContain('border-2');
     $view->assertSee('border-primary', false);
-    $view->assertSee('border-2', false);
 });
 
 it('test_soft_style_has_light_bg_class', function () {
@@ -31,23 +34,19 @@ it('test_all_8_colors_render', function () {
 });
 
 it('test_3_sizes_render_correct_classes', function () {
+    // JETAX-029: altura fixa por tamanho, sem padding vertical.
     $smView = $this->blade('<x-jetax-button size="sm">Pequeno</x-jetax-button>');
-    $smView->assertSee('px-3', false);
-    $smView->assertSee('py-1.5', false);
-    $smView->assertSee('text-xs', false);
-    $smView->assertSee('rounded-lg', false);
+    $smView->assertSee('h-[34px] px-3 text-xs rounded-[8px]', false);
 
     $mdView = $this->blade('<x-jetax-button size="md">Médio</x-jetax-button>');
-    $mdView->assertSee('px-5', false);
-    $mdView->assertSee('py-2.5', false);
-    $mdView->assertSee('text-sm', false);
-    $mdView->assertSee('rounded-xl', false);
+    $mdView->assertSee('h-11 px-5 text-sm rounded-xl', false);
 
     $lgView = $this->blade('<x-jetax-button size="lg">Grande</x-jetax-button>');
-    $lgView->assertSee('px-8', false);
-    $lgView->assertSee('py-4', false);
-    $lgView->assertSee('text-lg', false);
-    $lgView->assertSee('font-headline', false);
+    $lgView->assertSee('h-[52px] px-8 text-lg rounded-[10px] font-headline', false);
+
+    foreach ([$smView, $mdView, $lgView] as $view) {
+        expect(tagClass(htmlTag((string) $view, 'button')))->not->toMatch('/\bpy-/');
+    }
 });
 
 it('test_block_prop_applies_full_width', function () {
@@ -90,12 +89,12 @@ it('test_glyph_size_follows_button_size', function (string $size, string $glyphC
         ->and($html)->toContain($glyph.'</i>');
 })->with([
     'sm' => ['sm', 'text-[12px]'],
-    'md' => ['md', 'text-[14px]'],
+    'md' => ['md', 'text-[15px]'],
     'lg' => ['lg', 'text-[18px]'],
+    'field' => ['field', 'text-[14px]'],
 ])->with([
     'esquerda' => ['<x-jetax-button size="%s" icon="bell" icon-position="left">Avisos</x-jetax-button>'],
     'direita' => ['<x-jetax-button size="%s" icon="bell" icon-position="right">Avisos</x-jetax-button>'],
-    'icon-only' => ['<x-jetax-button size="%s" icon="bell" icon-only aria-label="Avisos" />'],
 ]);
 
 it('test_icon_accepts_style_prefix', function () {
@@ -120,7 +119,7 @@ it('test_icon_with_invalid_style_prefix_throws_in_testing', function () {
 it('test_all_6_styles_x_8_colors_x_3_sizes_render', function () {
     $styles = ['solid', 'rounded', 'outline', 'outline-rounded', 'soft', 'soft-rounded'];
     $colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger', 'dark', 'light'];
-    $sizes = ['sm', 'md', 'lg'];
+    $sizes = ['sm', 'md', 'lg', 'field'];
 
     foreach ($styles as $style) {
         foreach ($colors as $color) {
@@ -147,9 +146,10 @@ it('test_icon_only_renders_square_without_horizontal_padding', function (string 
         ->not->toMatch('/\bpx-\d/')
         ->not->toMatch('/\bpy-\d/');
 })->with([
-    ['sm', 'w-8 h-8'],
+    ['sm', 'w-[34px] h-[34px]'],
     ['md', 'w-11 h-11'],
     ['lg', 'w-12 h-12'],
+    ['field', 'w-10 h-10'],
 ]);
 
 it('test_icon_only_md_has_w_11_h_11_and_no_px_5', function () {
@@ -220,4 +220,99 @@ it('test_custom_color_keeps_single_class_attribute', function () {
 it('test_custom_color_without_token_throws_in_testing', function () {
     expect(bladeRenderFailure('<x-jetax-button color="custom">Ok</x-jetax-button>'))
         ->toBeInstanceOf(InvalidArgumentException::class);
+});
+
+it('test_jetax_029_md_solid_is_44px_without_vertical_padding', function () {
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-button>Incluir</x-jetax-button>'), 'button'));
+
+    expect($class)->toContain('h-11 px-5 text-sm rounded-xl')
+        ->not->toContain('py-2.5');
+});
+
+it('test_jetax_029_md_outline_is_40px_with_18px_padding_and_1px_border', function (string $style) {
+    $class = tagClass(htmlTag((string) $this->blade("<x-jetax-button style=\"{$style}\">Atualizar</x-jetax-button>"), 'button'));
+
+    expect($class)->toContain('h-10 px-[18px] text-sm')
+        ->toMatch('/(^|\s)border(\s|$)/')
+        ->not->toContain('border-2')
+        ->not->toContain('h-11')
+        ->not->toContain('px-5');
+})->with(['outline', 'outline-rounded']);
+
+it('test_jetax_029_outline_border_is_1px_in_every_color_and_disabled', function () {
+    foreach ([...Button::COLORS] as $color) {
+        $html = (string) $this->blade("<x-jetax-button style=\"outline\" color=\"{$color}\">Ok</x-jetax-button>");
+        expect(tagClass(htmlTag($html, 'button')))->not->toContain('border-2');
+    }
+
+    $custom = (string) $this->blade('<x-jetax-button style="outline" color="custom" color-token="brand-blue">Ok</x-jetax-button>');
+    $disabled = (string) $this->blade('<x-jetax-button style="outline" disabled>Ok</x-jetax-button>');
+
+    expect(tagClass(htmlTag($custom, 'button')))->not->toContain('border-2')
+        ->and(tagClass(htmlTag($disabled, 'button')))->not->toContain('border-2');
+});
+
+it('test_jetax_029_field_size_is_40px_with_8px_radius', function () {
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-button size="field">Buscar</x-jetax-button>'), 'button'));
+
+    expect($class)->toContain('h-10 px-[18px] text-sm rounded-[8px]');
+});
+
+it('test_jetax_030_md_glyph_is_15px', function () {
+    $html = (string) $this->blade('<x-jetax-button icon="rotate">Atualizar</x-jetax-button>');
+
+    expect(tagClass(htmlTag($html, 'i', 'fa-rotate')))->toContain('text-[15px]')
+        ->not->toContain('text-[14px]');
+});
+
+it('test_jetax_030_icon_only_glyph_follows_icon_only_map', function (string $size, string $glyphClass) {
+    $html = (string) $this->blade("<x-jetax-button icon-only size=\"{$size}\" icon=\"bell\" aria-label=\"Avisos\" />");
+
+    preg_match_all('/\btext-\[\d+px\]/', tagClass(htmlTag($html, 'i', 'fa-bell')), $sizeClasses);
+
+    expect($sizeClasses[0])->toBe([$glyphClass]);
+})->with([
+    'sm' => ['sm', 'text-[14px]'],
+    'md' => ['md', 'text-[15px]'],
+    'lg' => ['lg', 'text-[18px]'],
+    'field' => ['field', 'text-[14px]'],
+]);
+
+it('test_jetax_030_icon_only_sm_is_34px_square_with_8px_radius', function () {
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-button icon-only size="sm" icon="pen" aria-label="Editar" />'), 'button'));
+
+    expect($class)->toContain('w-[34px] h-[34px]')
+        ->toContain('rounded-[8px]')
+        ->not->toContain('w-8 h-8');
+});
+
+it('test_jetax_030_icon_only_md_has_10px_radius', function () {
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-button icon-only icon="rotate" aria-label="Atualizar" />'), 'button'));
+
+    expect($class)->toContain('w-11 h-11')
+        ->toContain('rounded-[10px]')
+        ->not->toContain('rounded-xl');
+});
+
+it('test_jetax_030_icon_only_field_is_40px_square_with_8px_radius', function () {
+    $class = tagClass(htmlTag((string) $this->blade('<x-jetax-button icon-only size="field" icon="plus" aria-label="Incluir" />'), 'button'));
+
+    expect($class)->toContain('w-10 h-10')
+        ->toContain('rounded-[8px]')
+        ->not->toMatch('/\bpx-/');
+});
+
+it('test_invalid_size_throws_in_testing', function () {
+    expect(bladeRenderFailure('<x-jetax-button size="xl">Botão</x-jetax-button>'))
+        ->toBeInstanceOf(InvalidArgumentException::class);
+});
+
+it('test_invalid_size_logs_and_falls_back_to_md_in_production', function () {
+    config()->set('app.env', 'production');
+    Log::spy();
+
+    $html = (string) $this->blade('<x-jetax-button size="xl">Botão</x-jetax-button>');
+
+    expect(tagClass(htmlTag($html, 'button')))->toContain('h-11 px-5 text-sm');
+    Log::shouldHaveReceived('warning')->once();
 });

@@ -39,10 +39,10 @@ class Tooltip extends Component
     public function arrowClasses(): string
     {
         return match ($this->position) {
-            'bottom' => 'top-0 left-1/2 -translate-x-1/2 -translate-y-full border-b-slate-900 border-l-transparent border-r-transparent border-t-transparent',
-            'left' => 'right-0 top-1/2 -translate-y-1/2 translate-x-full border-l-slate-900 border-t-transparent border-b-transparent border-r-transparent',
-            'right' => 'left-0 top-1/2 -translate-y-1/2 -translate-x-full border-r-slate-900 border-t-transparent border-b-transparent border-l-transparent',
-            default => 'bottom-0 left-1/2 -translate-x-1/2 translate-y-full border-t-slate-900 border-l-transparent border-r-transparent border-b-transparent',
+            'bottom' => 'top-0 left-1/2 -translate-x-1/2 -translate-y-full border-b-inverse-surface border-l-transparent border-r-transparent border-t-transparent',
+            'left' => 'right-0 top-1/2 -translate-y-1/2 translate-x-full border-l-inverse-surface border-t-transparent border-b-transparent border-r-transparent',
+            'right' => 'left-0 top-1/2 -translate-y-1/2 -translate-x-full border-r-inverse-surface border-t-transparent border-b-transparent border-l-transparent',
+            default => 'bottom-0 left-1/2 -translate-x-1/2 translate-y-full border-t-inverse-surface border-l-transparent border-r-transparent border-b-transparent',
         };
     }
 

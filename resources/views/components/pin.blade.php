@@ -64,7 +64,7 @@
             });
         }
     }"
-    class="flex items-center gap-2"
+    {{ $attributes->only('class')->merge(['class' => 'flex items-center gap-2']) }}
 >
     @for ($i = 0; $i < $length; $i++)
         <input

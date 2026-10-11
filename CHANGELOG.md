@@ -5,6 +5,71 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [4.0.0] - 2026-10-11
+
+Versão major: alinha a **forma** dos componentes (raio, altura, padding, largura, borda, sombra,
+glifo, caixa e cor de borda de estado) aos mockups do VetSoft no Claude Design. As divergências
+medidas viraram as issues JETAX-029 a JETAX-047. Nenhuma chave existente de `SIZES`, `STYLES`,
+`COLORS` ou `GLYPH_SIZES` foi removida, mas vários defaults visuais mudaram: os itens marcados com
+**[BREAKING]** mudam a aparência ou o comportamento de quem usa a 3.x sem prop explícita, e o passo
+a passo de cada um está no guia de migração [`UPGRADE.md`](UPGRADE.md#guia-3x-40).
+
+### Changed
+- **[BREAKING] Glifo do botão `md`: 14 → 15 px (JETAX-030):** `Button::GLYPH_SIZES['md']` passa de `text-[14px]` a `text-[15px]`, com e sem `icon-only`; `sm` (12 px) e `lg` (18 px) não mudam. Ver [UPGRADE.md](UPGRADE.md#v4-botao-glifo)
+- **[BREAKING] Tamanhos e borda do botão (JETAX-029, JETAX-030):** `sm` vira `h-[34px]` com raio 8 px; `md` vira `h-11` (44 px) no `solid`/`soft` e `h-10` (40 px) com `px-[18px]` no `outline`; `lg` vira `h-[52px]` com raio 10 px; o só-ícone `sm` vira 34 px e o `md` ganha raio 10 px; a borda do `outline` passa de `border-2` a `border`; `size` inválido segue a regra de variante inválida. Ver [UPGRADE.md](UPGRADE.md#v4-botao-tamanhos)
+- **[BREAKING] Recalibração de `Modal::SIZES` (JETAX-031):** `md` passa de `max-w-xl` (576 px) a `max-w-[560px]` e `lg` de `max-w-4xl` (896 px) a `max-w-[660px]`; o painel ganha raio 14 px e a sombra do mockup; `size` inválido segue a regra de variante inválida. Ver [UPGRADE.md](UPGRADE.md#v4-modal)
+- **[BREAKING] Dialog (JETAX-032):** o painel de confirmação passa de `max-w-md` (448 px) a `max-w-[460px]`, e os painéis ganham raio 14 px, borda `border-outline-variant` e a sombra do modal. Ver [UPGRADE.md](UPGRADE.md#v4-dialog)
+- **[BREAKING] Card (JETAX-033):** raio `rounded-xl` → `rounded-[10px]`, borda `border-outline-variant` nos dois temas e sem sombra no tema claro. Ver [UPGRADE.md](UPGRADE.md#v4-card)
+- **[BREAKING] Table (JETAX-034):** contêiner com raio 14 px, borda `border-outline-variant` e sem a sombra inline; células `th` e `td` com `px-4 py-3.5`. Ver [UPGRADE.md](UPGRADE.md#v4-table)
+- **[BREAKING] Badge (JETAX-035):** raio `rounded-full` → `rounded-[6px]`, `md` com `px-2 py-0.5 leading-[15px]` e estilo `status` sem borda. Ver [UPGRADE.md](UPGRADE.md#v4-badge)
+- **[BREAKING] Select (JETAX-036):** altura 40 → 38 px, raio 8 px, `pl-2.5` e borda padrão `border-primary/18`. Ver [UPGRADE.md](UPGRADE.md#v4-select)
+- **[BREAKING] Input (JETAX-037):** raio `rounded-lg` → `rounded-[8px]` e padding horizontal `px-4` → `px-3`. Ver [UPGRADE.md](UPGRADE.md#v4-input)
+- **[BREAKING] Textarea (JETAX-038):** raio `rounded-lg` → `rounded-[8px]` e padding `px-4 py-3` → `p-2.5`. Ver [UPGRADE.md](UPGRADE.md#v4-textarea)
+- **[BREAKING] Empty state (JETAX-039):** padding `p-12` → `px-5 py-10`. Ver [UPGRADE.md](UPGRADE.md#v4-empty-state)
+- **[BREAKING] Checkbox (JETAX-040):** caixa `w-4 h-4` → `w-[15px] h-[15px]`. Ver [UPGRADE.md](UPGRADE.md#v4-checkbox)
+- **[BREAKING] Chip (JETAX-041):** chip removível com `pl-[11px]` no lugar de `pl-3`. Ver [UPGRADE.md](UPGRADE.md#v4-chip)
+- **[BREAKING] Dropdown (JETAX-042):** menu com `border border-outline-variant` no lugar do `ring-1`, sombra do mockup, raio 10 px e `p-1.5`. Ver [UPGRADE.md](UPGRADE.md#v4-dropdown)
+- **[BREAKING] Dropdown item (JETAX-043):** `px-4 py-2.5` → `px-2.5 py-2 rounded-[7px]`. Ver [UPGRADE.md](UPGRADE.md#v4-dropdown-item)
+- **[BREAKING] Pagination (JETAX-044):** botões de página `w-8 h-8 rounded-lg` → `min-w-[38px] h-[38px] rounded-[9px]`, com borda `border-outline-variant` fora da página atual. Ver [UPGRADE.md](UPGRADE.md#v4-pagination)
+- **[BREAKING] Sidebar e largura da topbar (JETAX-045):** sidebar `w-64` → `w-[246px]` com `border-r` no lugar da sombra lateral, textos por token de tema; o default de `sidebar-width` da topbar passa de `16rem` a `246px`. Ver [UPGRADE.md](UPGRADE.md#v4-sidebar)
+- **[BREAKING] Toggle (JETAX-046):** trilho `rounded-full` → `rounded-[999px]`. Ver [UPGRADE.md](UPGRADE.md#v4-toggle)
+- **[BREAKING] Topbar (JETAX-047):** padding horizontal `md:px-5` → `md:px-[22px]`. Ver [UPGRADE.md](UPGRADE.md#v4-topbar)
+- **Raiz única de `class`:** os 67 componentes de template aplicam o `class` do consumidor num único elemento raiz, sem repetir o atributo em outro elemento. Antes, 16 deles descartavam o `class` ou o mandavam para um elemento interno
+- **Paleta nomeada trocada por token:** offcanvas (`bg-surface-container-lowest`), rating (`text-outline-variant`), toast-container (fundos sólidos do botão), tooltip (`bg-inverse-surface text-surface`) e upload deixam de usar literais `slate`/`gray`/`red`/`emerald`/`white`
+
+### Fixed
+- **JETAX-029:** os tamanhos `sm`, `md` e `lg` do botão com texto tinham altura por padding vertical, raio e borda do `outline` fora do mockup
+- **JETAX-030:** o botão só de ícone não tinha o quadrado de 40 px da altura de campo nem o de 34 px, e o glifo `md` ficava 1 px menor que o do mockup
+- **JETAX-031:** `Modal::SIZES` não tinha as larguras dos modais do mockup, e o painel tinha raio e sombra diferentes
+- **JETAX-032:** o dialog tinha largura, raio, borda e sombra fora do mockup
+- **JETAX-033:** o card tinha raio de 8 px, borda só no tema escuro, sombra no claro e nenhum estado de erro
+- **JETAX-034:** a moldura da tabela tinha raio de 16 px, sombra inline e nenhuma borda, e o padding das células era outro
+- **JETAX-035:** o badge não dispensava `uppercase`/`tracking-wider` e tinha raio, padding e borda fora do mockup
+- **JETAX-036:** o select tinha raio, altura, padding e cor de borda fora do mockup e nenhum estado de erro fora do `$errors`
+- **JETAX-037:** o input tinha raio de 4 px e padding horizontal de 16 px
+- **JETAX-038:** o textarea tinha raio de 4 px e padding de `16px 12px`
+- **JETAX-039:** o empty-state tinha padding de 48 px e nenhuma variante de uma linha nem moldura tracejada
+- **JETAX-040:** a caixa do checkbox tinha 16 px no lugar de 15 px
+- **JETAX-041:** o chip removível tinha padding esquerdo de 12 px no lugar de 11 px
+- **JETAX-042:** o menu do dropdown tinha contorno por `ring`, sombra, raio e padding fora do mockup
+- **JETAX-043:** o item do dropdown tinha padding fora do mockup e nenhum raio
+- **JETAX-044:** o botão de página da paginação tinha 32 px, raio de 4 px e nenhuma borda
+- **JETAX-045:** a sidebar tinha 256 px de largura e sombra lateral no lugar da borda, e a topbar assumia a mesma largura
+- **JETAX-046:** o trilho do toggle tinha raio de 12 px (`rounded-full` do `@theme`) no lugar de pílula
+- **JETAX-047:** a topbar tinha padding horizontal de 20 px no lugar de 22 px
+
+### Added
+- **`Modal::SIZES`:** chaves `md-lg` (600 px), `xl` (820 px), `2xl` (1080 px) e `3xl` (980 px), além de `sm`, `md`, `lg` e `fullscreen`
+- **Botão `size="field"`:** `Button::SIZES['field']` (40 px, a altura do campo, com texto ou `icon-only`) e `Button::GLYPH_SIZES['field']` (`text-[14px]`)
+- **`Button::ICON_ONLY_GLYPH_SIZES`:** glifo do botão só de ícone por `size` (`sm` 14, `md` 15, `field` 14, `lg` 18 px); sem `icon-only` vale `GLYPH_SIZES`
+- **Prop `text-case` do badge:** `Badge::TEXT_CASES = ['upper', 'normal']`, default `upper`; `text-case="normal"` tira `uppercase` e `tracking-wider`
+- **Prop `state` do select:** `Select::STATES = ['error']`, mesmo nome e valor do `state` do input; `state="error"` pinta a borda de erro sem depender do `$errors`
+- **Prop `state` do card:** `Card::STATES = ['error']`; `state="error"` troca a borda por `border-error/34`
+- **Prop `size` do empty-state:** `EmptyState::SIZES = ['md', 'sm']`, default `md`; `sm` é o vazio de uma linha
+- **Prop `bordered` do empty-state:** moldura tracejada `border-primary/18` com raio 10 px
+- **Prop `flush` da table:** tabela sem moldura, para uso direto dentro de um card
+- Toda prop nova de valor enumerado segue a regra de variante inválida (exceção em `local`/`testing`, fallback com `Log::warning` nos demais)
+
 ## [3.0.0] - 2026-10-09
 
 Versão major: troca o sistema de ícones do Material Symbols para a webfont do Font Awesome

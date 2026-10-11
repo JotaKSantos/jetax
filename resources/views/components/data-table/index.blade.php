@@ -7,19 +7,21 @@
 @php
     $hasRows = $rows !== null && $rows->total() > 0;
     $hasBulkActions = ! empty($bulkActions);
-    $selectedCount = count($this->selectedIds ?? []);
+    // Fora do Livewire (tag anônima) não há $this: a seleção começa vazia.
+    $selectedCount = isset($this) ? count($this->selectedIds ?? []) : 0;
     $columnSpan = count($columns) + ($hasBulkActions ? 1 : 0);
 @endphp
 
 <div {{ $attributes->merge(['class' => 'rounded-2xl overflow-hidden bg-surface-container-lowest']) }}
     style="box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);"
 >
-    @include('jetax::components.data-table.toolbar')
+    @include('jetax::components.data-table.toolbar', ['attributes' => new \Illuminate\View\ComponentAttributeBag])
 
     @if($hasBulkActions)
         @include('jetax::components.data-table.bulk-bar', [
             'bulkActions' => $bulkActions,
             'selectedCount' => $selectedCount,
+            'attributes' => new \Illuminate\View\ComponentAttributeBag,
         ])
     @endif
 
@@ -28,6 +30,7 @@
             'title' => $emptyTitle ?? 'Nenhum registro encontrado',
             'description' => $emptyDescription ?? '',
             'icon' => $emptyIcon ?? 'inbox',
+            'attributes' => new \Illuminate\View\ComponentAttributeBag,
         ])
     @else
         <div class="overflow-x-auto">

@@ -21,7 +21,7 @@ it('renders badge column with variant based on value map', function () {
 
     Livewire::test(ShowcaseTable::class)
         ->assertSee('draft')
-        ->assertSee('bg-surface-container border border-outline-variant text-on-surface-variant');
+        ->assertSee('bg-surface-container text-on-surface-variant');
 });
 
 it('maps multiple status values to distinct variants', function () {
@@ -31,8 +31,8 @@ it('maps multiple status values to distinct variants', function () {
 
     $response = Livewire::test(ShowcaseTable::class);
 
-    // neutral → bg-surface-container
-    $response->assertSee('bg-surface-container border border-outline-variant');
+    // neutral → bg-surface-container, sem borda no estilo status (JETAX-035)
+    $response->assertSee('bg-surface-container text-on-surface-variant');
     // success → bg-success/10
     $response->assertSee('bg-success/10');
     // danger → bg-error/5

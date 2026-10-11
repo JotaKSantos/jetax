@@ -28,7 +28,7 @@ class Textarea extends Component
      */
     public function textareaClasses(bool $hasError = false): string
     {
-        $base = 'w-full rounded-lg px-4 py-3 text-sm transition-all outline-none resize-none';
+        $base = 'w-full rounded-[8px] p-2.5 text-sm transition-all outline-none resize-none';
 
         if ($this->attributes->get('disabled') !== null || $this->attributes->has('disabled')) {
             return $base.' bg-surface-container-low border border-outline-variant text-on-surface/40 cursor-not-allowed opacity-50';

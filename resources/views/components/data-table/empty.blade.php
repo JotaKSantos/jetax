@@ -4,4 +4,4 @@
     'icon' => 'inbox',
 ])
 
-<x-jetax-empty-state :title="$title" :description="$description" :icon="$icon" type="no-results" />
+<x-jetax-empty-state {{ $attributes }} :title="$title" :description="$description" :icon="$icon" type="no-results" />

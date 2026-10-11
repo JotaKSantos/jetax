@@ -72,7 +72,7 @@
     x-on:dragover.prevent="isDragging = true"
     x-on:dragleave.prevent="isDragging = false"
     x-on:drop.prevent="handleDrop($event)"
-    class="w-full"
+    {{ $attributes->only('class')->merge(['class' => 'w-full']) }}
 >
     {{-- Área de Drop --}}
     <div
@@ -90,18 +90,18 @@
             <span class="text-sm font-semibold text-primary">Solte os arquivos aqui</span>
         </div>
 
-        <x-jetax-icon name="cloud-arrow-up" size="36" class="text-slate-400" />
+        <x-jetax-icon name="cloud-arrow-up" size="36" class="text-on-surface-variant" />
 
         <div class="text-center">
-            <p class="text-sm font-semibold text-slate-600">
+            <p class="text-sm font-semibold text-on-surface-variant">
                 Arraste arquivos aqui ou
                 <span class="text-primary underline">clique para selecionar</span>
             </p>
             @if($accept)
-                <p class="mt-1 text-xs text-slate-400">Formatos aceitos: {{ $accept }}</p>
+                <p class="mt-1 text-xs text-on-surface-variant">Formatos aceitos: {{ $accept }}</p>
             @endif
             @if($maxSize > 0)
-                <p class="mt-1 text-xs text-slate-400">Tamanho máximo: {{ $maxSize }}MB por arquivo</p>
+                <p class="mt-1 text-xs text-on-surface-variant">Tamanho máximo: {{ $maxSize }}MB por arquivo</p>
             @endif
         </div>
     </div>
@@ -122,7 +122,7 @@
     <template x-if="errors.length > 0">
         <div class="mt-3 space-y-1">
             <template x-for="(error, i) in errors" :key="i">
-                <div class="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600">
+                <div class="flex items-center gap-2 rounded-lg bg-error/10 px-3 py-2 text-xs text-error">
                     <x-jetax-icon name="circle-exclamation" size="sm" />
                     <span x-html="error"></span>
                 </div>
@@ -146,13 +146,13 @@
 
                     {{-- Ícone genérico para não-imagens --}}
                     <template x-if="!file.preview">
-                        <x-jetax-icon name="file" size="lg" class="flex-shrink-0 text-slate-400" />
+                        <x-jetax-icon name="file" size="lg" class="flex-shrink-0 text-on-surface-variant" />
                     </template>
 
                     {{-- Info do arquivo --}}
                     <div class="min-w-0 flex-1">
-                        <p class="truncate text-xs font-medium text-slate-700" x-text="file.name"></p>
-                        <p class="text-[10px] text-slate-400" x-text="formatSize(file.size)"></p>
+                        <p class="truncate text-xs font-medium text-on-surface" x-text="file.name"></p>
+                        <p class="text-[10px] text-on-surface-variant" x-text="formatSize(file.size)"></p>
 
                         {{-- Barra de progresso --}}
                         <div
@@ -170,7 +170,7 @@
                     <button
                         type="button"
                         x-on:click.stop="removeFile(index)"
-                        class="flex-shrink-0 rounded p-1 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                        class="flex-shrink-0 rounded p-1 text-on-surface-variant transition-colors hover:bg-error/10 hover:text-error"
                         title="Remover arquivo"
                     >
                         <x-jetax-icon name="xmark" size="18" />

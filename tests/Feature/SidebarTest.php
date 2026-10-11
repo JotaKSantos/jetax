@@ -49,7 +49,7 @@ it('marks active item with pill indicator', function () {
     $view = $this->blade('<x-jetax::sidebar title="Test" />');
 
     $view->assertSee('aria-current="page"', false);
-    $view->assertSee('bg-white/5', false);
+    $view->assertSee('text-primary font-semibold', false);
     $view->assertSee('before:bg-primary', false);
 });
 
@@ -88,4 +88,15 @@ it('renders navigation icon with style prefix', function () {
         ->not->toContain('regular:')
         ->not->toContain('brands:')
         ->not->toContain('material');
+});
+
+it('test_jetax_045_aside_is_246px_with_right_border_and_no_side_shadow', function () {
+    $html = (string) $this->blade('<x-jetax::sidebar title="Test" />');
+    $aside = htmlTag($html, 'aside');
+
+    expect($aside)->toContain('border-r border-outline-variant')
+        ->and($aside)->toContain("'w-[246px] sidebar-scroll overflow-y-auto'")
+        ->and($aside)->toContain('md:w-[70px] md:overflow-visible w-[246px]')
+        ->and($aside)->not->toContain('w-64')
+        ->and($aside)->not->toContain('shadow-[16px_0_32px');
 });

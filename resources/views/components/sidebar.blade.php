@@ -1,33 +1,19 @@
 @props(['title' => '', 'collapsible' => false])
 
-{{-- Backdrop mobile --}}
-<div
-    x-show="$store.sidebar.open"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    @click="$store.sidebar.open = false"
-    class="fixed inset-0 bg-black/40 z-[45] md:hidden"
-    x-cloak
-></div>
-
 <aside
-    {{ $attributes->merge(['class' => 'jetax-sidebar fixed left-0 top-0 h-full bg-sidebar z-50 flex-col shadow-[16px_0_32px_rgba(17,26,55,0.04)] pb-8 transition-all duration-300']) }}
+    {{ $attributes->merge(['class' => 'jetax-sidebar fixed left-0 top-0 h-full bg-sidebar z-50 flex-col border-r border-outline-variant pb-8 transition-all duration-300']) }}
     :class="[
         $store.sidebar.open ? 'flex' : 'hidden md:flex',
-        $store.sidebar.collapsed ? 'md:w-[70px] md:overflow-visible w-64 sidebar-scroll overflow-y-auto' : 'w-64 sidebar-scroll overflow-y-auto'
+        $store.sidebar.collapsed ? 'md:w-[70px] md:overflow-visible w-[246px] sidebar-scroll overflow-y-auto' : 'w-[246px] sidebar-scroll overflow-y-auto'
     ]"
 >
     {{-- Branding --}}
     <div class="py-8 flex flex-col gap-2 transition-all duration-300 overflow-hidden" :class="$store.sidebar.collapsed ? 'px-0 items-center' : 'px-6'">
-        <h1 class="font-headline text-xl font-bold text-white tracking-tight whitespace-nowrap">
+        <h1 class="font-headline text-xl font-bold text-on-surface tracking-tight whitespace-nowrap">
             <span x-show="$store.sidebar.collapsed" x-cloak class="text-lg">J</span>
             <span x-show="!$store.sidebar.collapsed">Jetax</span>
         </h1>
-        <p x-show="!$store.sidebar.collapsed" x-transition:leave.opacity.duration.200ms class="font-label text-[11px] uppercase text-slate-400 tracking-[0.08em] font-medium">Design System</p>
+        <p x-show="!$store.sidebar.collapsed" x-transition:leave.opacity.duration.200ms class="font-label text-[11px] uppercase text-on-surface-variant tracking-[0.08em] font-medium">Design System</p>
     </div>
 
     {{-- Navegação principal --}}
@@ -53,7 +39,7 @@
                     @php $currentGroup = $item['group'] ?? null; @endphp
                     @if($currentGroup)
                         <div class="py-2 {{ !$loop->first ? 'mt-4' : '' }}" :class="$store.sidebar.collapsed ? 'px-0' : 'px-6'">
-                            <p x-show="!$store.sidebar.collapsed" class="text-[10px] font-bold tracking-widest text-slate-500 uppercase">{{ $currentGroup }}</p>
+                            <p x-show="!$store.sidebar.collapsed" class="text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">{{ $currentGroup }}</p>
                             <div x-show="$store.sidebar.collapsed" x-cloak class="border-t border-white/10 mx-3"></div>
                         </div>
                     @endif
@@ -68,8 +54,8 @@
                         @click="$store.sidebar.open = false"
                         class="flex items-center py-3 transition-colors duration-200
                             {{ $isActive
-                                ? 'text-white font-semibold relative before:content-[\'\'] before:absolute before:left-0 before:w-1 before:h-6 before:bg-primary before:rounded-r-full bg-white/5'
-                                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                ? 'text-primary font-semibold relative before:content-[\'\'] before:absolute before:left-0 before:w-1 before:h-6 before:bg-primary before:rounded-r-full bg-primary/5'
+                                : 'text-on-surface-variant hover:text-on-surface hover:bg-primary/5'
                             }}"
                         :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-6'"
                         @if($isActive) aria-current="page" data-sidebar-active @endif
@@ -105,8 +91,8 @@
                     @click="$store.sidebar.open = false"
                     class="flex items-center py-3 transition-colors duration-200
                         {{ $isActive
-                            ? 'text-white font-semibold relative before:content-[\'\'] before:absolute before:left-0 before:w-1 before:h-6 before:bg-primary before:rounded-r-full bg-white/5'
-                            : 'text-slate-400 hover:text-white hover:bg-white/5'
+                            ? 'text-primary font-semibold relative before:content-[\'\'] before:absolute before:left-0 before:w-1 before:h-6 before:bg-primary before:rounded-r-full bg-primary/5'
+                            : 'text-on-surface-variant hover:text-on-surface hover:bg-primary/5'
                         }}"
                     :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-6'"
                     @if($isActive) aria-current="page" data-sidebar-active @endif
@@ -129,3 +115,17 @@
         @endforeach
     </div>
 </aside>
+
+{{-- Backdrop mobile --}}
+<div
+    x-show="$store.sidebar.open"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    @click="$store.sidebar.open = false"
+    class="fixed inset-0 bg-black/40 z-[45] md:hidden"
+    x-cloak
+></div>

@@ -10,7 +10,7 @@
 
 @if($total > 0 && $actions->isNotEmpty())
     <div
-        class="px-6 py-3 border-b border-outline-variant/30 bg-primary/5 flex flex-wrap items-center gap-3"
+        {{ $attributes->merge(['class' => 'px-6 py-3 border-b border-outline-variant/30 bg-primary/5 flex flex-wrap items-center gap-3']) }}
         role="region"
         aria-label="Ações em lote"
     >

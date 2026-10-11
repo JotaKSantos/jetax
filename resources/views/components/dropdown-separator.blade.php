@@ -1,1 +1,1 @@
-<div class="my-1 border-t border-surface-container"></div>
+<div {{ $attributes->merge(['class' => 'my-1 border-t border-surface-container']) }}></div>

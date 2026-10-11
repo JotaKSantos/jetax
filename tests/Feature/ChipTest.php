@@ -83,3 +83,18 @@ it('test_uses_tokens_without_hex_or_named_palette', function () {
 it('test_chip_is_registered', function () {
     expect(Blade::getClassComponentAliases())->toHaveKey('jetax-chip');
 });
+
+it('test_jetax_041_removable_chip_left_padding_is_11px', function () {
+    $span = htmlTag((string) $this->blade('<x-jetax-chip label="Situação: Quitado" removable wire:click="remover" />'), 'span', 'h-7');
+
+    expect($span)->toContain('pl-[11px] pr-1.5')
+        ->and($span)->not->toContain('pl-3 ');
+});
+
+it('test_jetax_041_static_chip_keeps_padding_and_height', function () {
+    $span = htmlTag((string) $this->blade('<x-jetax-chip label="Situação: Quitado" />'), 'span', 'h-7');
+
+    expect($span)->toContain('px-3')
+        ->and($span)->toContain('h-7')
+        ->and($span)->not->toContain('pl-[11px]');
+});
