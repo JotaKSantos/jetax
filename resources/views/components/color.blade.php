@@ -1,6 +1,6 @@
 <div
     x-data="{ color: '{{ $defaultColor }}' }"
-    class="inline-flex items-center gap-3"
+    {{ $attributes->only('class')->merge(['class' => 'inline-flex items-center gap-3']) }}
 >
     {{-- Preview da cor selecionada --}}
     <span
@@ -15,7 +15,7 @@
         x-model="color"
         value="{{ $defaultColor }}"
         @if($disabled) disabled @endif
-        {{ $attributes->except(['disabled', 'default-color', 'defaultColor']) }}
+        {{ $attributes->except(['class', 'disabled', 'default-color', 'defaultColor']) }}
         class="h-9 w-16 cursor-pointer rounded border border-outline-variant bg-surface-container-lowest p-0.5
                focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1
                disabled:cursor-not-allowed disabled:opacity-50"

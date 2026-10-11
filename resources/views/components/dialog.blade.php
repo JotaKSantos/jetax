@@ -47,7 +47,7 @@
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
             @endif
-            class="bg-surface-container-high rounded-xl shadow-2xl relative w-full {{ $footerPanelWidthClass() }} overflow-hidden border border-outline-variant"
+            class="bg-surface-container-high rounded-[14px] shadow-[0_24px_60px_rgb(9_42_66/0.16)] relative w-full {{ $footerPanelWidthClass() }} overflow-hidden border border-outline-variant"
             data-dialog-panel="{{ $id }}"
         >
             {{ $slot }}
@@ -71,7 +71,7 @@
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
             @endif
-            class="bg-surface-container-high rounded-xl shadow-2xl relative w-full max-w-md"
+            class="bg-surface-container-high rounded-[14px] shadow-[0_24px_60px_rgb(9_42_66/0.16)] relative w-full max-w-[460px] border border-outline-variant"
             data-dialog-panel="{{ $id }}"
         >
             <div class="p-6">
@@ -111,7 +111,7 @@
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
             @endif
-            class="bg-surface-container-high rounded-xl shadow-2xl relative w-full max-w-sm"
+            class="bg-surface-container-high rounded-[14px] shadow-[0_24px_60px_rgb(9_42_66/0.16)] relative w-full max-w-sm border border-outline-variant"
             data-dialog-panel="{{ $id }}"
         >
             <div class="p-6 flex flex-col items-center text-center gap-4">

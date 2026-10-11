@@ -1,6 +1,6 @@
 <span
     {{ $rootAttributes($attributes)->merge([
-        'class' => 'inline-flex items-center gap-2 h-7 rounded-[7px] bg-primary/12 border border-primary/35 text-xs font-semibold text-primary '.($removable ? 'pl-3 pr-1.5' : 'px-3'),
+        'class' => 'inline-flex items-center gap-2 h-7 rounded-[7px] bg-primary/12 border border-primary/35 text-xs font-semibold text-primary '.($removable ? 'pl-[11px] pr-1.5' : 'px-3'),
     ]) }}
 >{{ $label !== '' ? $label : $slot }}@if ($removable)<button
         {{ $removeAttributes($attributes)->merge([

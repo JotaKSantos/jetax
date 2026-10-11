@@ -902,7 +902,7 @@ class ComponentRegistry
                 'tag' => 'x-jetax-sidebar',
                 'props' => [
                     ['name' => 'collapsed', 'type' => 'bool',   'default' => 'false', 'description' => 'Estado colapsado'],
-                    ['name' => 'width',     'type' => 'string', 'default' => 'w-64',  'description' => 'Largura (classe Tailwind)'],
+                    ['name' => 'width',     'type' => 'string', 'default' => 'w-[246px]',  'description' => 'Largura (classe Tailwind)'],
                 ],
                 'slots' => [
                     ['name' => 'default', 'description' => 'Itens de navegação'],
@@ -919,7 +919,7 @@ class ComponentRegistry
                 'tag' => 'x-jetax-topbar',
                 'props' => [
                     ['name' => 'title', 'type' => 'string', 'default' => "''", 'description' => 'Título exibido na topbar'],
-                    ['name' => 'sidebar-width', 'type' => 'string', 'default' => "'16rem'", 'description' => 'Largura da sidebar expandida (md:left-[valor])'],
+                    ['name' => 'sidebar-width', 'type' => 'string', 'default' => "'246px'", 'description' => 'Largura da sidebar expandida (md:left-[valor])'],
                     ['name' => 'collapsed-width', 'type' => 'string', 'default' => "'70px'", 'description' => 'Largura da sidebar recolhida (md:left-[valor])'],
                 ],
                 'slots' => [

@@ -1,6 +1,6 @@
 <div
     x-data="{ show: false }"
-    class="relative inline-block"
+    {{ $attributes->merge(['class' => 'relative inline-block']) }}
     @mouseenter="show = true"
     @mouseleave="show = false"
 >
@@ -18,7 +18,7 @@
         x-transition:leave="transition ease-in duration-100"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        class="absolute z-50 whitespace-nowrap bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg pointer-events-none {{ $tooltipPositionClasses() }}"
+        class="absolute z-50 whitespace-nowrap bg-inverse-surface text-surface text-xs px-3 py-1.5 rounded-lg shadow-lg pointer-events-none {{ $tooltipPositionClasses() }}"
         role="tooltip"
     >
         {{ $content }}

@@ -1,4 +1,4 @@
-<div class="px-6 py-4 border-b border-outline-variant/30 flex flex-wrap items-end gap-3">
+<div {{ $attributes->merge(['class' => 'px-6 py-4 border-b border-outline-variant/30 flex flex-wrap items-end gap-3']) }}>
     <div class="flex-1 min-w-[220px] max-w-md">
         <x-jetax-input
             name="search"

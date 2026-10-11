@@ -24,7 +24,18 @@ it('test_link_item_keeps_package_markup', function () {
 
     expect($html)->toContain('<a')
         ->toContain('href="/perfil"')
-        ->toContain('flex items-center px-4 py-2.5 text-sm transition-colors group text-on-surface hover:bg-primary/5')
+        ->toContain('flex items-center px-2.5 py-2 rounded-[7px] text-sm transition-colors group text-on-surface hover:bg-primary/5')
         ->not->toContain('not-enabled:')
         ->not->toContain('<button');
 });
+
+it('test_jetax_043_item_padding_and_radius_follow_mockup', function (string $template, string $tag) {
+    $classes = tagClass(htmlTag(Blade::render($template), $tag));
+
+    expect($classes)->toContain('px-2.5 py-2 rounded-[7px]')
+        ->and($classes)->not->toContain('px-4')
+        ->and($classes)->not->toContain('py-2.5');
+})->with([
+    'botão' => ['<x-jetax-dropdown-item>Editar</x-jetax-dropdown-item>', 'button'],
+    'link' => ['<x-jetax-dropdown-item href="/editar">Editar</x-jetax-dropdown-item>', 'a'],
+]);

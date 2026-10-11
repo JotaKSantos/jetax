@@ -26,6 +26,12 @@ class Badge extends Component
     public const SIZES = ['sm', 'md'];
 
     /**
+     * Caixas de texto aceitas pela prop `textCase` (JETAX-035). `upper` é o comportamento
+     * da v3; `normal` segue o Claude Design, sem caixa alta.
+     */
+    public const TEXT_CASES = ['upper', 'normal'];
+
+    /**
      * Cria uma nova instância do componente de badge.
      *
      * `color` é alias de `variant` e, quando informado, prevalece. Por ser
@@ -37,16 +43,26 @@ class Badge extends Component
         public bool $square = false,
         public string $size = 'md',
         ?string $color = null,
+        public string $textCase = 'upper',
     ) {
         $this->variant = $this->validateVariant($color ?? $variant, self::VARIANTS, 'neutral');
+        $this->textCase = $this->validateVariant($textCase, self::TEXT_CASES, 'upper', 'textCase');
     }
 
     /**
-     * Retorna as classes de borda arredondada do badge.
+     * Retorna as classes de borda arredondada do badge (JETAX-035: 6 px fora do quadrado).
      */
     public function radiusClasses(): string
     {
-        return $this->square ? 'rounded-lg' : 'rounded-full';
+        return $this->square ? 'rounded-lg' : 'rounded-[6px]';
+    }
+
+    /**
+     * Retorna as classes de caixa e espaçamento entre letras da prop `textCase` (JETAX-035).
+     */
+    public function textCaseClasses(): string
+    {
+        return $this->textCase === 'normal' ? 'normal-case tracking-normal' : 'uppercase tracking-wider';
     }
 
     /**
@@ -60,7 +76,7 @@ class Badge extends Component
 
         return match ($this->size) {
             'sm' => 'px-2 py-0.5',
-            default => 'px-3 py-1',
+            default => 'px-2 py-0.5 leading-[15px]',
         };
     }
 
@@ -93,16 +109,16 @@ class Badge extends Component
     }
 
     /**
-     * Retorna as classes de cor e fundo para o estilo status.
+     * Retorna as classes de cor e fundo para o estilo status, sem borda (JETAX-035).
      */
     protected function statusClasses(): string
     {
         return match ($this->variant) {
-            'success' => 'bg-success/10 border border-success/20 text-success-text',
-            'danger' => 'bg-error/5 border border-error/10 text-error',
-            'warning' => 'bg-warning/10 border border-warning/20 text-warning',
-            'info' => 'bg-info/10 border border-info/20 text-info',
-            default => 'bg-surface-container border border-outline-variant text-on-surface-variant',
+            'success' => 'bg-success/10 text-success-text',
+            'danger' => 'bg-error/5 text-error',
+            'warning' => 'bg-warning/10 text-warning',
+            'info' => 'bg-info/10 text-info',
+            default => 'bg-surface-container text-on-surface-variant',
         };
     }
 

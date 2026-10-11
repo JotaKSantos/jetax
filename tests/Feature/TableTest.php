@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Jetax\DesignSystem\View\Components\Table;
 
 it('test_columns_rendered_as_headers', function () {
     $columns = [
@@ -272,4 +273,69 @@ it('test_table_has_no_hex_literals', function () {
 
     expect((string) $view)->not->toContain('text-[#')
         ->and((string) $view)->not->toContain('bg-[#');
+});
+
+function jetaxTableContainer(string $html): string
+{
+    return htmlTag($html, 'div');
+}
+
+it('test_jetax_034_container_has_14px_radius_and_1px_border', function () {
+    $html = (string) $this->blade(
+        '<x-jetax-table :columns="$columns" :rows="$rows" />',
+        ['columns' => [['key' => 'name', 'label' => 'Nome']], 'rows' => [['name' => 'Rex']]]
+    );
+    $class = tagClass(jetaxTableContainer($html));
+
+    expect($class)->toContain('rounded-[14px]')
+        ->toContain('border border-outline-variant')
+        ->not->toContain('rounded-2xl');
+});
+
+it('test_jetax_034_container_has_no_shadow', function () {
+    $html = (string) $this->blade(
+        '<x-jetax-table :columns="$columns" :rows="$rows" />',
+        ['columns' => [['key' => 'name', 'label' => 'Nome']], 'rows' => [['name' => 'Rex']]]
+    );
+    $container = jetaxTableContainer($html);
+
+    expect($container)->not->toContain('style=')
+        ->and(tagClass($container))->not->toMatch('/(^|\s)shadow/')
+        ->and($html)->not->toContain('box-shadow');
+});
+
+it('test_jetax_034_header_and_cell_padding_follow_mockup', function () {
+    $html = (string) $this->blade(
+        '<x-jetax-table :columns="$columns" :rows="$rows" selectable><x-slot:actions>Editar</x-slot:actions></x-jetax-table>',
+        ['columns' => [['key' => 'name', 'label' => 'Nome']], 'rows' => [['name' => 'Rex']]]
+    );
+
+    preg_match_all('/<t[hd]\b[^>]*>/', $html, $cells);
+
+    expect($cells[0])->not->toBeEmpty();
+
+    foreach ($cells[0] as $cell) {
+        expect(tagClass($cell))->toContain('px-4 py-3.5')
+            ->not->toContain('px-6');
+    }
+});
+
+it('test_jetax_034_flush_removes_frame', function () {
+    $html = (string) $this->blade(
+        '<x-jetax-table flush :columns="$columns" :rows="$rows" />',
+        ['columns' => [['key' => 'name', 'label' => 'Nome']], 'rows' => [['name' => 'Rex']]]
+    );
+    $container = jetaxTableContainer($html);
+
+    expect(tagClass($container))->toContain('rounded-none')
+        ->not->toContain('rounded-[14px]')
+        ->not->toMatch('/(^|\s)border(\s|$)/')
+        ->not->toMatch('/(^|\s)shadow/')
+        ->and($container)->not->toContain('style=')
+        ->not->toContain('flush');
+});
+
+it('test_jetax_034_flush_defaults_to_false', function () {
+    expect((new Table)->flush)->toBeFalse()
+        ->and((new Table(flush: true))->containerClasses())->toContain('rounded-none');
 });

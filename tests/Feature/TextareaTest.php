@@ -109,3 +109,13 @@ it('test_id_is_deterministic', function () {
     expect($match)->not->toBeEmpty();
     expect($second)->toContain('id="'.$match[1].'"');
 });
+
+it('test_jetax_038_radius_is_8px_and_padding_is_10px', function () {
+    $classes = tagClass(htmlTag(Blade::render('<x-jetax-textarea name="obs" />'), 'textarea'));
+
+    expect($classes)->toContain('rounded-[8px]')
+        ->and($classes)->toContain('p-2.5')
+        ->and($classes)->not->toContain('rounded-lg')
+        ->and($classes)->not->toContain('px-4')
+        ->and($classes)->not->toContain('py-3');
+});

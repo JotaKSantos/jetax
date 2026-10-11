@@ -26,10 +26,10 @@ class Offcanvas extends Component
     public function panelClasses(): string
     {
         return match ($this->position) {
-            'left' => 'absolute inset-y-0 left-0 w-full max-w-md bg-white shadow-2xl flex flex-col',
-            'top' => 'absolute inset-x-0 top-0 h-1/3 bg-white shadow-2xl flex flex-col',
-            'bottom' => 'absolute inset-x-0 bottom-0 h-1/2 bg-white shadow-2xl flex flex-col',
-            default => 'absolute inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl flex flex-col',
+            'left' => 'absolute inset-y-0 left-0 w-full max-w-md bg-surface-container-lowest shadow-2xl flex flex-col',
+            'top' => 'absolute inset-x-0 top-0 h-1/3 bg-surface-container-lowest shadow-2xl flex flex-col',
+            'bottom' => 'absolute inset-x-0 bottom-0 h-1/2 bg-surface-container-lowest shadow-2xl flex flex-col',
+            default => 'absolute inset-y-0 right-0 w-full max-w-md bg-surface-container-lowest shadow-2xl flex flex-col',
         };
     }
 

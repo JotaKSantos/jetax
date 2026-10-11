@@ -58,7 +58,7 @@
         role="switch"
         {{ $attributes->except(['class', 'disabled', 'name', 'label', 'checked', ...$wireModelKeys]) }}
         :class="on ? 'bg-success' : 'bg-outline'"
-        class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full
+        class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-[999px]
                border-2 border-transparent transition-all duration-200
                focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
                focus:ring-offset-surface disabled:opacity-50 disabled:cursor-not-allowed"

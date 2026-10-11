@@ -29,18 +29,31 @@ class Button extends Component
     public const CUSTOM_COLOR = 'custom';
 
     /**
-     * Tamanhos disponíveis.
+     * Tamanhos disponíveis. `field` (JETAX-029/030) é o botão de 40 px alinhado à altura do campo.
      */
-    public const SIZES = ['sm', 'md', 'lg'];
+    public const SIZES = ['sm', 'md', 'lg', 'field'];
 
     /**
      * Classe de tamanho do glifo por `size` do botão (JETAX-014 c, SPEC jetax-f2 RF-04, CT-05):
-     * valores fixos que acompanham a fonte do próprio botão.
+     * valores fixos que acompanham a fonte do próprio botão. O `md` é 15 px desde a v4.0.0
+     * (JETAX-030, Q-06).
      */
     public const GLYPH_SIZES = [
         'sm' => 'text-[12px]',
-        'md' => 'text-[14px]',
+        'md' => 'text-[15px]',
         'lg' => 'text-[18px]',
+        'field' => 'text-[14px]',
+    ];
+
+    /**
+     * Classe de tamanho do glifo do botão só de ícone (JETAX-030): no `icon-only` vale este
+     * mapa; sem `icon-only`, vale `GLYPH_SIZES`.
+     */
+    public const ICON_ONLY_GLYPH_SIZES = [
+        'sm' => 'text-[14px]',
+        'md' => 'text-[15px]',
+        'lg' => 'text-[18px]',
+        'field' => 'text-[14px]',
     ];
 
     /**
@@ -58,6 +71,7 @@ class Button extends Component
         public string $colorToken = '',
     ) {
         $this->color = $this->validateVariant($color, [...self::COLORS, self::CUSTOM_COLOR], 'primary', 'color');
+        $this->size = $this->validateVariant($size, self::SIZES, 'md', 'size');
 
         if ($this->color === self::CUSTOM_COLOR && preg_match('/^[a-z0-9]+(-[a-z0-9]+)*$/', $this->colorToken) !== 1) {
             $this->reportInvalid(sprintf(
@@ -70,7 +84,7 @@ class Button extends Component
     }
 
     /**
-     * Retorna as classes de tamanho para o botão.
+     * Retorna as classes de tamanho para o botão (JETAX-029 com texto, JETAX-030 só de ícone).
      */
     public function sizeClasses(): string
     {
@@ -78,16 +92,23 @@ class Button extends Component
 
         if ($this->iconOnly) {
             return match ($this->size) {
-                'sm' => $isRounded ? 'w-8 h-8 shrink-0 text-xs' : 'w-8 h-8 shrink-0 text-xs rounded-lg',
+                'sm' => $isRounded ? 'w-[34px] h-[34px] shrink-0 text-xs' : 'w-[34px] h-[34px] shrink-0 text-xs rounded-[8px]',
+                'field' => $isRounded ? 'w-10 h-10 shrink-0 text-sm' : 'w-10 h-10 shrink-0 text-sm rounded-[8px]',
                 'lg' => $isRounded ? 'w-12 h-12 shrink-0 text-lg' : 'w-12 h-12 shrink-0 text-lg rounded-xl',
-                default => $isRounded ? 'w-11 h-11 shrink-0 text-sm' : 'w-11 h-11 shrink-0 text-sm rounded-xl',
+                default => $isRounded ? 'w-11 h-11 shrink-0 text-sm' : 'w-11 h-11 shrink-0 text-sm rounded-[10px]',
             };
         }
 
+        $isOutline = in_array($this->style, ['outline', 'outline-rounded']);
+
         return match ($this->size) {
-            'sm' => $isRounded ? 'px-3 py-1.5 text-xs' : 'px-3 py-1.5 text-xs rounded-lg',
-            'lg' => $isRounded ? 'px-8 py-4 text-lg font-headline' : 'px-8 py-4 text-lg rounded-xl font-headline',
-            default => $isRounded ? 'px-5 py-2.5 text-sm' : 'px-5 py-2.5 text-sm rounded-xl',
+            'sm' => $isRounded ? 'h-[34px] px-3 text-xs' : 'h-[34px] px-3 text-xs rounded-[8px]',
+            'field' => $isRounded ? 'h-10 px-[18px] text-sm' : 'h-10 px-[18px] text-sm rounded-[8px]',
+            'lg' => $isRounded ? 'h-[52px] px-8 text-lg font-headline' : 'h-[52px] px-8 text-lg rounded-[10px] font-headline',
+            default => match (true) {
+                $isOutline => $isRounded ? 'h-10 px-[18px] text-sm' : 'h-10 px-[18px] text-sm rounded-xl',
+                default => $isRounded ? 'h-11 px-5 text-sm' : 'h-11 px-5 text-sm rounded-xl',
+            },
         };
     }
 
@@ -101,7 +122,9 @@ class Button extends Component
     {
         ['style' => $style, 'name' => $name] = FontAwesome::parse($this->icon);
 
-        return "fa-{$style} fa-{$name} ".(self::GLYPH_SIZES[$this->size] ?? self::GLYPH_SIZES['md']);
+        $glyphSizes = $this->iconOnly ? self::ICON_ONLY_GLYPH_SIZES : self::GLYPH_SIZES;
+
+        return "fa-{$style} fa-{$name} ".($glyphSizes[$this->size] ?? $glyphSizes['md']);
     }
 
     /**
@@ -112,64 +135,64 @@ class Button extends Component
         'primary' => [
             'solid' => 'bg-primary text-white hover:opacity-90',
             'rounded' => 'bg-primary text-white rounded-full hover:opacity-90',
-            'outline' => 'border-2 border-primary text-primary bg-transparent hover:bg-primary/5',
-            'outline-rounded' => 'border-2 border-primary text-primary bg-transparent rounded-full hover:bg-primary/5',
+            'outline' => 'border border-primary text-primary bg-transparent hover:bg-primary/5',
+            'outline-rounded' => 'border border-primary text-primary bg-transparent rounded-full hover:bg-primary/5',
             'soft' => 'bg-primary/10 text-primary hover:bg-primary/20',
             'soft-rounded' => 'bg-primary/10 text-primary rounded-full hover:bg-primary/20',
         ],
         'secondary' => [
             'solid' => 'bg-secondary text-white hover:opacity-90',
             'rounded' => 'bg-secondary text-white rounded-full hover:opacity-90',
-            'outline' => 'border-2 border-secondary text-secondary bg-transparent hover:bg-secondary/5',
-            'outline-rounded' => 'border-2 border-secondary text-secondary bg-transparent rounded-full hover:bg-secondary/5',
+            'outline' => 'border border-secondary text-secondary bg-transparent hover:bg-secondary/5',
+            'outline-rounded' => 'border border-secondary text-secondary bg-transparent rounded-full hover:bg-secondary/5',
             'soft' => 'bg-secondary/10 text-secondary hover:bg-secondary/20',
             'soft-rounded' => 'bg-secondary/10 text-secondary rounded-full hover:bg-secondary/20',
         ],
         'success' => [
             'solid' => 'bg-success text-white hover:opacity-90',
             'rounded' => 'bg-success text-white rounded-full hover:opacity-90',
-            'outline' => 'border-2 border-success text-success bg-transparent hover:bg-success/5',
-            'outline-rounded' => 'border-2 border-success text-success bg-transparent rounded-full hover:bg-success/5',
+            'outline' => 'border border-success text-success bg-transparent hover:bg-success/5',
+            'outline-rounded' => 'border border-success text-success bg-transparent rounded-full hover:bg-success/5',
             'soft' => 'bg-success/10 text-success hover:bg-success/20',
             'soft-rounded' => 'bg-success/10 text-success rounded-full hover:bg-success/20',
         ],
         'info' => [
             'solid' => 'bg-secondary-container text-white hover:opacity-90',
             'rounded' => 'bg-secondary-container text-white rounded-full hover:opacity-90',
-            'outline' => 'border-2 border-info text-info bg-transparent hover:bg-info/5',
-            'outline-rounded' => 'border-2 border-info text-info bg-transparent rounded-full hover:bg-info/5',
+            'outline' => 'border border-info text-info bg-transparent hover:bg-info/5',
+            'outline-rounded' => 'border border-info text-info bg-transparent rounded-full hover:bg-info/5',
             'soft' => 'bg-info/10 text-info hover:bg-info/20',
             'soft-rounded' => 'bg-info/10 text-info rounded-full hover:bg-info/20',
         ],
         'warning' => [
             'solid' => 'bg-warning-solid text-white hover:opacity-90',
             'rounded' => 'bg-warning-solid text-white rounded-full hover:opacity-90',
-            'outline' => 'border-2 border-warning text-warning bg-transparent hover:bg-warning/5',
-            'outline-rounded' => 'border-2 border-warning text-warning bg-transparent rounded-full hover:bg-warning/5',
+            'outline' => 'border border-warning text-warning bg-transparent hover:bg-warning/5',
+            'outline-rounded' => 'border border-warning text-warning bg-transparent rounded-full hover:bg-warning/5',
             'soft' => 'bg-warning/10 text-warning hover:bg-warning/20',
             'soft-rounded' => 'bg-warning/10 text-warning rounded-full hover:bg-warning/20',
         ],
         'danger' => [
             'solid' => 'bg-danger-solid text-white hover:opacity-90',
             'rounded' => 'bg-danger-solid text-white rounded-full hover:opacity-90',
-            'outline' => 'border-2 border-error text-error bg-transparent hover:bg-error/5',
-            'outline-rounded' => 'border-2 border-error text-error bg-transparent rounded-full hover:bg-error/5',
+            'outline' => 'border border-error text-error bg-transparent hover:bg-error/5',
+            'outline-rounded' => 'border border-error text-error bg-transparent rounded-full hover:bg-error/5',
             'soft' => 'bg-error/10 text-error hover:bg-error/20',
             'soft-rounded' => 'bg-error/10 text-error rounded-full hover:bg-error/20',
         ],
         'dark' => [
             'solid' => 'bg-on-surface text-surface hover:opacity-90',
             'rounded' => 'bg-on-surface text-surface rounded-full hover:opacity-90',
-            'outline' => 'border-2 border-on-surface text-on-surface bg-transparent hover:bg-on-surface/5',
-            'outline-rounded' => 'border-2 border-on-surface text-on-surface bg-transparent rounded-full hover:bg-on-surface/5',
+            'outline' => 'border border-on-surface text-on-surface bg-transparent hover:bg-on-surface/5',
+            'outline-rounded' => 'border border-on-surface text-on-surface bg-transparent rounded-full hover:bg-on-surface/5',
             'soft' => 'bg-on-surface/10 text-on-surface hover:bg-on-surface/20',
             'soft-rounded' => 'bg-on-surface/10 text-on-surface rounded-full hover:bg-on-surface/20',
         ],
         'light' => [
             'solid' => 'bg-surface-container-high text-on-surface rounded-xl hover:bg-surface-container-highest',
             'rounded' => 'bg-surface-container-high text-on-surface rounded-full hover:bg-surface-container-highest',
-            'outline' => 'border-2 border-outline-variant text-on-surface-variant bg-transparent rounded-xl hover:bg-surface-container-low',
-            'outline-rounded' => 'border-2 border-outline-variant text-on-surface-variant bg-transparent rounded-full hover:bg-surface-container-low',
+            'outline' => 'border border-outline-variant text-on-surface-variant bg-transparent rounded-xl hover:bg-surface-container-low',
+            'outline-rounded' => 'border border-outline-variant text-on-surface-variant bg-transparent rounded-full hover:bg-surface-container-low',
             'soft' => 'bg-surface-container-high text-on-surface rounded-xl hover:bg-surface-container-highest',
             'soft-rounded' => 'bg-surface-container-high text-on-surface rounded-full hover:bg-surface-container-highest',
         ],
@@ -205,7 +228,7 @@ class Button extends Component
         $isRounded = in_array($this->style, ['rounded', 'outline-rounded', 'soft-rounded']) ? ' rounded-full' : '';
 
         return match (true) {
-            str_starts_with($this->style, 'outline') => "border-2 border-[{$value}] text-[{$value}] bg-transparent hover:opacity-80{$isRounded}",
+            str_starts_with($this->style, 'outline') => "border border-[{$value}] text-[{$value}] bg-transparent hover:opacity-80{$isRounded}",
             str_starts_with($this->style, 'soft') => "bg-[{$value}]/10 text-[{$value}] hover:bg-[{$value}]/20{$isRounded}",
             default => "bg-[{$value}] text-white hover:opacity-90{$isRounded}",
         };
@@ -259,7 +282,7 @@ class Button extends Component
     public function disabledClasses(): string
     {
         return match (true) {
-            in_array($this->style, ['outline', 'outline-rounded']) => 'border-2 border-outline-variant/30 text-outline-variant/50 bg-transparent cursor-not-allowed',
+            in_array($this->style, ['outline', 'outline-rounded']) => 'border border-outline-variant/30 text-outline-variant/50 bg-transparent cursor-not-allowed',
             in_array($this->style, ['soft', 'soft-rounded']) => 'bg-surface-container-low text-outline-variant/50 cursor-not-allowed',
             default => 'bg-primary/40 text-white/70 cursor-not-allowed',
         };

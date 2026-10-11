@@ -1,6 +1,6 @@
 <div
     x-data="{ rangeValue: {{ $value }} }"
-    class="w-full"
+    {{ $attributes->only('class')->merge(['class' => 'w-full']) }}
 >
     <input
         type="range"
@@ -9,7 +9,7 @@
         step="{{ $step }}"
         x-model="rangeValue"
         @if($disabled) disabled @endif
-        {{ $attributes->except(['min', 'max', 'step', 'value', 'disabled']) }}
+        {{ $attributes->except(['class', 'min', 'max', 'step', 'value', 'disabled']) }}
         style="
             -webkit-appearance: none;
             appearance: none;

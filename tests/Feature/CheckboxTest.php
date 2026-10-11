@@ -77,3 +77,19 @@ it('test_checkbox_files_have_no_hex_color', function () {
 
     expect($contents)->not->toMatch('/(?:text|bg|border|ring|from|to|fill|stroke)-\[#/');
 });
+
+it('test_jetax_040_box_is_15px', function () {
+    $classes = tagClass(htmlTag(Blade::render('<x-jetax-checkbox name="aceite" />'), 'input'));
+
+    expect($classes)->toContain('w-[15px] h-[15px]')
+        ->and($classes)->not->toMatch('/(?<![\\w:-])w-4\\b/')
+        ->and($classes)->not->toMatch('/(?<![\\w:-])h-4\\b/');
+});
+
+it('test_jetax_040_drawn_control_keeps_radius_and_border', function () {
+    $classes = tagClass(htmlTag(Blade::render('<x-jetax-checkbox name="aceite" />'), 'input'));
+
+    expect($classes)->toContain('appearance-none')
+        ->and($classes)->toContain('rounded border border-outline-variant')
+        ->and($classes)->toContain('checked:bg-primary');
+});

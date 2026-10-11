@@ -6,13 +6,17 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\Component;
 use InvalidArgumentException;
+use Jetax\DesignSystem\View\Components\Concerns\ValidatesVariant;
 
 class Modal extends Component
 {
+    use ValidatesVariant;
+
     /**
-     * Tamanhos disponíveis para o modal.
+     * Tamanhos disponíveis para o modal (JETAX-031). `3xl` (980 px) é mais estreito que
+     * `2xl` (1080 px): o nome foi fixado depois da escala.
      */
-    public const SIZES = ['sm', 'md', 'lg', 'fullscreen'];
+    public const SIZES = ['sm', 'md', 'md-lg', 'lg', 'xl', '2xl', '3xl', 'fullscreen'];
 
     /**
      * z-index da raiz no nível 1. Cada nível acima soma `LEVEL_STEP`.
@@ -38,6 +42,7 @@ class Modal extends Component
         public bool $highRisk = false,
         public int $level = 1,
     ) {
+        $this->size = $this->validateVariant($size, self::SIZES, 'md', 'size');
         $this->level = $this->validateLevel($level);
     }
 
@@ -50,24 +55,30 @@ class Modal extends Component
     }
 
     /**
-     * Retorna as classes CSS de largura para o tamanho do modal.
+     * Retorna as classes CSS de largura para o tamanho do modal, com o px do Claude
+     * Design (JETAX-031).
      */
     public function sizeClasses(): string
     {
         return match ($this->size) {
             'sm' => 'max-w-xs',
-            'lg' => 'max-w-4xl',
+            'md-lg' => 'max-w-[600px]',
+            'lg' => 'max-w-[660px]',
+            'xl' => 'max-w-[820px]',
+            '2xl' => 'max-w-[1080px]',
+            '3xl' => 'max-w-[980px]',
             'fullscreen' => 'w-full max-w-full h-full',
-            default => 'max-w-xl',
+            default => 'max-w-[560px]',
         };
     }
 
     /**
-     * Retorna as classes CSS do painel, por token de superfície e borda.
+     * Retorna as classes CSS do painel, por token de superfície e borda. Raio de 14 px e
+     * sombra do Claude Design (JETAX-031).
      */
     public function containerClasses(): string
     {
-        $base = 'bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden border';
+        $base = 'bg-surface-container-lowest rounded-[14px] shadow-[0_24px_60px_rgb(9_42_66/0.16)] overflow-hidden border';
 
         if ($this->highRisk) {
             return $base.' border-4 border-warning/20';

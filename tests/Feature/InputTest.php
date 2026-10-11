@@ -145,3 +145,25 @@ it('test_id_is_deterministic', function () {
     expect($match)->not->toBeEmpty();
     expect($second)->toContain('id="'.$match[1].'"');
 });
+
+it('test_jetax_037_radius_is_8px_and_horizontal_padding_is_12px', function () {
+    $classes = tagClass(htmlTag(Blade::render('<x-jetax-input name="nome" />'), 'input'));
+
+    expect($classes)->toContain('rounded-[8px]')
+        ->and($classes)->toContain('px-3')
+        ->and($classes)->not->toContain('rounded-lg')
+        ->and($classes)->not->toContain('px-4');
+});
+
+it('test_jetax_037_shape_is_kept_in_every_state', function (string $state) {
+    $classes = (new Input(state: $state))->inputClasses();
+
+    expect($classes)->toContain('rounded-[8px] px-3');
+})->with(['', 'error', 'warning', 'success']);
+
+it('test_jetax_037_icon_keeps_left_indent', function () {
+    $classes = tagClass(htmlTag(Blade::render('<x-jetax-input name="busca" icon="magnifying-glass" />'), 'input'));
+
+    expect($classes)->toContain('px-3')
+        ->and($classes)->toContain('pl-10');
+});

@@ -18,7 +18,7 @@ class Topbar extends Component
      */
     public function __construct(
         public string $title = '',
-        public string $sidebarWidth = '16rem',
+        public string $sidebarWidth = '246px',
         public string $collapsedWidth = '70px',
     ) {}
 

@@ -176,7 +176,7 @@ it('test_narrow_panel_width_limits_footer_panel_to_480px', function () {
 
     expect($narrow)->toContain('max-w-[480px]')
         ->not->toContain('max-w-[680px]')
-        ->and(htmlTag($slotOnly, 'div', 'data-dialog-panel="d1"'))->toContain('max-w-md')
+        ->and(htmlTag($slotOnly, 'div', 'data-dialog-panel="d1"'))->toContain('max-w-[460px]')
         ->not->toContain('max-w-[480px]')
         ->and($slotOnly)->not->toContain('panel-width=');
 });
@@ -224,4 +224,25 @@ it('test_variants_use_tokens_without_named_palette', function (string $variant, 
     ['warning', 'bg-warning-solid', 'text-warning'],
     ['primary', 'bg-primary', 'text-primary'],
     ['success', 'bg-success-solid', 'text-success-text'],
+]);
+
+it('test_jetax_032_confirmation_panel_is_460px', function () {
+    $panel = htmlTag((string) $this->blade(dialogSlotBody()), 'div', 'data-dialog-panel="d1"');
+
+    expect($panel)->toContain('max-w-[460px]')
+        ->and($panel)->not->toContain('max-w-md');
+});
+
+it('test_jetax_032_panels_have_14px_radius_border_and_mockup_shadow', function (string $template) {
+    $panel = htmlTag((string) $this->blade($template), 'div', 'data-dialog-panel="d1"');
+
+    expect($panel)->toContain('rounded-[14px]')
+        ->and($panel)->toContain('border border-outline-variant')
+        ->and($panel)->toContain('shadow-[0_24px_60px_rgb(9_42_66/0.16)]')
+        ->and($panel)->not->toContain('rounded-xl')
+        ->and($panel)->not->toContain('shadow-2xl');
+})->with([
+    'saída padrão' => ['<x-jetax-dialog id="d1" title="Confirmar" message="Tem certeza?" />'],
+    'corpo livre' => [dialogSlotBody()],
+    'com rodapé' => [dialogWithFooter()],
 ]);

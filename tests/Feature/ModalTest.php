@@ -44,10 +44,10 @@ it('test_size_classes_applied', function () {
     $smView->assertSee('max-w-xs', false);
 
     $mdView = $this->blade('<x-jetax-modal id="m2" size="md">Conteúdo</x-jetax-modal>');
-    $mdView->assertSee('max-w-xl', false);
+    $mdView->assertSee('max-w-[560px]', false);
 
     $lgView = $this->blade('<x-jetax-modal id="m3" size="lg">Conteúdo</x-jetax-modal>');
-    $lgView->assertSee('max-w-4xl', false);
+    $lgView->assertSee('max-w-[660px]', false);
 
     $fsView = $this->blade('<x-jetax-modal id="m4" size="fullscreen">Conteúdo</x-jetax-modal>');
     $fsView->assertSee('max-w-full', false);
@@ -162,4 +162,92 @@ it('test_open_and_close_window_events_are_kept', function () {
 
     expect($html)->toContain('x-on:modal-open.window=')
         ->and($html)->toContain('x-on:modal-close.window=');
+});
+
+it('test_jetax_031_sizes_constant_keeps_old_keys_and_adds_new_ones', function () {
+    expect(Modal::SIZES)->toBe(['sm', 'md', 'md-lg', 'lg', 'xl', '2xl', '3xl', 'fullscreen']);
+});
+
+it('test_jetax_031_size_maps_to_mockup_width', function (string $size, string $class) {
+    expect((new Modal(size: $size))->sizeClasses())->toBe($class);
+
+    $panel = modalPanelTag(Blade::render('<x-jetax-modal id="m" size="'.$size.'">Corpo</x-jetax-modal>'));
+
+    expect($panel)->toContain($class);
+})->with([
+    'sm (320 px, inalterada)' => ['sm', 'max-w-xs'],
+    'md (560 px)' => ['md', 'max-w-[560px]'],
+    'md-lg (600 px)' => ['md-lg', 'max-w-[600px]'],
+    'lg (660 px)' => ['lg', 'max-w-[660px]'],
+    'xl (820 px)' => ['xl', 'max-w-[820px]'],
+    '2xl (1080 px)' => ['2xl', 'max-w-[1080px]'],
+    '3xl (980 px)' => ['3xl', 'max-w-[980px]'],
+    'fullscreen (inalterada)' => ['fullscreen', 'w-full max-w-full h-full'],
+]);
+
+it('test_jetax_031_md_is_560px_and_no_longer_576px', function () {
+    $panel = modalPanelTag(Blade::render('<x-jetax-modal id="m">Corpo</x-jetax-modal>'));
+
+    expect($panel)->toContain('max-w-[560px]')
+        ->and($panel)->not->toContain('max-w-xl');
+});
+
+it('test_jetax_031_lg_is_660px_and_no_longer_896px', function () {
+    $panel = modalPanelTag(Blade::render('<x-jetax-modal id="m" size="lg">Corpo</x-jetax-modal>'));
+
+    expect($panel)->toContain('max-w-[660px]')
+        ->and($panel)->not->toContain('max-w-4xl');
+});
+
+it('test_jetax_031_md_lg_is_600px', function () {
+    expect(modalPanelTag(Blade::render('<x-jetax-modal id="m" size="md-lg">Corpo</x-jetax-modal>')))
+        ->toContain('max-w-[600px]');
+});
+
+it('test_jetax_031_xl_is_820px', function () {
+    expect(modalPanelTag(Blade::render('<x-jetax-modal id="m" size="xl">Corpo</x-jetax-modal>')))
+        ->toContain('max-w-[820px]');
+});
+
+it('test_jetax_031_2xl_is_1080px', function () {
+    expect(modalPanelTag(Blade::render('<x-jetax-modal id="m" size="2xl">Corpo</x-jetax-modal>')))
+        ->toContain('max-w-[1080px]');
+});
+
+it('test_jetax_031_3xl_is_980px', function () {
+    expect(modalPanelTag(Blade::render('<x-jetax-modal id="m" size="3xl">Corpo</x-jetax-modal>')))
+        ->toContain('max-w-[980px]');
+});
+
+it('test_jetax_031_panel_has_14px_radius_and_mockup_shadow', function () {
+    $panel = modalPanelTag(Blade::render('<x-jetax-modal id="m">Corpo</x-jetax-modal>'));
+
+    expect($panel)->toContain('rounded-[14px]')
+        ->and($panel)->toContain('shadow-[0_24px_60px_rgb(9_42_66/0.16)]')
+        ->and($panel)->not->toContain('rounded-xl')
+        ->and($panel)->not->toContain('shadow-2xl');
+});
+
+it('test_jetax_031_high_risk_panel_keeps_radius_and_shadow', function () {
+    $panel = modalPanelTag(Blade::render('<x-jetax-modal id="m" :high-risk="true">Corpo</x-jetax-modal>'));
+
+    expect($panel)->toContain('rounded-[14px]')
+        ->and($panel)->toContain('shadow-[0_24px_60px_rgb(9_42_66/0.16)]')
+        ->and($panel)->toContain('border-warning/20');
+});
+
+it('test_jetax_031_invalid_size_throws_in_testing', function () {
+    expect(fn () => new Modal(size: 'gigante'))->toThrow(InvalidArgumentException::class, '"gigante"');
+});
+
+it('test_jetax_031_invalid_size_logs_and_falls_back_to_md_in_production', function () {
+    config(['app.env' => 'production']);
+    Log::spy();
+
+    $modal = new Modal(size: 'gigante');
+
+    expect($modal->size)->toBe('md')
+        ->and($modal->sizeClasses())->toBe('max-w-[560px]');
+
+    Log::shouldHaveReceived('warning')->once();
 });

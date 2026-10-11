@@ -43,7 +43,7 @@ class Pagination extends Component
      */
     public function pageClasses(): string
     {
-        return 'w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container text-xs font-medium transition-all';
+        return 'min-w-[38px] h-[38px] flex items-center justify-center rounded-[9px] border border-outline-variant text-on-surface-variant hover:bg-surface-container text-xs font-medium transition-all';
     }
 
     /**
@@ -51,7 +51,7 @@ class Pagination extends Component
      */
     public function currentPageClasses(): string
     {
-        return 'w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary text-xs font-bold';
+        return 'min-w-[38px] h-[38px] flex items-center justify-center rounded-[9px] bg-primary text-on-primary text-xs font-bold';
     }
 
     /**
@@ -59,7 +59,7 @@ class Pagination extends Component
      */
     public function arrowClasses(): string
     {
-        return 'w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-container transition-all';
+        return 'min-w-[38px] h-[38px] flex items-center justify-center rounded-[9px] border border-outline-variant text-outline hover:bg-surface-container transition-all';
     }
 
     /**
@@ -67,7 +67,7 @@ class Pagination extends Component
      */
     public function disabledArrowClasses(): string
     {
-        return 'w-8 h-8 flex items-center justify-center rounded-lg text-outline/40 cursor-not-allowed transition-all';
+        return 'min-w-[38px] h-[38px] flex items-center justify-center rounded-[9px] border border-outline-variant text-outline/40 cursor-not-allowed transition-all';
     }
 
     /**

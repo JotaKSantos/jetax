@@ -5,8 +5,7 @@
 
 <div
     x-data="{ rating: {{ $value }}, hoverRating: 0, readonly: {{ $readonly ? 'true' : 'false' }}, max: {{ $max }} }"
-    {{ $attributes->except(['name', 'wire:model']) }}
-    class="inline-flex items-center gap-0.5"
+    {{ $attributes->except(['name', 'wire:model'])->merge(['class' => 'inline-flex items-center gap-0.5']) }}
 >
     @for ($i = 1; $i <= $max; $i++)
         <span
@@ -22,7 +21,7 @@
             <x-jetax-icon
                 name="star"
                 :size="$starSize"
-                class="absolute inset-0 flex items-center justify-center text-gray-300"
+                class="absolute inset-0 flex items-center justify-center text-outline-variant"
             />
 
             {{-- Estrela preenchida (frente) --}}
